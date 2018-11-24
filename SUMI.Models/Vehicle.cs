@@ -20,6 +20,8 @@ namespace SUMI.Models
 
         public VehicleType Type { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public string OwnerId { get; set; }
         public virtual InsuranceUser Owner { get; set; }
 
