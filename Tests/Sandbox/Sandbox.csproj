@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SUMI.Common\SUMI.Common.csproj" />
+    <ProjectReference Include="..\..\Data\SUMI.Data.Common\SUMI.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\SUMI.Data.Models\SUMI.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\SUMI.Data\SUMI.Data.csproj" />
+    <ProjectReference Include="..\..\Services\SUMI.Services.Data\SUMI.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\SUMI.Services.Mapping\SUMI.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\SUMI.Services.Messaging\SUMI.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\SUMI.Services\SUMI.Services.csproj" />
+  </ItemGroup>
+
+</Project>

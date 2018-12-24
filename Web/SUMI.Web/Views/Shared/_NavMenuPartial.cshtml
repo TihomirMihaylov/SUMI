@@ -1,0 +1,78 @@
+﻿@using SUMI.Common;
+@using SUMI.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <div class="dropdown">
+                <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                    Vehicles
+                </button>
+                <div class="dropdown-menu">
+                    <a asp-controller="Vehicles" asp-action="Add" style="color: black; font-weight: bold" class="dropdown-item">Add New Vehicle</a>
+                    @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
+                    {
+                        <a asp-controller="Vehicles" asp-action="MyVehicles" style="color: black; font-weight: bold" class="dropdown-item">My Vehicles</a>
+                    }
+                    @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+                    {
+                        <a asp-controller="Vehicles" asp-action="All" style="color: black; font-weight: bold" class="dropdown-item">All Vehicles</a>
+                    }
+                </div>
+            </div>
+        </li>
+
+        @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+        {
+            <li class="nav-item">
+                <div class="dropdown">
+                    <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                        Claims
+                    </button>
+                    <div class="dropdown-menu">
+                        <a asp-controller="Claims" asp-action="Create" style="color: black; font-weight: bold" class="dropdown-item">Create New Claim</a>
+                        <a asp-controller="Claims" asp-action="MyOpen" style="color: black; font-weight: bold" class="dropdown-item">My Open Claims</a>
+                        <a asp-controller="Claims" asp-action="MyPending" style="color: black; font-weight: bold" class="dropdown-item">My Pending Claims</a>
+                        <a asp-controller="Claims" asp-action="MyResolved" style="color: black; font-weight: bold" class="dropdown-item">My Resolved Claims</a>
+
+                        @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <a asp-area="Administrator" asp-controller="Claims" asp-action="AllPending" style="color: black; font-weight: bold" class="dropdown-item">All Pending Claims</a>
+                            <a asp-area="Administrator" asp-controller="Claims" asp-action="AllResolved" style="color: black; font-weight: bold" class="dropdown-item">All Resolved Claims</a>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+
+        <li class="nav-item">
+            <div class="dropdown">
+                <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                    Policies
+                </button>
+                <div class="dropdown-menu">
+                    @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
+                    {
+                        <a asp-controller="Policies" asp-action="MyActive" style="color: black; font-weight: bold" class="dropdown-item">My Active Policies</a>
+                        <a asp-controller="Policies" asp-action="MyExpired" style="color: black; font-weight: bold" class="dropdown-item">My Expired Policies</a>
+                    }
+                    @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+                    {
+                        <a asp-controller="Policies" asp-action="Create" style="color: black; font-weight: bold" class="dropdown-item">Create New Policy</a>
+                        <a asp-controller="Policies" asp-action="GetAllFromOffice" style="color: black; font-weight: bold" class="dropdown-item">Policies (this office)</a>
+                        <a asp-controller="Policies" asp-action="AllActive" style="color: black; font-weight: bold" class="dropdown-item">Active Policies</a>
+                        <a asp-controller="Policies" asp-action="AllExpired" style="color: black; font-weight: bold" class="dropdown-item">Expired Policies</a>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+</ul>
