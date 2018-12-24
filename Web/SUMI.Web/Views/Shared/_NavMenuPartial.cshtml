@@ -74,5 +74,19 @@
                 </div>
             </div>
         </li>
+
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <li class="nav-item">
+                <div class="dropdown">
+                    <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                        User Administration
+                    </button>
+                    <div class="dropdown-menu">
+                        <a asp-area="Administrator" asp-controller="Users" asp-action="All" style="color: black; font-weight: bold" class="dropdown-item">Promote / Demote</a>
+                    </div>
+                </div>
+            </li>
+        }
     }
 </ul>

@@ -2,9 +2,9 @@
 {
     using System.Linq;
 
-    using SUMI.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+
+    using SUMI.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

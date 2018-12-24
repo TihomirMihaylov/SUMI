@@ -2,9 +2,9 @@
 {
     using System;
 
-    using SUMI.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+
+    using SUMI.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {

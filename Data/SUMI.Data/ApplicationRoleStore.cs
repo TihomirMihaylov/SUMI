@@ -2,10 +2,10 @@
 {
     using System.Security.Claims;
 
-    using SUMI.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+    using SUMI.Data.Models;
 
     public class ApplicationRoleStore : RoleStore<
         ApplicationRole,

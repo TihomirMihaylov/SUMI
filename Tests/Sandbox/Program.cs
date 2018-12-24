@@ -4,6 +4,13 @@
     using System.Diagnostics;
     using System.IO;
 
+    using CommandLine;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using SUMI.Data;
     using SUMI.Data.Common;
     using SUMI.Data.Common.Repositories;
@@ -12,15 +19,6 @@
     using SUMI.Data.Seeding;
     using SUMI.Services.Data;
     using SUMI.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     public static class Program
     {
