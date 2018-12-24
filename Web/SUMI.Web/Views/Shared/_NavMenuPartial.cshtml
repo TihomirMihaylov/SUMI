@@ -1,30 +1,24 @@
-﻿@using SUMI.Common;
-@using SUMI.Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> SignInManager
-
-
-<ul class="navbar-nav flex-grow-1">
+﻿<ul class="navbar-nav flex-grow-1">
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+        <a class="nav-link font-weight-bold sumiColor" asp-controller="Home" asp-action="Index">Home</a>
     </li>
 
     @if (this.User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
             <div class="dropdown">
-                <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
                     Vehicles
                 </button>
                 <div class="dropdown-menu">
-                    <a asp-controller="Vehicles" asp-action="Add" style="color: black; font-weight: bold" class="dropdown-item">Add New Vehicle</a>
+                    <a asp-controller="Vehicles" asp-action="Add"  class="dropdown-item sumiColor">Add New Vehicle</a>
                     @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-controller="Vehicles" asp-action="MyVehicles" style="color: black; font-weight: bold" class="dropdown-item">My Vehicles</a>
+                        <a asp-controller="Vehicles" asp-action="MyVehicles" class="dropdown-item sumiColor">My Vehicles</a>
                     }
                     @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-controller="Vehicles" asp-action="All" style="color: black; font-weight: bold" class="dropdown-item">All Vehicles</a>
+                        <a asp-controller="Vehicles" asp-action="All" class="dropdown-item sumiColor">All Vehicles</a>
                     }
                 </div>
             </div>
@@ -34,19 +28,19 @@
         {
             <li class="nav-item">
                 <div class="dropdown">
-                    <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                    <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
                         Claims
                     </button>
                     <div class="dropdown-menu">
-                        <a asp-controller="Claims" asp-action="Create" style="color: black; font-weight: bold" class="dropdown-item">Create New Claim</a>
-                        <a asp-controller="Claims" asp-action="MyOpen" style="color: black; font-weight: bold" class="dropdown-item">My Open Claims</a>
-                        <a asp-controller="Claims" asp-action="MyPending" style="color: black; font-weight: bold" class="dropdown-item">My Pending Claims</a>
-                        <a asp-controller="Claims" asp-action="MyResolved" style="color: black; font-weight: bold" class="dropdown-item">My Resolved Claims</a>
+                        <a asp-controller="Claims" asp-action="Create" class="dropdown-item sumiColor">Create New Claim</a>
+                        <a asp-controller="Claims" asp-action="MyOpen" class="dropdown-item sumiColor">My Open Claims</a>
+                        <a asp-controller="Claims" asp-action="MyPending" class="dropdown-item sumiColor">My Pending Claims</a>
+                        <a asp-controller="Claims" asp-action="MyResolved" class="dropdown-item sumiColor">My Resolved Claims</a>
 
-                        @if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a asp-area="Administrator" asp-controller="Claims" asp-action="AllPending" style="color: black; font-weight: bold" class="dropdown-item">All Pending Claims</a>
-                            <a asp-area="Administrator" asp-controller="Claims" asp-action="AllResolved" style="color: black; font-weight: bold" class="dropdown-item">All Resolved Claims</a>
+                            <a asp-area="Administrator" asp-controller="Claims" asp-action="AllPending" class="dropdown-item sumiColor">All Pending Claims</a>
+                            <a asp-area="Administrator" asp-controller="Claims" asp-action="AllResolved" class="dropdown-item sumiColor">All Resolved Claims</a>
                         }
                     </div>
                 </div>
@@ -55,21 +49,21 @@
 
         <li class="nav-item">
             <div class="dropdown">
-                <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
                     Policies
                 </button>
                 <div class="dropdown-menu">
                     @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-controller="Policies" asp-action="MyActive" style="color: black; font-weight: bold" class="dropdown-item">My Active Policies</a>
-                        <a asp-controller="Policies" asp-action="MyExpired" style="color: black; font-weight: bold" class="dropdown-item">My Expired Policies</a>
+                        <a asp-controller="Policies" asp-action="MyActive" class="dropdown-item sumiColor">My Active Policies</a>
+                        <a asp-controller="Policies" asp-action="MyExpired" class="dropdown-item sumiColor">My Expired Policies</a>
                     }
                     @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-controller="Policies" asp-action="Create" style="color: black; font-weight: bold" class="dropdown-item">Create New Policy</a>
-                        <a asp-controller="Policies" asp-action="GetAllFromOffice" style="color: black; font-weight: bold" class="dropdown-item">Policies (this office)</a>
-                        <a asp-controller="Policies" asp-action="AllActive" style="color: black; font-weight: bold" class="dropdown-item">Active Policies</a>
-                        <a asp-controller="Policies" asp-action="AllExpired" style="color: black; font-weight: bold" class="dropdown-item">Expired Policies</a>
+                        <a asp-controller="Policies" asp-action="Create" class="dropdown-item sumiColor">Create New Policy</a>
+                        <a asp-controller="Policies" asp-action="GetAllFromOffice" class="dropdown-item sumiColor">Policies (this office)</a>
+                        <a asp-controller="Policies" asp-action="AllActive" class="dropdown-item sumiColor">Active Policies</a>
+                        <a asp-controller="Policies" asp-action="AllExpired" class="dropdown-item sumiColor">Expired Policies</a>
                     }
                 </div>
             </div>
@@ -79,11 +73,11 @@
         {
             <li class="nav-item">
                 <div class="dropdown">
-                    <button type="button" style="color: black" class="nav-link btn btn-link dropdown-toggle font-weight-bold border-0" data-toggle="dropdown">
+                    <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
                         User Administration
                     </button>
                     <div class="dropdown-menu">
-                        <a asp-area="Administrator" asp-controller="Users" asp-action="All" style="color: black; font-weight: bold" class="dropdown-item">Promote / Demote</a>
+                        <a asp-area="Administrator" asp-controller="Users" asp-action="All" class="dropdown-item sumiColor">Promote / Demote</a>
                     </div>
                 </div>
             </li>

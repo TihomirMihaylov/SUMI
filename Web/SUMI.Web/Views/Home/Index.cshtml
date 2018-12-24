@@ -2,6 +2,22 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to SoftUni Motor Insurance!</h1>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Welcome to SoftUni Motor Insurance!</h1>
+        <hr class="withMargin" />
+        <p class="lead">
+            This is a project assignement for the <span class="font-weight-bold">C# Web Development ASP.NET Core</span> course @@ <span class="font-weight-bold">Softuni.bg</span>
+        </p>
+        <p class="lead">$UMI is a system for managing insurance policies and claims between Insurance company, clients and insurance agents.</p>
+        <hr class="withMargin" />
+        @if (!this.SignInManager.IsSignedIn(this.User))
+        {
+            <p><a class="nav-link-dark font-weight-bold" asp-controller="Account" asp-action="Login">Login</a> if you have an account.</p>
+            <p><a class="nav-link-dark font-weight-bold" asp-controller="Account" asp-action="Register">Register</a> if you don't.</p>
+            <hr class="withMargin" />
+        }
+
+        <p class="font-weight-bold sumiColor">We wishes you an exciting experience!</p>
+    </div>
 </div>
