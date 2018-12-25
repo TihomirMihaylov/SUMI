@@ -36,4 +36,9 @@
     <ProjectReference Include="..\..\Services\SUMI.Services\SUMI.Services.csproj" />
     <ProjectReference Include="..\SUMI.Web.Infrastructure\SUMI.Web.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administrator\ViewModels\" />
+    <Folder Include="Areas\Administrator\Views\Users\" />
+  </ItemGroup>
 </Project>

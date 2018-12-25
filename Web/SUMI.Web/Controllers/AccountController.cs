@@ -1,5 +1,6 @@
 ﻿namespace SUMI.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -58,10 +59,16 @@
                 return this.View(model);
             }
 
+            // TO DO Use automapper with custom mapping settings for Birthday and CreatedOn
             var user = new ApplicationUser
             {
                 UserName = model.Email,
                 Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                UniversalCitizenNumber = model.UniversalCitizenNumber,
+                Birthday = DateTime.Parse(model.Birthday),
+                CreatedOn = DateTime.UtcNow,
             };
 
             var result = await this.userManager.CreateAsync(user, model.Password);

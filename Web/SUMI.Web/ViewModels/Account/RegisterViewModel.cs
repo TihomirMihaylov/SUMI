@@ -5,6 +5,25 @@
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "First name")]
+        [RegularExpression(@"^[A-Z][a-z]{1,15}$", ErrorMessage = "Invalid format")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        [RegularExpression(@"^[A-Z][a-z]{1,15}$", ErrorMessage = "Invalid format")]
+        public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public string Birthday { get; set; }
+
+        [Required]
+        [Display(Name = "Universal citizen number")]
+        [RegularExpression(@"^[\d]{10}$", ErrorMessage = "Invalid format")]
+        public string UniversalCitizenNumber { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

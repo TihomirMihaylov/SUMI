@@ -106,6 +106,20 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.PoliciesAsClient)
+                .WithOne()
+                .HasForeignKey(p => p.ClientId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.PoliciesAsAgent)
+                .WithOne()
+                .HasForeignKey(p => p.AgentId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

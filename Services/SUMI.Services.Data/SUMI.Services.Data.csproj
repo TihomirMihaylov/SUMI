@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Data\SUMI.Data.Models\SUMI.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users\" />
+  </ItemGroup>
+
 </Project>
