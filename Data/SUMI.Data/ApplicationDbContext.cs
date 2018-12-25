@@ -24,6 +24,16 @@
         {
         }
 
+        public DbSet<InsuranceClaim> Claims { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Damage> Damages { get; set; }
+
+        public DbSet<Policy> Policies { get; set; }
+
+        public DbSet<Vehicle> Vehicles { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
