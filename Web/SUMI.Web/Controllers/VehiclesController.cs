@@ -99,5 +99,21 @@
             int id = inputModel.Id;
             return this.RedirectToAction("Details", new { id });
         }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var vehicle = await this.vehiclesService.GetByIdAsync(id);
+            var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public async Task<IActionResult> Delete(VehicleEditViewModel inputModel)
+        {
+            await this.vehiclesService.Delete(inputModel.Id);
+            return this.RedirectToAction("All");
+        }
     }
 }

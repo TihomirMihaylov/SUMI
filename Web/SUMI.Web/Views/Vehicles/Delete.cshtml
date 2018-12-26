@@ -1,0 +1,67 @@
+﻿@model SUMI.Web.ViewModels.Vehicles.VehicleDetailsViewModel
+@{
+    ViewData["Title"] = "Delete Vehicle";
+    var vehicleTypes = new List<SelectListItem>
+{
+    new SelectListItem { Value = "1", Text = "Car" },
+    new SelectListItem { Value = "2", Text = "Truck" },
+    new SelectListItem { Value = "3", Text = "Motorcycle"  },
+};
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <form asp-controller="Vehicles" asp-action="Delete" method="post">
+                <hr />
+                <input type="hidden" asp-for="Id"/>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="Make"></label>
+                        <input asp-for="Make" class="form-control" disabled="disabled"/>
+                        <span asp-validation-for="Make" class="text-danger"></span>
+                    </div>
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="Model"></label>
+                        <input asp-for="Model" class="form-control" disabled="disabled"/>
+                        <span asp-validation-for="Model" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="VIN"></label>
+                        <input asp-for="VIN" class="form-control" disabled="disabled"/>
+                        <span asp-validation-for="VIN" class="text-danger"></span>
+                    </div>
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="NumberPlate"></label>
+                        <input asp-for="NumberPlate" class="form-control" disabled="disabled"/>
+                        <span asp-validation-for="NumberPlate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="FirstRegistration"></label>
+                        <input asp-for="FirstRegistration" class="form-control" disabled="disabled"/>
+                        <span asp-validation-for="FirstRegistration" class="text-danger"></span>
+                    </div>
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="Type"></label>
+                        <select asp-for="Type" asp-items="@vehicleTypes" disabled="disabled"></select>
+                    </div>
+                </div>
+                <hr class="thick"/>
+                <div class="row justify-content-around">
+                    <a asp-controller="Vehicles" asp-action="All" class="btn btn-primary">Back</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

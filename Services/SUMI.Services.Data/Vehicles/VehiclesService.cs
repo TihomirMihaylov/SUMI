@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using SUMI.Data.Common;
     using SUMI.Data.Common.Repositories;
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
@@ -83,6 +82,34 @@
             this.vehiclesRepo.Update(vehicleToUpdate);
 
             await this.vehiclesRepo.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var vehicleToDelete = await this.vehiclesRepo.GetByIdAsync(id);
+            vehicleToDelete.IsDeleted = true;
+            await this.vehiclesRepo.SaveChangesAsync();
+        }
+
+        public async Task<string> GetNewClientId(Client client)
+        {
+            var clientFromDb = this.clientsRepo.All()
+                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
+
+            if (clientFromDb == null)
+            {
+                this.clientsRepo.Add(client);
+                await this.clientsRepo.SaveChangesAsync();
+                clientFromDb = this.clientsRepo.All()
+                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
+            }
+
+            return clientFromDb.Id;
+        }
+
+        private bool ClientExists(string universalCitizenNumber)
+        {
+            return this.clientsRepo.All().Any(c => c.UniversalCitizenNumber == universalCitizenNumber);
         }
     }
 }

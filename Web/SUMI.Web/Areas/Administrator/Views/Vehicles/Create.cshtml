@@ -1,0 +1,97 @@
+﻿@model SUMI.Web.Areas.Administrator.ViewModels.VehicleAndClientInputModel
+@{
+    ViewData["Title"] = "Create Vehicle";
+    var vehicleTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "1", Text = "Car" },
+            new SelectListItem { Value = "2", Text = "Truck" },
+            new SelectListItem { Value = "3", Text = "Motorcycle"  },
+        };
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-md-10">
+            <form asp-area="Administrator" asp-controller="Vehicles" asp-action="Create" method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="col col-md-6">
+                        <p class="text-center font-weight-bold">Please enter vehicle data here:</p>
+                        <div class="row">
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="Make"></label>
+                                <input asp-for="Make" class="form-control" />
+                                <span asp-validation-for="Make" class="text-danger"></span>
+                            </div>
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="Model"></label>
+                                <input asp-for="Model" class="form-control" />
+                                <span asp-validation-for="Model" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="VIN"></label>
+                                <input asp-for="VIN" class="form-control" />
+                                <span asp-validation-for="VIN" class="text-danger"></span>
+                            </div>
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="NumberPlate"></label>
+                                <input asp-for="NumberPlate" class="form-control" />
+                                <span asp-validation-for="NumberPlate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="FirstRegistration"></label>
+                                <input asp-for="FirstRegistration" class="form-control" />
+                                <span asp-validation-for="FirstRegistration" class="text-danger"></span>
+                            </div>
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="Type"></label>
+                                <select asp-for="Type" asp-items="@vehicleTypes"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <p class="text-center font-weight-bold">Please enter vehicle's owner data here:</p>
+                        <div class="row">
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="FirstName"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="LastName"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="UniversalCitizenNumber"></label>
+                                <input asp-for="UniversalCitizenNumber" class="form-control" />
+                                <span asp-validation-for="UniversalCitizenNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col col-md-6 form-group">
+                                <label asp-for="Birthday"></label>
+                                <input asp-for="Birthday" class="form-control" />
+                                <span asp-validation-for="Birthday" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

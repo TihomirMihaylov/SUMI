@@ -19,5 +19,9 @@
         IList<VehicleViewModel> GetAll();
 
         Task Edit(VehicleEditViewModel inputModel);
+
+        Task Delete(int id);
+
+        Task<string> GetNewClientId(Client client);
     }
 }

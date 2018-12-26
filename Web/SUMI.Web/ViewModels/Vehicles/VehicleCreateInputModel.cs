@@ -26,7 +26,7 @@
 
         [Required]
         [Display(Name = "Number plate")]
-        [RegularExpression(@"^[a-zA-Z0-9]{8}$", ErrorMessage = "Invalid format")]
+        [RegularExpression(@"^[a-zA-Z0-9]{6,8}$", ErrorMessage = "Invalid format")]
         public string NumberPlate { get; set; }
 
         [Required]
