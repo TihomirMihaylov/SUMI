@@ -1,0 +1,62 @@
+﻿@model SUMI.Web.ViewModels.Vehicles.VehicleCreateInputModel
+@{
+    ViewData["Title"] = "Create Vehicle";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <form asp-controller="Vehicles" asp-action="Create" method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="Make"></label>
+                        <input asp-for="Make" class="form-control" />
+                        <span asp-validation-for="Make" class="text-danger"></span>
+                    </div>
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="Model"></label>
+                        <input asp-for="Model" class="form-control" />
+                        <span asp-validation-for="Model" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="VIN"></label>
+                        <input asp-for="VIN" class="form-control" />
+                        <span asp-validation-for="VIN" class="text-danger"></span>
+                    </div>
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="NumberPlate"></label>
+                        <input asp-for="NumberPlate" class="form-control" />
+                        <span asp-validation-for="NumberPlate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-md-6 form-group">
+                        <label asp-for="FirstRegistration"></label>
+                        <input asp-for="FirstRegistration" class="form-control" />
+                        <span asp-validation-for="FirstRegistration" class="text-danger"></span>
+                    </div>
+                    <div class="col col-md-6 form-group">
+                        @*<select asp-items="">
+
+                        </select>*@
+                        <label asp-for="Type"></label>
+                        <input asp-for="Type" class="form-control" />
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+

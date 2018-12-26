@@ -21,6 +21,8 @@
     using SUMI.Data.Repositories;
     using SUMI.Data.Seeding;
     using SUMI.Services.Data;
+    using SUMI.Services.Data.Clients;
+    using SUMI.Services.Data.Vehicles;
     using SUMI.Services.Mapping;
     using SUMI.Services.Messaging;
     using SUMI.Web.ViewModels;
@@ -96,6 +98,8 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IVehiclesService, VehiclesService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

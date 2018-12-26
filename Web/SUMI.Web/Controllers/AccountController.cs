@@ -4,21 +4,25 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using SUMI.Common;
     using SUMI.Data.Models;
+    using SUMI.Services.Data.Clients;
     using SUMI.Web.ViewModels.Account;
 
     public class AccountController : BaseController
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IClientService clientService;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IClientService clientService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.clientService = clientService;
         }
 
         public IActionResult Login()
@@ -59,40 +63,46 @@
                 return this.View(model);
             }
 
-            // TO DO Use automapper with custom mapping settings for Birthday and CreatedOn
-            var user = new ApplicationUser
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                UniversalCitizenNumber = model.UniversalCitizenNumber,
-                Birthday = DateTime.Parse(model.Birthday),
-                CreatedOn = DateTime.UtcNow,
-            };
+            DateTime birthday = DateTime.Parse(model.Birthday);
+            var clientId = this.clientService.GetClient(model.FirstName, model.LastName, model.UniversalCitizenNumber, birthday).GetAwaiter().GetResult();
 
-            var result = await this.userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (!string.IsNullOrWhiteSpace(clientId))
             {
-                await this.signInManager.SignInAsync(user, isPersistent: false);
-
-                // Adding roles to users
-                bool isFirstUser = this.userManager.Users.FirstOrDefault().UserName == user.UserName;
-                if (isFirstUser)
+                var user = new ApplicationUser
                 {
-                    await this.userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
-                }
-                else
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UniversalCitizenNumber = model.UniversalCitizenNumber,
+                    Birthday = birthday,
+                    CreatedOn = DateTime.UtcNow,
+                    ClientId = clientId,
+                };
+
+                var result = await this.userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
                 {
-                    await this.userManager.AddToRoleAsync(user, GlobalConstants.ClientRoleName);
+                    await this.signInManager.SignInAsync(user, isPersistent: false);
+
+                    // Adding roles to users
+                    bool isFirstUser = this.userManager.Users.FirstOrDefault().UserName == user.UserName;
+                    if (isFirstUser)
+                    {
+                        await this.userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
+                    }
+                    else
+                    {
+                        await this.userManager.AddToRoleAsync(user, GlobalConstants.ClientRoleName);
+                    }
+
+                    return this.RedirectToAction("Index", "Home");
                 }
 
-                return this.RedirectToAction("Index", "Home");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                this.ModelState.AddModelError(string.Empty, error.Description);
+                foreach (var error in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
 
             return this.View();

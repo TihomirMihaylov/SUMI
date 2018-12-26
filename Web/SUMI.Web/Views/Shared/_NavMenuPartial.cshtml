@@ -11,7 +11,7 @@
                     Vehicles
                 </button>
                 <div class="dropdown-menu">
-                    <a asp-controller="Vehicles" asp-action="Add"  class="dropdown-item sumiColor">Add New Vehicle</a>
+                    <a asp-controller="Vehicles" asp-action="Create"  class="dropdown-item sumiColor">Add New Vehicle</a>
                     @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
                         <a asp-controller="Vehicles" asp-action="MyVehicles" class="dropdown-item sumiColor">My Vehicles</a>

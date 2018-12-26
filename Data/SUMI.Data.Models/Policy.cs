@@ -17,7 +17,7 @@
 
         public string ClientId { get; set; }
 
-        public virtual ApplicationUser Client { get; set; }
+        public virtual Client Client { get; set; }
 
         public string AgentId { get; set; }
 

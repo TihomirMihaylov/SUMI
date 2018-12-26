@@ -22,7 +22,7 @@
 
         public string OwnerId { get; set; }
 
-        public virtual ApplicationUser Owner { get; set; }
+        public virtual Client Owner { get; set; }
 
         public virtual ICollection<Policy> Policies { get; set; } = new HashSet<Policy>();
     }

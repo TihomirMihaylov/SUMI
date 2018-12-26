@@ -25,6 +25,8 @@
 
         public string UniversalCitizenNumber { get; set; }
 
+        public string ClientId { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 
@@ -43,10 +45,6 @@
 
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
-        public virtual ICollection<Policy> PoliciesAsClient { get; set; } = new HashSet<Policy>();
-
         public virtual ICollection<Policy> PoliciesAsAgent { get; set; } = new HashSet<Policy>();
-
-        public virtual ICollection<Vehicle> Vehicles { get; set; } = new HashSet<Vehicle>();
     }
 }

@@ -26,6 +26,8 @@
 
         public DbSet<InsuranceClaim> Claims { get; set; }
 
+        public DbSet<Client> Clients { get; set; }
+
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Damage> Damages { get; set; }
@@ -104,13 +106,6 @@
                 .HasMany(e => e.Roles)
                 .WithOne()
                 .HasForeignKey(e => e.UserId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<ApplicationUser>()
-                .HasMany(e => e.PoliciesAsClient)
-                .WithOne()
-                .HasForeignKey(p => p.ClientId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 

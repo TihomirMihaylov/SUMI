@@ -2,7 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class RegisterViewModel
+    using SUMI.Data.Models;
+    using SUMI.Services.Mapping;
+
+    public class RegisterViewModel : IMapTo<ApplicationUser>
     {
         [Required]
         [Display(Name = "First name")]

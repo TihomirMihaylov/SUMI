@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SUMI.Data.Migrations
+﻿namespace SUMI.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class UserEntityUpdated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
