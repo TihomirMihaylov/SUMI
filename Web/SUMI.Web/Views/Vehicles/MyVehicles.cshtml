@@ -1,0 +1,35 @@
+﻿@using System.Collections.Generic;
+@using SUMI.Services.Data.ViewModels;
+@model List<VehicleViewModel>
+@{
+    ViewData["Title"] = "My Vehicles";
+    int count = 1;
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr class="withMargin" />
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Make</th>
+            <th scope="col">Model</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <th scope="row">@count</th>
+            <td>@item.Make</td>
+            <td>@item.Model</td>
+            <td>
+                <a class="btn btn-primary" asp-controller="Vehicles" asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+            count++;
+        }
+    </tbody>
+</table>
+

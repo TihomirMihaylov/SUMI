@@ -1,6 +1,12 @@
 ﻿@model SUMI.Web.ViewModels.Vehicles.VehicleCreateInputModel
 @{
     ViewData["Title"] = "Create Vehicle";
+    var vehicleTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "1", Text = "Car" },
+            new SelectListItem { Value = "2", Text = "Truck" },
+            new SelectListItem { Value = "3", Text = "Motorcycle"  },
+        };
 }
 
 <div class="container">
@@ -45,12 +51,8 @@
                         <span asp-validation-for="FirstRegistration" class="text-danger"></span>
                     </div>
                     <div class="col col-md-6 form-group">
-                        @*<select asp-items="">
-
-                        </select>*@
                         <label asp-for="Type"></label>
-                        <input asp-for="Type" class="form-control" />
-                        <span asp-validation-for="Type" class="text-danger"></span>
+                        <select asp-for="Type" asp-items="@vehicleTypes"></select>
                     </div>
                 </div>
 

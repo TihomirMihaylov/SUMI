@@ -23,6 +23,7 @@
     using SUMI.Services.Data;
     using SUMI.Services.Data.Clients;
     using SUMI.Services.Data.Vehicles;
+    using SUMI.Services.Data.ViewModels;
     using SUMI.Services.Mapping;
     using SUMI.Services.Messaging;
     using SUMI.Web.ViewModels;
@@ -105,6 +106,7 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(VehicleViewModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

@@ -1,9 +1,11 @@
 ﻿namespace SUMI.Web.ViewModels.Vehicles
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
     using SUMI.Services.Mapping;
@@ -35,6 +37,13 @@
         [Required]
         [Display(Name = "Vehicle type")]
         public string Type { get; set; }
+
+        // public List<SelectListItem> VehicleType { get; } = new List<SelectListItem>
+        // {
+        //    new SelectListItem { Value = "MX", Text = "Mexico" },
+        //    new SelectListItem { Value = "CA", Text = "Canada" },
+        //    new SelectListItem { Value = "US", Text = "USA"  },
+        // };
 
         // public void CreateMappings(IMapperConfigurationExpression configuration)
         // {

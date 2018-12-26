@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SUMI.Data.Migrations
+﻿namespace SUMI.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class ClientEntityAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +52,7 @@ namespace SUMI.Data.Migrations
                     LastName = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     UniversalCitizenNumber = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {
