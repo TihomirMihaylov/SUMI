@@ -14,6 +14,10 @@
 
         IList<VehicleViewModel> GetMyVehicles(string clientId);
 
-        Task<Vehicle> GetById(int id);
+        Task<Vehicle> GetByIdAsync(int id);
+
+        IList<VehicleViewModel> GetAll();
+
+        Task Edit(VehicleEditViewModel inputModel);
     }
 }

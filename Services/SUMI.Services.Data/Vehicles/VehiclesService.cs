@@ -1,5 +1,6 @@
 ﻿namespace SUMI.Services.Data.Vehicles
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,6 +8,7 @@
     using SUMI.Data.Common;
     using SUMI.Data.Common.Repositories;
     using SUMI.Data.Models;
+    using SUMI.Data.Models.Enums;
     using SUMI.Services.Data.ViewModels;
 
     public class VehiclesService : IVehiclesService
@@ -44,7 +46,7 @@
                 }).ToList();
         }
 
-        public async Task<Vehicle> GetById(int id)
+        public async Task<Vehicle> GetByIdAsync(int id)
         {
             // var result = this.vehiclesRepo.All()
             //    .Join(
@@ -54,6 +56,33 @@
             //        (v, c) => new { Vehicle = v, Client = c })
             //    .FirstOrDefault(x => x.Vehicle.OwnerId == x.Client.Id);
             return await this.vehiclesRepo.GetByIdAsync(id);
+        }
+
+        public IList<VehicleViewModel> GetAll()
+        {
+            return this.vehiclesRepo
+                .All()
+                .Select(v => new VehicleViewModel
+                {
+                    Id = v.Id,
+                    Make = v.Make,
+                    Model = v.Model,
+                }).ToList();
+        }
+
+        public async Task Edit(VehicleEditViewModel inputModel)
+        {
+            var vehicleToUpdate = await this.vehiclesRepo.GetByIdAsync(inputModel.Id);
+            vehicleToUpdate.Make = inputModel.Make;
+            vehicleToUpdate.Model = inputModel.Model;
+            vehicleToUpdate.VIN = inputModel.VIN;
+            vehicleToUpdate.NumberPlate = inputModel.NumberPlate;
+            vehicleToUpdate.FirstRegistration = DateTime.Parse(inputModel.FirstRegistration);
+            vehicleToUpdate.Type = (VehicleType)Enum.Parse(typeof(VehicleType), inputModel.Type);
+
+            this.vehiclesRepo.Update(vehicleToUpdate);
+
+            await this.vehiclesRepo.SaveChangesAsync();
         }
     }
 }

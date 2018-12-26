@@ -10,10 +10,10 @@
     using SUMI.Data.Models.Enums;
     using SUMI.Services.Mapping;
 
-    public class VehicleCreateInputModel : IMapTo<Vehicle> // , IHaveCustomMappings
+    public class VehicleCreateInputModel : IMapTo<Vehicle>, IHaveCustomMappings
     {
         [Required]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Invalid format")]
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Invalid format")]
         public string Make { get; set; }
 
         [Required]
@@ -38,16 +38,16 @@
         [Display(Name = "Vehicle type")]
         public string Type { get; set; }
 
-        // public List<SelectListItem> VehicleType { get; } = new List<SelectListItem>
-        // {
-        //    new SelectListItem { Value = "MX", Text = "Mexico" },
-        //    new SelectListItem { Value = "CA", Text = "Canada" },
-        //    new SelectListItem { Value = "US", Text = "USA"  },
-        // };
+        public void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+            configuration.CreateMap<VehicleCreateInputModel, Vehicle>()
+                .ForMember(x => x.FirstRegistration, x => x.MapFrom(m => DateTime.Parse(m.FirstRegistration)));
 
-        // public void CreateMappings(IMapperConfigurationExpression configuration)
-        // {
-        //    configuration.CreateMap<VehicleCreateInputModel, Vehicle>().ForMember(x => x.Type, x => x.MapFrom(j => Enum.Parse<VehicleType>(j.Type)));
-        // }
+            configuration.CreateMap<VehicleCreateInputModel, Vehicle>()
+                .ForMember(x => x.Type, x => x.MapFrom(m => Enum.Parse<VehicleType>(m.Type)));
+
+            configuration.CreateMap<VehicleCreateInputModel, Vehicle>()
+                .ForMember(x => x.CreatedOn, x => x.MapFrom(m => DateTime.UtcNow));
+        }
     }
 }

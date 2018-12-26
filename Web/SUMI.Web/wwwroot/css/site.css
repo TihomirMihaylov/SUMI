@@ -63,3 +63,8 @@ body {
 .sumiColor {
     color: darkviolet;
 }
+
+hr.thick {
+    border: solid;
+    color: grey;
+}

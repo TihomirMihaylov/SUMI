@@ -19,6 +19,13 @@
         </div>
     </div>
     <div class="card-footer text-muted">
-        <a asp-controller="Vehicles" asp-action="MyVehicles" class="btn btn-primary">Back</a>
+        @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
+        {
+            <a asp-controller="Vehicles" asp-action="MyVehicles" class="btn btn-primary">Back</a>
+        }
+        else
+        {
+            <a asp-controller="Vehicles" asp-action="All" class="btn btn-primary">Back</a>
+        }
     </div>
 </div>

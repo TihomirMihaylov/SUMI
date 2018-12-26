@@ -7,5 +7,7 @@
         public const string AgentRoleName = "Agent";
 
         public const string ClientRoleName = "Client";
+
+        public const string AdministratorOrAgent = "Administrator, Agent";
     }
 }

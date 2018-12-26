@@ -4,8 +4,10 @@
     using SUMI.Data.Models;
     using SUMI.Services.Mapping;
 
-    public class VehicleDetailsViewModel : IMapFrom<Vehicle>, IHaveCustomMappings
+    public class VehicleDetailsViewModel : IMapTo<Vehicle>, IHaveCustomMappings
     {
+        public int Id { get; set; }
+
         public string Make { get; set; }
 
         public string Model { get; set; }

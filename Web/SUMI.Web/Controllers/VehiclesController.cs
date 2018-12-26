@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using SUMI.Common;
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
     using SUMI.Services.Data.Vehicles;
@@ -45,20 +47,9 @@
                 return this.BadRequest("This vehicle already exists in database.");
             }
 
-            // var newVehicle = Mapper.Map<Vehicle>(inputModel);
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
-            Vehicle newVehicle = new Vehicle
-            {
-                Make = inputModel.Make,
-                Model = inputModel.Model,
-                VIN = inputModel.VIN,
-                NumberPlate = inputModel.NumberPlate,
-                FirstRegistration = DateTime.Parse(inputModel.FirstRegistration),
-                Type = Enum.Parse<VehicleType>(inputModel.Type),
-                CreatedOn = DateTime.UtcNow,
-                OwnerId = currentUser.ClientId,
-            };
-
+            var newVehicle = Mapper.Map<Vehicle>(inputModel);
+            newVehicle.OwnerId = currentUser.ClientId;
             await this.vehiclesService.Create(newVehicle);
 
             int id = newVehicle.Id;
@@ -74,9 +65,39 @@
 
         public async Task<IActionResult> Details(int id)
         {
-            var vehicle = await this.vehiclesService.GetById(id);
+            var vehicle = await this.vehiclesService.GetByIdAsync(id);
             var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
             return this.View(model);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public IActionResult All()
+        {
+            var model = this.vehiclesService.GetAll().ToList();
+            return this.View(model);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var vehicle = await this.vehiclesService.GetByIdAsync(id);
+            var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public async Task<IActionResult> Edit(VehicleEditViewModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            await this.vehiclesService.Edit(inputModel);
+
+            int id = inputModel.Id;
+            return this.RedirectToAction("Details", new { id });
         }
     }
 }
