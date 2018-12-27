@@ -68,3 +68,14 @@ hr.thick {
     border: solid;
     color: grey;
 }
+
+.pagination > li {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}

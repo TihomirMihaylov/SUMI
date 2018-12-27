@@ -29,9 +29,9 @@
                 .OrderBy(c => c.FirstName)
                 .Select(c => Mapper.Map<ClientsViewModel>(c)).ToList();
 
+            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
             int nextPage = page ?? 1;
             IPagedList<ClientsViewModel> pagedViewModels = model.ToPagedList(nextPage, 5);
-
             return this.View(pagedViewModels);
         }
     }

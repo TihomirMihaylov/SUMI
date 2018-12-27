@@ -1,7 +1,5 @@
 ﻿namespace SUMI.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -9,13 +7,12 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using SUMI.Common;
     using SUMI.Data.Models;
-    using SUMI.Data.Models.Enums;
     using SUMI.Services.Data.Vehicles;
     using SUMI.Services.Data.ViewModels;
     using SUMI.Web.ViewModels.Vehicles;
+    using X.PagedList;
 
     [Authorize]
     public class VehiclesController : BaseController
@@ -71,10 +68,14 @@
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public IActionResult All()
+        public IActionResult All(int? page)
         {
             var model = this.vehiclesService.GetAll().ToList();
-            return this.View(model);
+
+            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
+            int nextPage = page ?? 1;
+            IPagedList<VehicleViewModel> pagedViewModels = model.ToPagedList(nextPage, 10);
+            return this.View(pagedViewModels);
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
