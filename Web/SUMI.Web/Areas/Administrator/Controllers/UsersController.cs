@@ -45,5 +45,65 @@
 
             return this.View(model);
         }
+
+        public async Task<IActionResult> MakeAdmin(string id)
+        {
+            var userToModify = this.userManager.Users.FirstOrDefault(u => u.Id == id);
+            var roles = await this.userManager.GetRolesAsync(userToModify);
+            var userCurrentRole = await this.userManager
+                .RemoveFromRolesAsync(userToModify, roles);
+            if (userCurrentRole.Succeeded)
+            {
+                var result = await this.userManager.AddToRoleAsync(userToModify, GlobalConstants.AdministratorRoleName);
+                if (result.Succeeded)
+                {
+                    return this.RedirectToAction(nameof(this.All));
+                }
+
+                return this.BadRequest();
+            }
+
+            return this.BadRequest();
+        }
+
+        public async Task<IActionResult> MakeAgent(string id)
+        {
+            var userToModify = this.userManager.Users.FirstOrDefault(u => u.Id == id);
+            var roles = await this.userManager.GetRolesAsync(userToModify);
+            var userCurrentRole = await this.userManager
+                .RemoveFromRolesAsync(userToModify, roles);
+            if (userCurrentRole.Succeeded)
+            {
+                var result = await this.userManager.AddToRoleAsync(userToModify, GlobalConstants.AgentRoleName);
+                if (result.Succeeded)
+                {
+                    return this.RedirectToAction(nameof(this.All));
+                }
+
+                return this.BadRequest();
+            }
+
+            return this.BadRequest();
+        }
+
+        public async Task<IActionResult> MakeClient(string id)
+        {
+            var userToModify = this.userManager.Users.FirstOrDefault(u => u.Id == id);
+            var roles = await this.userManager.GetRolesAsync(userToModify);
+            var userCurrentRole = await this.userManager
+                .RemoveFromRolesAsync(userToModify, roles);
+            if (userCurrentRole.Succeeded)
+            {
+                var result = await this.userManager.AddToRoleAsync(userToModify, GlobalConstants.ClientRoleName);
+                if (result.Succeeded)
+                {
+                    return this.RedirectToAction(nameof(this.All));
+                }
+
+                return this.BadRequest();
+            }
+
+            return this.BadRequest();
+        }
     }
 }

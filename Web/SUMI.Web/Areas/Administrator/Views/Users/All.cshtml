@@ -25,7 +25,10 @@
                 <th scope="row">@countAdmins</th>
                 <td>@item.FirstName</td>
                 <td>@item.LastName</td>
-                <td>button</td>
+                <td>
+                    <a class="btn btn-warning" asp-area="Administrator" asp-controller="Users" asp-action="MakeAgent" asp-route-id="@item.Id">Make Agent</a>
+                    <a class="btn btn-danger" asp-area="Administrator" asp-controller="Users" asp-action="MakeClient" asp-route-id="@item.Id">Make Client</a>
+                </td>
             </tr>
             countAdmins++;
         }
@@ -46,12 +49,15 @@
     <tbody>
         @foreach (var item in Model.Agents)
         {
-            <tr>
-                <th scope="row">@countAgents</th>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td>button</td>
-            </tr>
+        <tr>
+            <th scope="row">@countAgents</th>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>
+                <a class="btn btn-success" asp-area="Administrator" asp-controller="Users" asp-action="MakeAdmin" asp-route-id="@item.Id">Make Admin</a>
+                <a class="btn btn-danger" asp-area="Administrator" asp-controller="Users" asp-action="MakeClient" asp-route-id="@item.Id">Make Client</a>
+            </td>
+        </tr>
             countAgents++;
         }
     </tbody>
@@ -71,12 +77,15 @@
     <tbody>
         @foreach (var item in Model.Clients)
         {
-            <tr>
-                <th scope="row">@countClients</th>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td>button</td>
-            </tr>
+        <tr>
+            <th scope="row">@countClients</th>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>
+                <a class="btn btn-success" asp-area="Administrator" asp-controller="Users" asp-action="MakeAdmin" asp-route-id="@item.Id">Make Admin</a>
+                <a class="btn btn-warning" asp-area="Administrator" asp-controller="Users" asp-action="MakeAgent" asp-route-id="@item.Id">Make Agent</a>
+            </td>
+        </tr>
             countClients++;
         }
     </tbody>

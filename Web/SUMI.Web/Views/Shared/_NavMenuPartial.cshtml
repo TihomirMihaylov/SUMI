@@ -56,15 +56,17 @@
                 <div class="dropdown-menu">
                     @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-controller="Policies" asp-action="MyActive" class="dropdown-item sumiColor">My Active Policies</a>
-                        <a asp-controller="Policies" asp-action="MyExpired" class="dropdown-item sumiColor">My Expired Policies</a>
+                        <a asp-controller="Policies" asp-action="MyPolicies" class="dropdown-item sumiColor">My Policies</a>
                     }
                     @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
                         <a asp-controller="Policies" asp-action="Create" class="dropdown-item sumiColor">Create New Policy</a>
-                        <a asp-controller="Policies" asp-action="GetAllFromOffice" class="dropdown-item sumiColor">Policies (this office)</a>
-                        <a asp-controller="Policies" asp-action="AllActive" class="dropdown-item sumiColor">Active Policies</a>
-                        <a asp-controller="Policies" asp-action="AllExpired" class="dropdown-item sumiColor">Expired Policies</a>
+                        <a asp-controller="Policies" asp-action="GetAllFromOffice" class="dropdown-item sumiColor">Policies issued in this office</a>
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorOrAgent))
+                        {
+                            <a asp-controller="Policies" asp-action="AllActive" class="dropdown-item sumiColor">Active Policies</a>
+                            <a asp-controller="Policies" asp-action="AllExpired" class="dropdown-item sumiColor">Expired Policies</a>
+                        }
                     }
                 </div>
             </div>
