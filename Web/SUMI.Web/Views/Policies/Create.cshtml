@@ -1,0 +1,108 @@
+﻿@model SUMI.Web.ViewModels.Policies.PolicyCreateInputModel
+@{
+    ViewData["Title"] = "Create Policy";
+    var vehicleTypes = new List<SelectListItem>
+{
+new SelectListItem { Value = "1", Text = "Car" },
+new SelectListItem { Value = "2", Text = "Truck" },
+new SelectListItem { Value = "3", Text = "Motorcycle"  },
+};
+}
+
+<div class="row justify-content-center">
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr class="thick" />
+<form asp-controller="Policies" asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <p class="withMargin font-weight-bold text-center">
+                Enter Vehicle Identification Number. If it doesn't exist in our system
+                <a asp-controller="Vehicles" asp-action="Create">click here</a> to add new vehicle
+            </p>
+
+            <h2>
+                <label asp-for="VIN"></label>
+                <input asp-for="VIN" />
+                <a id="searchVin" class="btn btn-primary">Search</a>
+            </h2>
+
+            <div id="alert" class="text-danger">Vehicle doesn't exist. Please add new vehicle!</div>
+
+            <hr class="thick withMargin" />
+
+            <input type="hidden" asp-for="VehicleId" />
+            <input type="hidden" asp-for="ClientId" />
+            <div class="row">
+                <div class="col col-md-6 form-group">
+                    <label asp-for="Make"></label>
+                    <input asp-for="Make" class="form-control" disabled />
+                    <span asp-validation-for="Make" class="text-danger"></span>
+                </div>
+                <div class="col col-md-6 form-group">
+                    <label asp-for="Model"></label>
+                    <input asp-for="Model" class="form-control" disabled />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-6 form-group">
+                    <label asp-for="NumberPlate"></label>
+                    <input asp-for="NumberPlate" class="form-control" disabled />
+                </div>
+                <div class="col col-md-6 form-group">
+                    <label asp-for="FirstRegistration"></label>
+                    <input asp-for="FirstRegistration" class="form-control" disabled />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-md-6 form-group">
+                    <label asp-for="OwnerName"></label>
+                    <input asp-for="OwnerName" class="form-control" disabled />
+                </div>
+                <div class="col col-md-6 form-group">
+                    <label asp-for="Type"></label>
+                    <select asp-for="Type" asp-items="@vehicleTypes" disabled></select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <p class="withMargin font-weight-bold text-center">
+                Enter policy data here:
+            </p>
+            <hr class="thick withMargin" />
+
+            <div class="row">
+                <div class="col col-md-6 form-group">
+                    <label asp-for="InsuranceSum"></label>
+                    <input asp-for="InsuranceSum" class="form-control" />
+                </div>
+                <div class="col col-md-6 form-group">
+                    <label asp-for="Premium"></label>
+                    <input asp-for="Premium" class="form-control" disabled />
+                </div>
+            </div>
+
+            <p class="text-right">
+                <a id="searchVin" class="btn btn-primary">Calculate Premium</a>
+            </p>
+
+            <hr class="thick withMargin" />
+            <div id="confirmation" class="bg-warning">
+                Check all data carefully. Click "Create" if you are sure you want to continue. Click "Cancel" to go back!
+            </div>
+
+            <div class="row justify-content-around withMargin">
+                <div class="col-2">
+                    <a class="btn btn-danger" href="/">Cancel</a>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

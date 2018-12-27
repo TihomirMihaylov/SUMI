@@ -27,10 +27,7 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Create()
-        {
-            return this.View();
-        }
+        public IActionResult Create() => this.View();
 
         [HttpPost]
         public async Task<IActionResult> Create(VehicleCreateInputModel inputModel)
