@@ -12,11 +12,11 @@
 
         bool VihicleExists(string vehecleIdentificationNumber);
 
-        IList<VehicleViewModel> GetMyVehicles(string clientId);
+        IList<Vehicle> GetMyVehicles(string clientId);
 
         Task<Vehicle> GetByIdAsync(int id);
 
-        IList<VehicleViewModel> GetAll();
+        IList<Vehicle> GetAll();
 
         Task Edit(VehicleEditViewModel inputModel);
 

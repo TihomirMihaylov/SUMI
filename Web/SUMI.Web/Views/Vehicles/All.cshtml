@@ -13,9 +13,10 @@
         <thead>
             <tr>
                 <th scope="col" style="width: 4%">#</th>
-                <th scope="col" style="width: 32%">Make</th>
-                <th scope="col" style="width: 32%">Model</th>
-                <th scope="col" style="width: 32%">Action</th>
+                <th scope="col" style="width: 24%">Make</th>
+                <th scope="col" style="width: 24%">Model</th>
+                <th scope="col" style="width: 24%">Number Plate</th>
+                <th scope="col" style="width: 24%">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,7 @@
                     <th scope="row">@count</th>
                     <td>@item.Make</td>
                     <td>@item.Model</td>
+                    <td>@item.NumberPlate</td>
                     <td>
                         <a class="btn btn-primary" asp-controller="Vehicles" asp-action="Details" asp-route-id="@item.Id">Details</a>
                         @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))

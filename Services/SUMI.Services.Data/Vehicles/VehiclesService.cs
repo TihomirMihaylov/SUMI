@@ -32,18 +32,13 @@
             return this.vehiclesRepo.All().Any(v => v.VIN == vehecleIdentificationNumber);
         }
 
-        public IList<VehicleViewModel> GetMyVehicles(string clientId)
-        {
-            return this.vehiclesRepo
-                .All()
+        public IList<Vehicle> GetMyVehicles(string clientId)
+            => this.vehiclesRepo.All()
                 .Where(v => v.OwnerId == clientId)
-                .Select(v => new VehicleViewModel
-                {
-                   Id = v.Id,
-                   Make = v.Make,
-                   Model = v.Model,
-                }).ToList();
-        }
+                .OrderBy(v => v.Make)
+                .ThenBy(v => v.Model)
+                .ThenBy(v => v.NumberPlate)
+                .ToList();
 
         public async Task<Vehicle> GetByIdAsync(int id)
         {
@@ -59,17 +54,12 @@
             return await this.vehiclesRepo.GetByIdAsync(id);
         }
 
-        public IList<VehicleViewModel> GetAll()
-        {
-            return this.vehiclesRepo
-                .All()
-                .Select(v => new VehicleViewModel
-                {
-                    Id = v.Id,
-                    Make = v.Make,
-                    Model = v.Model,
-                }).ToList();
-        }
+        public IList<Vehicle> GetAll()
+            => this.vehiclesRepo.All()
+                .OrderBy(v => v.Make)
+                .ThenBy(v => v.Model)
+                .ThenBy(v => v.NumberPlate)
+                .ToList();
 
         public async Task Edit(VehicleEditViewModel inputModel)
         {

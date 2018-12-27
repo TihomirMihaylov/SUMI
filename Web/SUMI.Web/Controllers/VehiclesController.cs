@@ -1,5 +1,6 @@
 ﻿namespace SUMI.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -56,7 +57,11 @@
         public async Task<IActionResult> MyVehicles()
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
-            var model = this.vehiclesService.GetMyVehicles(currentUser.ClientId).ToList();
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+            IList<Vehicle> myVehicles = this.vehiclesService.GetMyVehicles(currentUser.ClientId);
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+            var model = myVehicles
+                .Select(v => Mapper.Map<VehicleViewModel>(v)).ToList();
             return this.View(model);
         }
 
@@ -70,7 +75,9 @@
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public IActionResult All(int? page)
         {
-            var model = this.vehiclesService.GetAll().ToList();
+            var allVehicles = this.vehiclesService.GetAll();
+            var model = allVehicles
+                .Select(v => Mapper.Map<VehicleViewModel>(v)).ToList();
 
             // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
             int nextPage = page ?? 1;
