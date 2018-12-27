@@ -22,6 +22,7 @@
     using SUMI.Data.Seeding;
     using SUMI.Services.Data;
     using SUMI.Services.Data.Clients;
+    using SUMI.Services.Data.Users;
     using SUMI.Services.Data.Vehicles;
     using SUMI.Services.Data.ViewModels;
     using SUMI.Services.Mapping;
@@ -101,6 +102,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IVehiclesService, VehiclesService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

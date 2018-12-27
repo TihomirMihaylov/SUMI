@@ -54,6 +54,8 @@
             //        c => c.Id,
             //        (v, c) => new { Vehicle = v, Client = c })
             //    .FirstOrDefault(x => x.Vehicle.OwnerId == x.Client.Id);
+
+            // To Do - include Owner navigation property
             return await this.vehiclesRepo.GetByIdAsync(id);
         }
 

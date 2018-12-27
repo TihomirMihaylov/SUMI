@@ -1,6 +1,7 @@
 ﻿namespace SUMI.Services.Data.Clients
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -32,6 +33,12 @@
             }
 
             return client.Id;
+        }
+
+        public IList<Client> GetAll()
+        {
+            // To Do - include policies and vehicles
+            return this.repository.All().ToList();
         }
     }
 }

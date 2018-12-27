@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\SUMI.Data.Common\SUMI.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\SUMI.Data.Models\SUMI.Data.Models.csproj" />
+    <ProjectReference Include="..\..\SUMI.Common\SUMI.Common.csproj" />
   </ItemGroup>
 
 </Project>

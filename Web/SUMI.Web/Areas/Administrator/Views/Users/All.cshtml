@@ -1,0 +1,83 @@
+﻿@model SUMI.Web.Areas.Administrator.ViewModels.AdministrationViewModel
+@{
+    ViewData["Title"] = "All Application Users";
+    int countAdmins = 1;
+    int countAgents = 1;
+    int countClients = 1;
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr class="withMargin" />
+<h3>Administrators</h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 4%">#</th>
+            <th scope="col" style="width: 32%">First Name</th>
+            <th scope="col" style="width: 32%">Last Name</th>
+            <th scope="col" style="width: 32%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Admins)
+        {
+            <tr>
+                <th scope="row">@countAdmins</th>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>button</td>
+            </tr>
+            countAdmins++;
+        }
+    </tbody>
+</table>
+
+<hr class="withMargin" />
+<h3>Our Agents</h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 4%">#</th>
+            <th scope="col" style="width: 32%">First Name</th>
+            <th scope="col" style="width: 32%">Last Name</th>
+            <th scope="col" style="width: 32%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Agents)
+        {
+            <tr>
+                <th scope="row">@countAgents</th>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>button</td>
+            </tr>
+            countAgents++;
+        }
+    </tbody>
+</table>
+
+<hr class="withMargin" />
+<h3>Clients registered in our platform</h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 4%">#</th>
+            <th scope="col" style="width: 32%">First Name</th>
+            <th scope="col" style="width: 32%">Last Name</th>
+            <th scope="col" style="width: 32%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Clients)
+        {
+            <tr>
+                <th scope="row">@countClients</th>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>button</td>
+            </tr>
+            countClients++;
+        }
+    </tbody>
+</table>
