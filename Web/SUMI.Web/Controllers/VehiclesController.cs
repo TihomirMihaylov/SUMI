@@ -12,6 +12,7 @@
     using SUMI.Data.Models;
     using SUMI.Services.Data.Vehicles;
     using SUMI.Services.Data.ViewModels;
+    using SUMI.Web.ViewModels;
     using SUMI.Web.ViewModels.Vehicles;
     using X.PagedList;
 
@@ -39,7 +40,8 @@
 
             if (this.vehiclesService.VihicleExists(inputModel.VIN))
             {
-                return this.BadRequest("This vehicle already exists in database.");
+                var errorModel = new ErrorViewModel() { Message = "This vehicle already exists in database." };
+                return this.View("../Shared/Error", errorModel);
             }
 
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
@@ -62,9 +64,9 @@
             return this.View(model);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            var vehicle = await this.vehiclesService.GetByIdAsync(id);
+            var vehicle = this.vehiclesService.GetById(id);
             var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
             return this.View(model);
         }
@@ -83,9 +85,9 @@
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
-            var vehicle = await this.vehiclesService.GetByIdAsync(id);
+            var vehicle = this.vehiclesService.GetById(id);
             var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
             return this.View(model);
         }
@@ -106,9 +108,9 @@
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var vehicle = await this.vehiclesService.GetByIdAsync(id);
+            var vehicle = this.vehiclesService.GetById(id);
             var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
             return this.View(model);
         }
@@ -131,6 +133,7 @@
 
             var vehicle = this.vehiclesService.GetByVin(vin);
             var viewModel = Mapper.Map<VehicleDetailsViewModel>(vehicle);
+            viewModel.OwnerName = $"{vehicle.Owner.FirstName} {vehicle.Owner.LastName}";
             return this.Json(viewModel);
         }
     }

@@ -10,6 +10,7 @@
     using SUMI.Services.Data.Vehicles;
     using SUMI.Web.Areas.Administrator.ViewModels;
     using SUMI.Web.Controllers;
+    using SUMI.Web.ViewModels;
 
     [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
     [Area("Administrator")]
@@ -37,7 +38,8 @@
 
             if (this.vehiclesService.VihicleExists(inputModel.VIN))
             {
-                return this.BadRequest("This vehicle already exists in database.");
+                var errorModel = new ErrorViewModel() { Message = "This vehicle already exists in database." };
+                return this.View("../Shared/Error", errorModel);
             }
 
             var newClient = Mapper.Map<Client>(inputModel);

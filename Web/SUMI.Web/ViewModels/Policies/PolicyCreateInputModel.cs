@@ -1,14 +1,13 @@
 ﻿namespace SUMI.Web.ViewModels.Policies
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Threading.Tasks;
 
-    using SUMI.Data.Models.Enums;
+    using AutoMapper;
+    using SUMI.Data.Models;
+    using SUMI.Services.Mapping;
 
-    public class PolicyCreateInputModel
+    public class PolicyCreateInputModel : IMapTo<Policy>, IHaveCustomMappings
     {
         [Required]
         public int VehicleId { get; set; }
@@ -50,5 +49,17 @@
 
         [Required]
         public decimal Premium { get; set; }
+
+        public void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+            configuration.CreateMap<PolicyCreateInputModel, Policy>()
+                .ForMember(x => x.CreatedOn, x => x.MapFrom(m => DateTime.UtcNow));
+
+            configuration.CreateMap<PolicyCreateInputModel, Policy>()
+                .ForMember(x => x.ExpirationDate, x => x.MapFrom(m => DateTime.UtcNow.AddYears(1)));
+
+            configuration.CreateMap<PolicyCreateInputModel, Policy>()
+                .ForMember(x => x.IsValid, x => x.MapFrom(m => true));
+        }
     }
 }

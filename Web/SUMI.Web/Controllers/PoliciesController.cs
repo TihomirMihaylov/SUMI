@@ -12,6 +12,7 @@
     using SUMI.Common;
     using SUMI.Data.Models;
     using SUMI.Services.Data.Policies;
+    using SUMI.Web.ViewModels;
     using SUMI.Web.ViewModels.Policies;
 
     [Authorize]
@@ -40,8 +41,14 @@
 
             if (this.policyService.IsVehicleInsured(inputModel.VehicleId))
             {
-                return this.BadRequest("This vehicle has a valid policy.");
+                var errorModel = new ErrorViewModel() { Message = "This vehicle has a valid policy." };
+                return this.View("../Shared/Error", errorModel);
             }
+
+            var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+            var newPolicy = Mapper.Map<Policy>(inputModel);
+            newPolicy.AgentId = currentUser.Id;
+            await this.policyService.Create(newPolicy);
 
             return this.Redirect("/");
 

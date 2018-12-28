@@ -133,6 +133,8 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                     $('#FirstRegistration').val(data.firstRegistration);
                     $('#Type').val(data.type);
                     $('#OwnerName').val(data.ownerName);
+                    $('#VehicleId').val(data.id)
+                    $('#ClientId').val(data.ownerId)
                     })
                     .catch(() => {
                         $('#alert').show();

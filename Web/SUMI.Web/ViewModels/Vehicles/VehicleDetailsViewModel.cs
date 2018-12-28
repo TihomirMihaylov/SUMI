@@ -22,6 +22,8 @@
 
         public string OwnerName { get; set; }
 
+        public string OwnerId { get; set; }
+
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Vehicle, VehicleDetailsViewModel>()

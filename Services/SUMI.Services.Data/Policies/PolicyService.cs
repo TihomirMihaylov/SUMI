@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using SUMI.Common;
     using SUMI.Data.Common.Repositories;
@@ -53,6 +54,12 @@
             }
 
             return insuranceSum * basePremium * multiplier;
+        }
+
+        public async Task Create(Policy policy)
+        {
+            this.policyRepo.Add(policy);
+            await this.policyRepo.SaveChangesAsync();
         }
     }
 }

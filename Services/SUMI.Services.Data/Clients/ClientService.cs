@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.EntityFrameworkCore;
     using SUMI.Data.Common.Repositories;
     using SUMI.Data.Models;
 
@@ -37,8 +37,10 @@
 
         public IList<Client> GetAll()
         {
-            // To Do - include policies and vehicles
-            return this.repository.All().ToList();
+            return this.repository.All()
+                .Include(c => c.Policies)
+                .Include(c => c.Vehicles)
+                .ToList();
         }
     }
 }

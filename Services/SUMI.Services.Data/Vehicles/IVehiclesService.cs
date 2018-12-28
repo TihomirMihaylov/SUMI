@@ -14,7 +14,7 @@
 
         IList<Vehicle> GetMyVehicles(string clientId);
 
-        Task<Vehicle> GetByIdAsync(int id);
+        Vehicle GetById(int id);
 
         IList<Vehicle> GetAll();
 

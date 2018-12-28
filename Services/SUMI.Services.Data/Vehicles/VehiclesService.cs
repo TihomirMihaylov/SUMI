@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using SUMI.Data.Common.Repositories;
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
@@ -40,18 +41,11 @@
                 .ThenBy(v => v.NumberPlate)
                 .ToList();
 
-        public async Task<Vehicle> GetByIdAsync(int id)
+        public Vehicle GetById(int id)
         {
-            // var result = this.vehiclesRepo.All()
-            //    .Join(
-            //        this.clientsRepo.All(),
-            //        v => v.OwnerId,
-            //        c => c.Id,
-            //        (v, c) => new { Vehicle = v, Client = c })
-            //    .FirstOrDefault(x => x.Vehicle.OwnerId == x.Client.Id);
-
-            // To Do - include Owner navigation property
-            return await this.vehiclesRepo.GetByIdAsync(id);
+            return this.vehiclesRepo.All()
+                .Include(v => v.Owner)
+                .FirstOrDefault(v => v.Id == id);
         }
 
         public IList<Vehicle> GetAll()
@@ -101,7 +95,9 @@
 
         public Vehicle GetByVin(string vin)
         {
-            return this.vehiclesRepo.All().FirstOrDefault(v => v.VIN == vin);
+            return this.vehiclesRepo.All()
+                .Include(v => v.Owner)
+                .FirstOrDefault(v => v.VIN == vin);
         }
 
         private bool ClientExists(string universalCitizenNumber)
