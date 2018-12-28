@@ -123,6 +123,8 @@
         {
             var policy = this.policyService.GetById(id);
             var model = Mapper.Map<PolicyDetailsViewModel>(policy);
+            var agent = this.userManager.Users.FirstOrDefault(u => u.Id == model.AgentId);
+            model.Agent = agent;
             return this.View(model);
         }
     }

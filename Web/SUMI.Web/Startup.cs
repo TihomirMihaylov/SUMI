@@ -122,7 +122,7 @@
                     dbContext.Database.Migrate();
                 }
 
-                //ApplicationDbContextSeeder.Seed(dbContext, serviceScope.ServiceProvider);
+                // ApplicationDbContextSeeder.Seed(dbContext, serviceScope.ServiceProvider);
             }
 
             if (env.IsDevelopment())

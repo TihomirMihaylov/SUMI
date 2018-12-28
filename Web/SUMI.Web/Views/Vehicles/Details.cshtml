@@ -10,7 +10,7 @@
         <div class="row justify-content-around">
             <div class="col-md-4"><span class="font-weight-bold mr-2">Model:</span>@Model.Model</div>
             <div class="col-md-4"><span class="font-weight-bold mr-2">VIN:</span>@Model.VIN</div>
-            <div class="col-md-4"><span class="font-weight-bold mr-2">Date of first registration:</span>@Model.FirstRegistration</div>
+            <div class="col-md-4"><span class="font-weight-bold mr-2">Date of first registration:</span>@Model.FirstRegistration.Substring(0, 12)</div>
         </div>
         <div class="row">
             <div class="col-md-4"><span class="font-weight-bold mr-2">Number plate:</span>@Model.NumberPlate</div>

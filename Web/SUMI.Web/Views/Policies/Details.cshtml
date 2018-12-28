@@ -1,0 +1,81 @@
+﻿@model SUMI.Web.ViewModels.Policies.PolicyDetailsViewModel
+@{
+    ViewData["Title"] = "Policy Details";
+}
+
+<div class="row justify-content-center">
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr class="thick" />
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Policy Data</a></li>
+        <li><a href="#tabs-2">Vehicle</a></li>
+        <li><a href="#tabs-3">Client</a></li>
+        <li><a href="#tabs-4">Agent</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div class="row">
+            <div class="col col-md-6">
+                <h5 class="withMargin">Insurance Sum: @Model.InsuranceSum EUR</h5>
+                <h5 class="withMargin">Valid Until: @Model.ExpirationDate</h5>
+                <h5 class="withMargin">Number of Claims: @Model.Claims.Count</h5>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <h5 class="withMargin">Total amount spend on damages: @Model.TotalSpent EUR</h5>
+                    <a class="btn btn-danger" asp-area="Administrator" asp-controller="Policies" asp-action="Terminate" asp-route-id="@Model.Id">Terminate Policy</a>
+                }
+            </div>
+            <div class="col col-md-6">
+                @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+                {
+                    <h5 class="font-weight-bold">Claims:</h5>
+                    @*<partial name="_ClaimsSection" />*@
+                }
+            </div>
+        </div>
+    </div>
+    <div id="tabs-2">
+        <h5 class="withMargin">Make: @Model.VehicleMake</h5>
+        <h5 class="withMargin">Model: @Model.VehicleModel</h5>
+        <h5 class="withMargin">Number plate: @Model.VehicleNumberPlate</h5>
+        <h5 class="withMargin">Date of first registration: @Model.VehicleFirstRegistration.Substring(0, 12)</h5>
+        <h5 class="withMargin">Type: @Model.VehicleType</h5>
+    </div>
+    <div id="tabs-3">
+        <h5 class="withMargin">Name: @Model.ClientFirstName @Model.ClientLastName</h5>
+        <h5 class="withMargin">UCN: @Model.ClientUniversalCitizenNumber</h5>
+        <h5 class="withMargin">Birthday: @Model.ClientBirthday.Substring(0,12)</h5>
+    </div>
+    <div id="tabs-4">
+        <h5 class="withMargin">This policy was issued by: @Model.Agent.FirstName @Model.Agent.LastName</h5>
+        <h5 class="withMargin">Contacts: @Model.Agent.Email</h5>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+        });
+
+        //window.onload = function () {
+        //    $('#alert').hide();
+
+        //    $('#btnCalculate').click(function () {
+        //        $.ajax({
+        //            method: 'GET',
+        //            url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,
+        //        }).then(function (data) {
+        //            $('#confirmation').hide();
+        //            $('#Premium').val(data.premium);
+        //        })
+        //            .catch(() => {
+        //                $('#confirmation').show();
+        //            });
+        //    });
+        //};
+    </script>
+}
