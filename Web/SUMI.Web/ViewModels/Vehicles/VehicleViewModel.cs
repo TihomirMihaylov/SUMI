@@ -1,4 +1,4 @@
-﻿namespace SUMI.Services.Data.ViewModels
+﻿namespace SUMI.Web.ViewModels.Vehicles
 {
     using SUMI.Data.Models;
     using SUMI.Services.Mapping;

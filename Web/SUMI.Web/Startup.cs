@@ -110,7 +110,7 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-            AutoMapperConfig.RegisterMappings(typeof(VehicleViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(VehicleEditViewModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
@@ -122,7 +122,7 @@
                     dbContext.Database.Migrate();
                 }
 
-                ApplicationDbContextSeeder.Seed(dbContext, serviceScope.ServiceProvider);
+                //ApplicationDbContextSeeder.Seed(dbContext, serviceScope.ServiceProvider);
             }
 
             if (env.IsDevelopment())

@@ -1,9 +1,11 @@
 ﻿namespace SUMI.Services.Data.Policies
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using SUMI.Common;
     using SUMI.Data.Common.Repositories;
     using SUMI.Data.Models;
@@ -61,5 +63,42 @@
             this.policyRepo.Add(policy);
             await this.policyRepo.SaveChangesAsync();
         }
+
+        public IList<Policy> GetMyPolicies(string id)
+            => this.policyRepo.All()
+                .Where(p => p.ClientId == id)
+                .Include(p => p.Vehicle)
+                .OrderByDescending(p => p.CreatedOn)
+                .ToList();
+
+        public IList<Policy> GetMyPoliciesIssued(string id)
+            => this.policyRepo.All()
+                .Where(p => p.AgentId == id)
+                .Include(p => p.Vehicle)
+                .OrderByDescending(p => p.CreatedOn)
+                .ToList();
+
+        public IList<Policy> GetAllActivePolicies()
+            => this.policyRepo.All()
+                .Where(p => p.IsValid)
+                .Include(p => p.Vehicle)
+                .OrderByDescending(p => p.CreatedOn)
+                .ToList();
+
+        public IList<Policy> GetAllExpiredPolicies()
+            => this.policyRepo.All()
+                .Where(p => !p.IsValid)
+                .Include(p => p.Vehicle)
+                .OrderByDescending(p => p.CreatedOn)
+                .ToList();
+
+        public Policy GetById(string id)
+            => this.policyRepo.All()
+                .Include(p => p.Agent)
+                .Include(p => p.Claims)
+                .Include(p => p.Client)
+                .Include(p => p.Comments)
+                .Include(p => p.Vehicle)
+                .FirstOrDefault(p => p.Id == id);
     }
 }

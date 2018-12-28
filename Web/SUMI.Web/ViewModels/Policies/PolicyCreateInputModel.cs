@@ -7,7 +7,7 @@
     using SUMI.Data.Models;
     using SUMI.Services.Mapping;
 
-    public class PolicyCreateInputModel : IMapTo<Policy>, IHaveCustomMappings
+    public class PolicyCreateInputModel : IMapTo<Policy>
     {
         [Required]
         public int VehicleId { get; set; }
@@ -49,17 +49,5 @@
 
         [Required]
         public decimal Premium { get; set; }
-
-        public void CreateMappings(IMapperConfigurationExpression configuration)
-        {
-            //configuration.CreateMap<PolicyCreateInputModel, Policy>()
-            //    .ForMember(x => x.CreatedOn, x => x.MapFrom(m => new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day)));
-
-            //configuration.CreateMap<PolicyCreateInputModel, Policy>()
-            //    .ForMember(x => x.ExpirationDate, x => x.MapFrom(m => new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day).AddYears(1)));
-
-            //configuration.CreateMap<PolicyCreateInputModel, Policy>()
-            //    .ForMember(x => x.IsValid, x => x.MapFrom(m => true));
-        }
     }
 }

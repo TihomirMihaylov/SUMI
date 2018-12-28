@@ -61,7 +61,7 @@
                     @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
                         <a asp-controller="Policies" asp-action="Create" class="dropdown-item sumiColor">Create New Policy</a>
-                        <a asp-controller="Policies" asp-action="GetAllFromOffice" class="dropdown-item sumiColor">Policies issued in this office</a>
+                        <a asp-controller="Policies" asp-action="MyIssuedPolicies" class="dropdown-item sumiColor">Policies issued in this office</a>
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a asp-controller="Policies" asp-action="AllActive" class="dropdown-item sumiColor">Active Policies</a>

@@ -42,11 +42,9 @@
                 .ToList();
 
         public Vehicle GetById(int id)
-        {
-            return this.vehiclesRepo.All()
+            => this.vehiclesRepo.All()
                 .Include(v => v.Owner)
                 .FirstOrDefault(v => v.Id == id);
-        }
 
         public IList<Vehicle> GetAll()
             => this.vehiclesRepo.All()

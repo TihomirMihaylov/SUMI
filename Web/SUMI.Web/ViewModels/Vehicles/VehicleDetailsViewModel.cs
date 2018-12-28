@@ -26,9 +26,8 @@
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<Vehicle, VehicleDetailsViewModel>()
-                .ForMember(x => x.FirstRegistration, x => x.MapFrom(v => v.FirstRegistration.ToShortDateString()));
-
+            // configuration.CreateMap<Vehicle, VehicleDetailsViewModel>()
+            //    .ForMember(x => x.FirstRegistration, x => x.MapFrom(v => v.FirstRegistration.ToString()));
             configuration.CreateMap<Vehicle, VehicleDetailsViewModel>()
                 .ForMember(x => x.Type, x => x.MapFrom(v => v.Type.ToString()));
 

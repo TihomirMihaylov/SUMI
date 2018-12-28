@@ -1,9 +1,11 @@
 ﻿@using X.PagedList
 @using X.PagedList.Mvc.Core
-@model IPagedList<SUMI.Services.Data.ViewModels.VehicleViewModel>
+@model IPagedList<SUMI.Web.ViewModels.Vehicles.VehicleViewModel>
 @{
     ViewData["Title"] = "All Vehicles";
-    int count = 1;
+    int currentPage = ViewBag.CurrentPage;
+    int entriesPerPage = ViewBag.EntriesPerPage;
+    int count = (currentPage - 1) * entriesPerPage + 1;
 }
 
 <div class="container">

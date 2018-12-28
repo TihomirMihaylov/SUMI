@@ -14,6 +14,7 @@
     using SUMI.Services.Data.Policies;
     using SUMI.Web.ViewModels;
     using SUMI.Web.ViewModels.Policies;
+    using X.PagedList;
 
     [Authorize]
     public class PoliciesController : BaseController
@@ -61,6 +62,68 @@
         {
             decimal premium = this.policyService.GetPremium(insuranceSum, firstRegistration, type);
             return this.Json(new { premium });
+        }
+
+        public async Task<IActionResult> MyPolicies()
+        {
+            var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+            IList<Policy> myPolicies = this.policyService.GetMyPolicies(currentUser.ClientId);
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+            var model = myPolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
+            return this.View(model);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public async Task<IActionResult> MyIssuedPolicies(int? page)
+        {
+            var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+            IList<Policy> myPolicies = this.policyService.GetMyPoliciesIssued(currentUser.Id);
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+            var model = myPolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
+
+            int nextPage = page ?? 1;
+            this.ViewBag.CurrentPage = nextPage;
+            int entriesPerPage = 10;
+            this.ViewBag.EntriesPerPage = entriesPerPage;
+            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            return this.View(pagedViewModels);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult AllActive(int? page)
+        {
+            var activePolicies = this.policyService.GetAllActivePolicies();
+            var model = activePolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
+
+            int nextPage = page ?? 1;
+            this.ViewBag.CurrentPage = nextPage;
+            int entriesPerPage = 10;
+            this.ViewBag.EntriesPerPage = entriesPerPage;
+            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            return this.View(pagedViewModels);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult AllExpired(int? page)
+        {
+            var expiredPolicies = this.policyService.GetAllExpiredPolicies();
+            var model = expiredPolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
+
+            int nextPage = page ?? 1;
+            this.ViewBag.CurrentPage = nextPage;
+            int entriesPerPage = 10;
+            this.ViewBag.EntriesPerPage = entriesPerPage;
+            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            return this.View(pagedViewModels);
+        }
+
+        public IActionResult Details(string id)
+        {
+            var policy = this.policyService.GetById(id);
+            var model = Mapper.Map<PolicyDetailsViewModel>(policy);
+            return this.View(model);
         }
     }
 }
