@@ -38,12 +38,12 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <div class="row">
                 <div class="col col-md-6 form-group">
                     <label asp-for="Make"></label>
-                    <input asp-for="Make" class="form-control" disabled />
+                    <input asp-for="Make" class="form-control" readonly />
                     <span asp-validation-for="Make" class="text-danger"></span>
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="Model"></label>
-                    <input asp-for="Model" class="form-control" disabled />
+                    <input asp-for="Model" class="form-control" readonly />
                     <span asp-validation-for="Model" class="text-danger"></span>
                 </div>
             </div>
@@ -51,12 +51,12 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <div class="row">
                 <div class="col col-md-6 form-group">
                     <label asp-for="NumberPlate"></label>
-                    <input asp-for="NumberPlate" class="form-control" disabled />
+                    <input asp-for="NumberPlate" class="form-control" readonly />
                     <span asp-validation-for="NumberPlate" class="text-danger"></span>
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="FirstRegistration"></label>
-                    <input asp-for="FirstRegistration" class="form-control" disabled />
+                    <input asp-for="FirstRegistration" class="form-control" readonly />
                     <span asp-validation-for="FirstRegistration" class="text-danger"></span>
                 </div>
             </div>
@@ -64,11 +64,11 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <div class="row">
                 <div class="col col-md-6 form-group">
                     <label asp-for="OwnerName"></label>
-                    <input asp-for="OwnerName" class="form-control" disabled />
+                    <input asp-for="OwnerName" class="form-control" readonly />
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="Type"></label>
-                    <input asp-for="Type" class="form-control" disabled />
+                    <input asp-for="Type" class="form-control" readonly />
                     <span asp-validation-for="Type" class="text-danger"></span>
                 </div>
             </div>
@@ -89,7 +89,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="Premium"></label>
-                    <input asp-for="Premium" class="form-control" disabled type="number" min="0"/>
+                    <input asp-for="Premium" class="form-control" readonly type="number" min="0"/>
                     <span asp-validation-for="Premium" class="text-danger"></span>
                 </div>
             </div>

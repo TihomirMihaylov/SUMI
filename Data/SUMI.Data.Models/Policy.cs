@@ -11,9 +11,9 @@
 
         public decimal InsuranceSum { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        public DateTime ExpirationDate => this.CreatedOn.AddYears(1);
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; set; } = true;
 
         public string ClientId { get; set; }
 

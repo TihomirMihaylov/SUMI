@@ -52,14 +52,14 @@
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<PolicyCreateInputModel, Policy>()
-                .ForMember(x => x.CreatedOn, x => x.MapFrom(m => DateTime.UtcNow));
+            //configuration.CreateMap<PolicyCreateInputModel, Policy>()
+            //    .ForMember(x => x.CreatedOn, x => x.MapFrom(m => new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day)));
 
-            configuration.CreateMap<PolicyCreateInputModel, Policy>()
-                .ForMember(x => x.ExpirationDate, x => x.MapFrom(m => DateTime.UtcNow.AddYears(1)));
+            //configuration.CreateMap<PolicyCreateInputModel, Policy>()
+            //    .ForMember(x => x.ExpirationDate, x => x.MapFrom(m => new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day).AddYears(1)));
 
-            configuration.CreateMap<PolicyCreateInputModel, Policy>()
-                .ForMember(x => x.IsValid, x => x.MapFrom(m => true));
+            //configuration.CreateMap<PolicyCreateInputModel, Policy>()
+            //    .ForMember(x => x.IsValid, x => x.MapFrom(m => true));
         }
     }
 }
