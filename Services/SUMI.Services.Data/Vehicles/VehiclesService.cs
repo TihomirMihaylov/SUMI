@@ -99,6 +99,11 @@
             return clientFromDb.Id;
         }
 
+        public Vehicle GetByVin(string vin)
+        {
+            return this.vehiclesRepo.All().FirstOrDefault(v => v.VIN == vin);
+        }
+
         private bool ClientExists(string universalCitizenNumber)
         {
             return this.clientsRepo.All().Any(c => c.UniversalCitizenNumber == universalCitizenNumber);

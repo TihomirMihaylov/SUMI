@@ -14,6 +14,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
 </div>
 <hr class="thick" />
 <form asp-controller="Policies" asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
             <p class="withMargin font-weight-bold text-center">
@@ -24,7 +25,8 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <h2>
                 <label asp-for="VIN"></label>
                 <input asp-for="VIN" />
-                <a id="searchVin" class="btn btn-primary">Search</a>
+                <span asp-validation-for="VIN" class="text-danger"></span>
+                <a id="btnSearch" class="btn btn-primary">Search</a>
             </h2>
 
             <div id="alert" class="text-danger">Vehicle doesn't exist. Please add new vehicle!</div>
@@ -42,6 +44,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                 <div class="col col-md-6 form-group">
                     <label asp-for="Model"></label>
                     <input asp-for="Model" class="form-control" disabled />
+                    <span asp-validation-for="Model" class="text-danger"></span>
                 </div>
             </div>
 
@@ -49,10 +52,12 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                 <div class="col col-md-6 form-group">
                     <label asp-for="NumberPlate"></label>
                     <input asp-for="NumberPlate" class="form-control" disabled />
+                    <span asp-validation-for="NumberPlate" class="text-danger"></span>
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="FirstRegistration"></label>
                     <input asp-for="FirstRegistration" class="form-control" disabled />
+                    <span asp-validation-for="FirstRegistration" class="text-danger"></span>
                 </div>
             </div>
 
@@ -63,7 +68,8 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="Type"></label>
-                    <select asp-for="Type" asp-items="@vehicleTypes" disabled></select>
+                    <input asp-for="Type" class="form-control" disabled />
+                    <span asp-validation-for="Type" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -78,16 +84,18 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <div class="row">
                 <div class="col col-md-6 form-group">
                     <label asp-for="InsuranceSum"></label>
-                    <input asp-for="InsuranceSum" class="form-control" />
+                    <input asp-for="InsuranceSum" class="form-control" type="number" min="0" step="0.1"/>
+                    <span asp-validation-for="InsuranceSum" class="text-danger"></span>
                 </div>
                 <div class="col col-md-6 form-group">
                     <label asp-for="Premium"></label>
-                    <input asp-for="Premium" class="form-control" disabled />
+                    <input asp-for="Premium" class="form-control" disabled type="number" min="0"/>
+                    <span asp-validation-for="Premium" class="text-danger"></span>
                 </div>
             </div>
 
             <p class="text-right">
-                <a id="searchVin" class="btn btn-primary">Calculate Premium</a>
+                <a id="btnCalculate" class="btn btn-primary">Calculate Premium</a>
             </p>
 
             <hr class="thick withMargin" />
@@ -106,3 +114,43 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
         </div>
     </div>
 </form>
+
+@section Scripts{
+    <script>
+        window.onload = function () {
+            $('#alert').hide();
+            $('#confirmation').hide();
+
+            $('#btnSearch').click(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: '/Vehicles/SearchByVin?vin=' + $('#VIN').val()
+                }).then(function (data) {
+                    $('#alert').hide();
+                    $('#Make').val(data.make);
+                    $('#Model').val(data.model);
+                    $('#NumberPlate').val(data.numberPlate);
+                    $('#FirstRegistration').val(data.firstRegistration);
+                    $('#Type').val(data.type);
+                    $('#OwnerName').val(data.ownerName);
+                    })
+                    .catch(() => {
+                        $('#alert').show();
+                    });
+            });
+
+            $('#btnCalculate').click(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,
+                }).then(function (data) {
+                    $('#confirmation').hide();
+                    $('#Premium').val(data.premium);
+                })
+                .catch(() => {
+                    $('#confirmation').show();
+                });
+            });
+        };
+    </script>
+}

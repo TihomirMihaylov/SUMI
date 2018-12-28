@@ -120,5 +120,18 @@
             await this.vehiclesService.Delete(inputModel.Id);
             return this.RedirectToAction("All");
         }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public IActionResult SearchByVin(string vin)
+        {
+            if (!this.vehiclesService.VihicleExists(vin))
+            {
+                return this.NotFound();
+            }
+
+            var vehicle = this.vehiclesService.GetByVin(vin);
+            var viewModel = Mapper.Map<VehicleDetailsViewModel>(vehicle);
+            return this.Json(viewModel);
+        }
     }
 }
