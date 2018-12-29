@@ -44,7 +44,7 @@
 
         public string VehicleType { get; set; }
 
-        public List<string> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
 
         public List<InsuranceClaim> Claims { get; set; }
 
@@ -56,10 +56,11 @@
                 .ForMember(x => x.TotalSpent, x => x.MapFrom(p => p.Claims.Sum(c => c.TotalCost)));
 
             // TO DO: CHECK THIS LATER
-            configuration.CreateMap<Policy, PolicyDetailsViewModel>()
-                .ForMember(x => x.Comments, x =>
-                    x.MapFrom(p =>
-                        p.Comments.Select(c => $"{c.Text} ({c.Author.FirstName} {c.Author.LastName}) --- {c.CreatedOn}")));
+            // configuration.CreateMap<Policy, PolicyDetailsViewModel>()
+            //   .ForMember(x => x.Comments, x =>
+            //       x.MapFrom(p =>
+            //           p.Comments.Where(c =>
+            //              !c.IsDeleted)));
 
             // configuration.CreateMap<Policy, PolicyDetailsViewModel>()
             //    .ForMember(x => x.Claims, x =>

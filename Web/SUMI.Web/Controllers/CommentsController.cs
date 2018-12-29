@@ -35,5 +35,13 @@
             await this.commentService.Create(newPolicy);
             return this.Ok();
         }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.commentService.RemoveComment(id);
+            return this.Ok();
+        }
     }
 }

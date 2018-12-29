@@ -19,5 +19,15 @@
             this.commentRepo.Add(comment);
             await this.commentRepo.SaveChangesAsync();
         }
+
+        public async Task RemoveComment(int id)
+        {
+            var comment = await this.commentRepo.GetByIdAsync(id);
+            if (comment != null)
+            {
+                this.commentRepo.Delete(comment);
+                await this.commentRepo.SaveChangesAsync();
+            }
+        }
     }
 }

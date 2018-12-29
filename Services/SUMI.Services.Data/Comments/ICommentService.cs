@@ -7,5 +7,7 @@
     public interface ICommentService
     {
         Task Create(Comment comment);
+
+        Task RemoveComment(int id);
     }
 }
