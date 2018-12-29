@@ -46,7 +46,7 @@
 
         public List<string> Comments { get; set; }
 
-        public List<string> Claims { get; set; }
+        public List<InsuranceClaim> Claims { get; set; }
 
         public decimal TotalSpent { get; set; }
 
@@ -61,10 +61,10 @@
                     x.MapFrom(p =>
                         p.Comments.Select(c => $"{c.Text} ({c.Author.FirstName} {c.Author.LastName}) --- {c.CreatedOn}")));
 
-            configuration.CreateMap<Policy, PolicyDetailsViewModel>()
-                .ForMember(x => x.Claims, x =>
-                    x.MapFrom(p =>
-                        p.Claims.Select(c => $"Claim N: 01600-SUMI-19-{c.Id}")));
+            // configuration.CreateMap<Policy, PolicyDetailsViewModel>()
+            //    .ForMember(x => x.Claims, x =>
+            //        x.MapFrom(p =>
+            //            p.Claims.Select(c => $"Claim N: 01600-SUMI-19-{c.Id} / {c.CreatedOn}")));
         }
     }
 }

@@ -22,5 +22,7 @@
         IList<Policy> GetAllExpiredPolicies();
 
         Policy GetById(string id);
+
+        Task<bool> TerminatePolicy(string id);
     }
 }

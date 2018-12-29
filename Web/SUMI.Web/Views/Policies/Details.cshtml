@@ -1,6 +1,7 @@
 ﻿@model SUMI.Web.ViewModels.Policies.PolicyDetailsViewModel
 @{
     ViewData["Title"] = "Policy Details";
+    string status = Model.IsValid ? "Valid" : "Invalid";
 }
 
 <div class="row justify-content-center">
@@ -19,26 +20,52 @@
         <div class="row">
             <div class="col col-md-6">
                 <h5 class="withMargin">Insurance Sum: @Model.InsuranceSum EUR</h5>
+                <h5 class="withMargin">Premium: @Model.Premium EUR</h5>
                 <h5 class="withMargin">Valid Until: @Model.ExpirationDate</h5>
                 <h5 class="withMargin">Number of Claims: @Model.Claims.Count</h5>
+                @if (Model.IsValid)
+                {
+                    <h5 id="statusValid" class="withMargin"><span style="background-color:lightgreen">Status: @status</span></h5>
+                }
+                else
+                {
+                    <h5 id="statusInvalid" class="withMargin"><span style="background-color:red">Status: @status</span></h5>
+                }
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <h5 class="withMargin">Total amount spend on damages: @Model.TotalSpent EUR</h5>
-                    <a class="btn btn-danger" asp-area="Administrator" asp-controller="Policies" asp-action="Terminate" asp-route-id="@Model.Id">Terminate Policy</a>
+                    if (Model.IsValid)
+                    {
+                        <input id="policyId" type="hidden" value="@Model.Id" />
+                        <btn type="button" id="btnTerminate" class="btn btn-danger btn-sm">Terminate Policy</btn>
+                        <p id="terminationStatus" class="text-danger"></p>
+                    }
                 }
             </div>
+
             <div class="col col-md-6">
                 @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                 {
                     <h5 class="font-weight-bold">Claims:</h5>
-                    @*<partial name="_ClaimsSection" />*@
+                    <partial name="_ClaimsSection" />
                 }
             </div>
         </div>
+
+        @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+        {
+            <hr class="thick" />
+            <div class="row withMargin">
+                <h5 class="font-weight-bold">Comments:</h5>
+                <partial name="_CommentsSection" />
+            </div>
+        }
+
     </div>
     <div id="tabs-2">
         <h5 class="withMargin">Make: @Model.VehicleMake</h5>
         <h5 class="withMargin">Model: @Model.VehicleModel</h5>
+        <h5 class="withMargin">VIN: @Model.VehicleVIN</h5>
         <h5 class="withMargin">Number plate: @Model.VehicleNumberPlate</h5>
         <h5 class="withMargin">Date of first registration: @Model.VehicleFirstRegistration.Substring(0, 12)</h5>
         <h5 class="withMargin">Type: @Model.VehicleType</h5>
@@ -61,21 +88,44 @@
             $("#tabs").tabs();
         });
 
-        //window.onload = function () {
-        //    $('#alert').hide();
+        window.onload = function () {
+            $('#commetnConfirmation').hide();
 
-        //    $('#btnCalculate').click(function () {
-        //        $.ajax({
-        //            method: 'GET',
-        //            url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,
-        //        }).then(function (data) {
-        //            $('#confirmation').hide();
-        //            $('#Premium').val(data.premium);
-        //        })
-        //            .catch(() => {
-        //                $('#confirmation').show();
-        //            });
-        //    });
-        //};
+            $('#btnTerminate').click(function () {
+                let statusParagraph = $('#terminationStatus');
+                let id = $('#policyId').val();
+                $.ajax({
+                    method: 'GET',
+                    url: '/Administrator/Policies/Terminate/' + id,
+                }).then(() => {
+                    statusParagraph.text('Policy terminated successfully.').show();
+                    $('#btnTerminate').attr("disabled", "disabled");
+                    $('#statusValid').hide();
+                    $('#statusInvalid').show();
+                })
+                    .catch(() => {
+                        statusParagraph.text('There was an error with your request.').hide();
+                    });
+            });
+
+            $('#btnComment').click(function () {
+                let text = $('textArea').text();
+                if (text != '') {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/Comments/Create',
+                        data: { text },
+                    }).then(() => {
+                        $('textArea').text('');
+                        $('#commetnConfirmation').hide();
+                        let newComment = $(`<p>${text}</p>`)
+                        $('#commentContainer').append(newComment);
+                    })
+                      .catch(() => {
+                          $('#commetnConfirmation').show();
+                      });
+                }
+            });
+        };
     </script>
 }

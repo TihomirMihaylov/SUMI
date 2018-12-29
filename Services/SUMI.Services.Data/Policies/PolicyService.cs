@@ -100,5 +100,23 @@
                 .Include(p => p.Comments)
                 .Include(p => p.Vehicle)
                 .FirstOrDefault(p => p.Id == id);
+
+        public async Task<bool> TerminatePolicy(string id)
+        {
+            var policy = await this.policyRepo.GetByIdAsync(id);
+            if (policy == null)
+            {
+                return false;
+            }
+
+            if (policy.IsValid == false)
+            {
+                return false;
+            }
+
+            policy.IsValid = false;
+            await this.policyRepo.SaveChangesAsync();
+            return true;
+        }
     }
 }

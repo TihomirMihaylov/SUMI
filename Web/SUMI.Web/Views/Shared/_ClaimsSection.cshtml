@@ -1,0 +1,20 @@
+﻿@{
+    int count = 1;
+}
+
+@if (Model.Claims.Count == 0)
+{
+    <p class="font-italic">Currently there are no claims for this policy</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var item in Model.Claims)
+        {
+            <a class="list-group-item list-group-item-action" asp-controller="Claims" asp-action="Details" asp-route-id="@item.Id">
+                @count) Claim N: 01600-SUMI-19-{@item.Id} / {@item.CreatedOn}
+            </a>
+            count++;
+        }
+    </div>
+}
