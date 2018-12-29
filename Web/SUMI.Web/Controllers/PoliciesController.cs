@@ -51,10 +51,8 @@
             newPolicy.AgentId = currentUser.Id;
             await this.policyService.Create(newPolicy);
 
-            return this.Redirect("/");
-
-            // int id = newVehicle.Id;
-            // return this.RedirectToAction("Details", new { id });
+            string id = newPolicy.Id;
+            return this.RedirectToAction("Details", new { id });
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]

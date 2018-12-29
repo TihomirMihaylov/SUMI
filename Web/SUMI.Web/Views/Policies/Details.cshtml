@@ -26,17 +26,19 @@
                 @if (Model.IsValid)
                 {
                     <h5 id="statusValid" class="withMargin"><span style="background-color:lightgreen">Status: @status</span></h5>
+                    <h5 id="statusInvalid" class="withMargin" style="display:none"><span style="background-color:red">Status: @status</span></h5>
                 }
                 else
                 {
-                    <h5 id="statusInvalid" class="withMargin"><span style="background-color:red">Status: @status</span></h5>
+                    <h5 class="withMargin"><span style="background-color:red">Status: @status</span></h5>
                 }
+
+                <input id="policyId" type="hidden" value="@Model.Id" />
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     <h5 class="withMargin">Total amount spend on damages: @Model.TotalSpent EUR</h5>
                     if (Model.IsValid)
                     {
-                        <input id="policyId" type="hidden" value="@Model.Id" />
                         <btn type="button" id="btnTerminate" class="btn btn-danger btn-sm">Terminate Policy</btn>
                         <p id="terminationStatus" class="text-danger"></p>
                     }
@@ -89,11 +91,11 @@
         });
 
         window.onload = function () {
-            $('#commetnConfirmation').hide();
+            $('#commentConfirmation').hide();
 
             $('#btnTerminate').click(function () {
-                let statusParagraph = $('#terminationStatus');
                 let id = $('#policyId').val();
+                let statusParagraph = $('#terminationStatus');
                 $.ajax({
                     method: 'GET',
                     url: '/Administrator/Policies/Terminate/' + id,
@@ -109,20 +111,20 @@
             });
 
             $('#btnComment').click(function () {
-                let text = $('textArea').text();
+                let text = $('#textArea').val();
+                let policyId = $('#policyId').val();
                 if (text != '') {
                     $.ajax({
                         method: 'POST',
                         url: '/Comments/Create',
-                        data: { text },
+                        data: { text, policyId },
                     }).then(() => {
-                        $('textArea').text('');
-                        $('#commetnConfirmation').hide();
-                        let newComment = $(`<p>${text}</p>`)
-                        $('#commentContainer').append(newComment);
+                        $('#textArea').val('');
+                        $('#commentConfirmation').hide();
+                        document.location.reload();
                     })
                       .catch(() => {
-                          $('#commetnConfirmation').show();
+                          $('#commentConfirmation').show();
                       });
                 }
             });
