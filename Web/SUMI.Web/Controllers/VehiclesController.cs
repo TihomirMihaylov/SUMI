@@ -28,6 +28,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = GlobalConstants.ClientRoleName)]
         public IActionResult Create() => this.View();
 
         [HttpPost]
@@ -136,6 +137,26 @@
             var viewModel = Mapper.Map<VehicleDetailsViewModel>(vehicle);
             viewModel.OwnerName = $"{vehicle.Owner.FirstName} {vehicle.Owner.LastName}";
             return this.Json(viewModel);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public IActionResult GetInsuranceStatus(string vin)
+        {
+            if (!this.vehiclesService.VihicleExists(vin))
+            {
+                bool vehicleExists = false;
+                return this.NotFound(new { vehicleExists });
+            }
+
+            var vehicle = this.vehiclesService.GetByVin(vin);
+            var policyId = this.vehiclesService.CheckForValidInsurance(vehicle);
+            if (string.IsNullOrWhiteSpace(policyId))
+            {
+                bool isInsured = false;
+                return this.NotFound(new { isInsured });
+            }
+
+            return this.Json(new { VehicleId = vehicle.Id, PolicyId = policyId });
         }
     }
 }

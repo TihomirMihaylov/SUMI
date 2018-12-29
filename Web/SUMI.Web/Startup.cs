@@ -21,6 +21,7 @@
     using SUMI.Data.Repositories;
     using SUMI.Data.Seeding;
     using SUMI.Services.Data;
+    using SUMI.Services.Data.Claims;
     using SUMI.Services.Data.Clients;
     using SUMI.Services.Data.Comments;
     using SUMI.Services.Data.Policies;
@@ -107,6 +108,7 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPolicyService, PolicyService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IClaimsService, ClaimsService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

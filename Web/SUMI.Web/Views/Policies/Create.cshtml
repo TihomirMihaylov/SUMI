@@ -19,7 +19,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
         <div class="col-md-6">
             <p class="withMargin font-weight-bold text-center">
                 Enter Vehicle Identification Number. If it doesn't exist in our system
-                <a asp-controller="Vehicles" asp-action="Create">click here</a> to add new vehicle
+                <a asp-area="Administrator" asp-controller="Vehicles" asp-action="Create">click here</a> to add new vehicle
             </p>
 
             <h2>
@@ -29,7 +29,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                 <a id="btnSearch" class="btn btn-primary">Search</a>
             </h2>
 
-            <div id="alert" class="text-danger">Vehicle doesn't exist. Please add new vehicle!</div>
+            <div id="alert" class="text-danger" style="display:none">Vehicle doesn't exist. Please add new vehicle!</div>
 
             <hr class="thick withMargin" />
 
@@ -99,7 +99,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             </p>
 
             <hr class="thick withMargin" />
-            <div id="confirmation" class="bg-warning">
+            <div id="confirmation" class="bg-warning" style="display:none">
                 Check all data carefully. Click "Create" if you are sure you want to continue. Click "Cancel" to go back!
             </div>
 
@@ -118,9 +118,6 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
 @section Scripts{
     <script>
         window.onload = function () {
-            $('#alert').hide();
-            $('#confirmation').hide();
-
             $('#btnSearch').click(function () {
                 $.ajax({
                     method: 'GET',

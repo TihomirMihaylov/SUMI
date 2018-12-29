@@ -1,0 +1,100 @@
+﻿@model SUMI.Web.ViewModels.Claims.ClaimCreateInputModel
+@{
+    ViewData["Title"] = "Create Claim";
+}
+
+<div class="row justify-content-center">
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr class="thick" />
+<form asp-controller="Claims" asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <p class="withMargin font-weight-bold text-center">
+                Enter Vehicle Identification Number. If it doesn't exist in our system
+                <a asp-area="Administrator" asp-controller="Vehicles" asp-action="Create">click here</a> to add new vehicle
+            </p>
+
+            <h2>
+                <label asp-for="VIN"></label>
+                <input asp-for="VIN" />
+                <span asp-validation-for="VIN" class="text-danger"></span>
+                <a id="btnSearch" class="btn btn-primary">Search</a>
+            </h2>
+
+            <hr class="thick withMargin" />
+
+            <div id="alertExistence" class="text-danger" style="display:none">Vehicle doesn't exist. Please add new vehicle!</div>
+            <div id="alertValidPolicy" class="text-danger" style="display:none">This vehicle doesn't have a valid policy!</div>
+
+            <input type="hidden" asp-for="VehicleId" />
+            <input type="hidden" asp-for="PolicyId" />
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Description" class="font-weight-bold">Date, place and description of the event that lead to the damages:</label>
+                <textarea class="form-control" asp-for="Description" placeholder="Write description here" rows="4"></textarea>
+            </div>
+
+            <hr class="thick withMargin" />
+
+            <div class="row justify-content-around withMargin">
+                <div class="col-2">
+                    <a class="btn btn-danger" href="/">Cancel</a>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
+            </div>
+
+            <div id="confirmation" class="withMargin" style="background-color: lightgreen; display:none">
+                <h5>Claim created successfully.</h5>
+                You can add a new claim or
+                <a asp-controller="Claims" asp-action="MyOpen">click here</a> 
+                to fill in the damages and send the claim for resolution.
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+         window.onload = function () {
+             $('#btnSearch').click(function () {
+                 $.ajax({
+                     method: 'GET',
+                     url: '/Vehicles/SearchByVin?vin=' + $('#VIN').val()
+                 }).then(function (data) {
+                     $('#alert').hide();
+                     $('#Make').val(data.make);
+                     $('#Model').val(data.model);
+                     $('#NumberPlate').val(data.numberPlate);
+                     $('#FirstRegistration').val(data.firstRegistration);
+                     $('#Type').val(data.type);
+                     $('#OwnerName').val(data.ownerName);
+                     $('#VehicleId').val(data.id)
+                     $('#ClientId').val(data.ownerId)
+                     })
+                     .catch(() => {
+                         $('#alert').show();
+                     });
+             });
+
+             $('#btnCalculate').click(function () {
+                 $.ajax({
+                     method: 'GET',
+                     url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,
+                 }).then(function (data) {
+                     $('#confirmation').hide();
+                     $('#Premium').val(data.premium);
+                 })
+                 .catch(() => {
+                     $('#confirmation').show();
+                 });
+             });
+         };
+    </script>
+}

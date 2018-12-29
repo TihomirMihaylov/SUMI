@@ -1,9 +1,7 @@
 ﻿namespace SUMI.Web.ViewModels.Policies
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
-    using AutoMapper;
     using SUMI.Data.Models;
     using SUMI.Services.Mapping;
 

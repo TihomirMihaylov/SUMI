@@ -95,7 +95,15 @@
         {
             return this.vehiclesRepo.All()
                 .Include(v => v.Owner)
+                .Include(v => v.Policies)
                 .FirstOrDefault(v => v.VIN == vin);
+        }
+
+        public string CheckForValidInsurance(Vehicle vehicle)
+        {
+            return vehicle.Policies
+                .FirstOrDefault(p => p.IsValid)
+                ?.Id;
         }
 
         private bool ClientExists(string universalCitizenNumber)
