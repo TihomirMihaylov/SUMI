@@ -1,6 +1,5 @@
 ﻿namespace SUMI.Web.ViewModels.Policies
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -54,18 +53,6 @@
         {
             configuration.CreateMap<Policy, PolicyDetailsViewModel>()
                 .ForMember(x => x.TotalSpent, x => x.MapFrom(p => p.Claims.Sum(c => c.TotalCost)));
-
-            // TO DO: CHECK THIS LATER
-            // configuration.CreateMap<Policy, PolicyDetailsViewModel>()
-            //   .ForMember(x => x.Comments, x =>
-            //       x.MapFrom(p =>
-            //           p.Comments.Where(c =>
-            //              !c.IsDeleted)));
-
-            // configuration.CreateMap<Policy, PolicyDetailsViewModel>()
-            //    .ForMember(x => x.Claims, x =>
-            //        x.MapFrom(p =>
-            //            p.Claims.Select(c => $"Claim N: 01600-SUMI-19-{c.Id} / {c.CreatedOn}")));
         }
     }
 }

@@ -18,5 +18,9 @@
         IList<InsuranceClaim> GetAllPendingClaims();
 
         IList<InsuranceClaim> GetAllResolvedClaims();
+
+        Task Delete(int id);
+
+        InsuranceClaim GetById(int id);
     }
 }

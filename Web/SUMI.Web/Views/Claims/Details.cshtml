@@ -1,0 +1,91 @@
+﻿@model SUMI.Web.ViewModels.Claims.ClaimDetailsViewModel
+@{
+    ViewData["Title"] = "Claim Details";
+}
+
+<div class="row justify-content-center">
+    <h2>Claim N: @GlobalConstants.ClaimStandardBegining@Model.Id</h2>
+</div>
+<hr class="thick" />
+
+
+<div class="row">
+    <div class="col col-md-6">
+        <div id="accordion">
+            <h3>Claim Data</h3>
+            <div>
+                <p><span class="font-weight-bold">Status: </span>@Model.Status</p>
+                <p><span class="font-weight-bold">Description: </span>@Model.Description</p>
+            </div>
+            <h3>Policy Data</h3>
+            <div>
+                <p><span class="font-weight-bold">InsuranceSum: </span>@Model.PolicyInsuranceSum</p>
+                <p><span class="font-weight-bold">Premium: </span>@Model.PolicyPremium</p>
+                <p><span class="font-weight-bold">Expiration date: </span>@Model.PolicyExpirationDate</p>
+            </div>
+            <h3>Vehicle Data</h3>
+            <div>
+                <p><span class="font-weight-bold">Make: </span>@Model.PolicyVehicleMake</p>
+                <p><span class="font-weight-bold">Model: </span>@Model.PolicyVehicleModel</p>
+                <p><span class="font-weight-bold">VIN: </span>@Model.PolicyVehicleVIN</p>
+                <p><span class="font-weight-bold">Number plate: </span>@Model.PolicyVehicleNumberPlate</p>
+                <p><span class="font-weight-bold">Date of first registration: </span>@Model.PolicyVehicleFirstRegistration.Substring(0, 12)</p>
+                <p><span class="font-weight-bold">Type: </span>@Model.PolicyVehicleType</p>
+            </div>
+            @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+            {
+                <h3>Comments</h3>
+                <div class="row withMargin">
+                    <partial name="_CommentsSection" />
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col col-md-6">
+        Right
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+            $("#accordion").accordion({
+                heightStyle: "content",
+                collapsible: true
+            });
+        });
+
+        window.onload = function () {
+            $('#btnComment').click(function () {
+                let text = $('#textArea').val();
+                let policyId = $('#policyId').val();
+                if (text != '') {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/Comments/Create',
+                        data: { text, policyId },
+                    }).then(() => {
+                        $('#textArea').val('');
+                        $('#commentConfirmation').hide();
+                        document.location.reload();
+                    })
+                        .catch(() => {
+                            $('#commentConfirmation').show();
+                        });
+                }
+            });
+
+            $('#comments > a').click(function (event) {
+                let id = event.target.getAttribute('comment-id');
+                $.ajax({
+                    method: 'POST',
+                    url: '/Comments/Delete',
+                    data: { id },
+                }).then(() => {
+                    document.location.reload();
+                })
+            });
+        };
+    </script>
+}

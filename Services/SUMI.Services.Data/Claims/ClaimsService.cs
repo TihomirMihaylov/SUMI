@@ -4,6 +4,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using SUMI.Data.Common.Repositories;
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
@@ -52,5 +54,19 @@
                 .Where(c => c.Status == ClaimStatus.Settled)
                 .OrderBy(c => c.CreatedOn)
                 .ToList();
+
+        public async Task Delete(int id)
+        {
+            var claimToDelete = await this.claimRepo.GetByIdAsync(id);
+            claimToDelete.IsDeleted = true;
+            await this.claimRepo.SaveChangesAsync();
+        }
+
+        public InsuranceClaim GetById(int id)
+            => this.claimRepo.All()
+                .Include(c => c.Comments).ThenInclude(c => c.Author)
+                .Include(c => c.Damages)
+                .Include(c => c.Policy).ThenInclude(p => p.Vehicle)
+                .FirstOrDefault(c => c.Id == id);
     }
 }

@@ -5,17 +5,12 @@
             @item.Text (@item.Author.FirstName @item.Author.LastName) --- @item.CreatedOn
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                @*<a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id">[x]</a>*@
                 <a href="#" comment-id="@item.Id">[x]</a>
             }
         </p>
     }
 
-    <div class="row">
-        <div class="col col-md-6 form-group">
-            <textarea class="form-control" id="textArea" name="text" placeholder="Enter your comment here:"></textarea>
-        </div>
-    </div>
+    <textarea class="form-control withMargin" id="textArea" name="text" placeholder="Enter your comment here:"></textarea>
     <button id="btnComment" class="btn btn-success btn-sm">Add comment</button>
-    <p id="commentConfirmation" class="text-danger">There was an error with your request. Comment was not added. Please try again</p>
+    <p id="commentConfirmation" class="text-danger" style="display:none">There was an error with your request. Comment was not added. Please try again</p>
 </div>

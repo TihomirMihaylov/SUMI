@@ -102,5 +102,18 @@
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.claimsService.Delete(id);
+            return this.RedirectToAction(nameof(this.MyOpen));
+        }
+
+        public IActionResult Details(int id)
+        {
+            var claim = this.claimsService.GetById(id);
+            var model = Mapper.Map<ClaimDetailsViewModel>(claim);
+            return this.View(model);
+        }
     }
 }
