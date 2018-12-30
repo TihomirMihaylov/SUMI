@@ -145,7 +145,7 @@
             if (!this.vehiclesService.VihicleExists(vin))
             {
                 bool vehicleExists = false;
-                return this.NotFound(new { vehicleExists });
+                return this.Json(new { vehicleExists });
             }
 
             var vehicle = this.vehiclesService.GetByVin(vin);
@@ -153,7 +153,7 @@
             if (string.IsNullOrWhiteSpace(policyId))
             {
                 bool isInsured = false;
-                return this.NotFound(new { isInsured });
+                return this.Json(new { isInsured });
             }
 
             return this.Json(new { VehicleId = vehicle.Id, PolicyId = policyId });
