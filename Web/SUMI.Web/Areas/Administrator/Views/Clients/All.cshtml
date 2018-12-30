@@ -1,11 +1,11 @@
-﻿@using X.PagedList
+﻿@using SUMI.Common
+@using X.PagedList
 @using X.PagedList.Mvc.Core
 @model IPagedList<SUMI.Web.Areas.Administrator.ViewModels.ClientsViewModel>
 @{
     ViewData["Title"] = "All Clients";
     int currentPage = ViewBag.CurrentPage;
-    int entriesPerPage = ViewBag.EntriesPerPage;
-    int count = (currentPage - 1) * entriesPerPage + 1;
+    int count = (currentPage - 1) * GlobalConstants.EntriesPerPage + 1;
 }
 
 <div class="container">

@@ -4,8 +4,7 @@
 @{
     ViewData["Title"] = "All active Policies";
     int currentPage = ViewBag.CurrentPage;
-    int entriesPerPage = ViewBag.EntriesPerPage;
-    int count = (currentPage - 1) * entriesPerPage + 1;
+    int count = (currentPage - 1) * GlobalConstants.EntriesPerPage + 1;
 }
 
 <h2>@ViewData["Title"]</h2>

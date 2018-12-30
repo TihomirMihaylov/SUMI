@@ -80,9 +80,7 @@
             // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
             int nextPage = page ?? 1;
             this.ViewBag.CurrentPage = nextPage;
-            int entriesPerPage = 10;
-            this.ViewBag.EntriesPerPage = entriesPerPage;
-            IPagedList<VehicleViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            IPagedList<VehicleViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 

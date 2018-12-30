@@ -19,5 +19,9 @@
         public const decimal MultiplierForTrucks = 0.6m;
 
         public const decimal MultiplierForMotorcycles = 1.5m;
+
+        public const string ClaimStandardBegining = "01600-SUMI-19-";
+
+        public const int EntriesPerPage = 10;
     }
 }

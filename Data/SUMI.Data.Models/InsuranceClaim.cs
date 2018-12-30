@@ -12,6 +12,8 @@
 
         public virtual Policy Policy { get; set; }
 
+        public string AgentId { get; set; }
+
         public string Description { get; set; }
 
         public decimal TotalCost { get => this.Damages.Sum(d => d.EstimatedCost); }

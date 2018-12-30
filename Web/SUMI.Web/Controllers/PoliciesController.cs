@@ -83,9 +83,7 @@
 
             int nextPage = page ?? 1;
             this.ViewBag.CurrentPage = nextPage;
-            int entriesPerPage = 10;
-            this.ViewBag.EntriesPerPage = entriesPerPage;
-            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
@@ -97,9 +95,7 @@
 
             int nextPage = page ?? 1;
             this.ViewBag.CurrentPage = nextPage;
-            int entriesPerPage = 10;
-            this.ViewBag.EntriesPerPage = entriesPerPage;
-            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
@@ -111,9 +107,7 @@
 
             int nextPage = page ?? 1;
             this.ViewBag.CurrentPage = nextPage;
-            int entriesPerPage = 10;
-            this.ViewBag.EntriesPerPage = entriesPerPage;
-            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, entriesPerPage);
+            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 

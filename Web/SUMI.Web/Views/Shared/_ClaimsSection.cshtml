@@ -1,5 +1,7 @@
 ﻿@{
     int count = 1;
+    string standardBegining = GlobalConstants.ClaimStandardBegining;
+    string dateFormatted = string.Empty;
 }
 
 @if (Model.Claims.Count == 0)
@@ -11,8 +13,9 @@ else
     <div class="list-group">
         @foreach (var item in Model.Claims)
         {
+            dateFormatted = item.CreatedOn.ToString().Substring(0, 12);
             <a class="list-group-item list-group-item-action" asp-controller="Claims" asp-action="Details" asp-route-id="@item.Id">
-                @count) Claim N: 01600-SUMI-19-{@item.Id} / {@item.CreatedOn}
+                @count) Claim N: @standardBegining@item.Id / @dateFormatted
             </a>
             count++;
         }
