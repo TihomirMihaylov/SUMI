@@ -4,6 +4,7 @@
     using System.Linq;
 
     using SUMI.Data.Common.Models;
+    using SUMI.Data.Models.Enums;
 
     public class InsuranceClaim : BaseDeletableModel<int>
     {
@@ -14,6 +15,8 @@
         public string Description { get; set; }
 
         public decimal TotalCost { get => this.Damages.Sum(d => d.EstimatedCost); }
+
+        public ClaimStatus Status { get; set; }
 
         public virtual ICollection<Damage> Damages { get; set; } = new HashSet<Damage>();
 

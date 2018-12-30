@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using SUMI.Common;
     using SUMI.Data.Models;
+    using SUMI.Data.Models.Enums;
     using SUMI.Services.Data.Claims;
     using SUMI.Services.Data.Policies;
     using SUMI.Web.ViewModels;
@@ -41,6 +42,7 @@
             }
 
             var newClaim = Mapper.Map<InsuranceClaim>(inputModel);
+            newClaim.Status = ClaimStatus.Open;
             await this.claimsService.Create(newClaim);
 
             return this.Redirect("/");
