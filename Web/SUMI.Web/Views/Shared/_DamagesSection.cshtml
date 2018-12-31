@@ -1,0 +1,43 @@
+﻿@{
+    int count = 1;
+}
+
+<h5 class="font-weight-bold">List of damages:</h5>
+@if (Model.Damages.Count == 0)
+{
+    <p class="font-italic">Currently there are no damages in this claim.</p>
+}
+else
+{
+
+}
+
+<div id="damagesContainer" class="container withMargin">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 4%">#</th>
+                <th scope="col" style="width: 56%">Damaged part</th>
+                <th scope="col" style="width: 16%">Severity</th>
+                <th scope="col" style="width: 24%">Estimated Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Damages)
+             {
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@item.PartName</td>
+                    <td>@item.Severity</td>
+                    <td>@item.EstimatedCost EUR</td>
+                </tr>
+                count++;
+             }
+        </tbody>
+    </table>
+    <h5 class="withMargin">Total cost: EUR</h5>
+</div>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+
+}

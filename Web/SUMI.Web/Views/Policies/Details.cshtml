@@ -48,7 +48,6 @@
             <div class="col col-md-6">
                 @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                 {
-                    <h5 class="font-weight-bold">Claims:</h5>
                     <partial name="_ClaimsSection" />
                 }
             </div>
