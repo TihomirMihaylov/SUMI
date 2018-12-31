@@ -1,6 +1,6 @@
 ﻿@model IPagedList<SUMI.Web.ViewModels.Policies.PolicyViewModel>
 @{
-    ViewData["Title"] = "My Issued Policies";
+    ViewData["Title"] = "All active Policies";
     int currentPage = ViewBag.CurrentPage;
     int count = (currentPage - 1) * GlobalConstants.EntriesPerPage + 1;
 }
@@ -9,7 +9,7 @@
 <hr class="withMargin" />
 @if (Model.Count == 0)
 {
-    <h4 class="font-italic">Currently you haven't issued any policies.</h4>
+    <h4 class="font-italic">Currently there are no active policies.</h4>
 }
 else
 {

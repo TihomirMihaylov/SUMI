@@ -1,6 +1,5 @@
 ﻿namespace SUMI.Web.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -80,30 +79,6 @@
             IList<Policy> myPolicies = this.policyService.GetMyPoliciesIssued(currentUser.Id);
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var model = myPolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
-
-            int nextPage = page ?? 1;
-            this.ViewBag.CurrentPage = nextPage;
-            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
-            return this.View(pagedViewModels);
-        }
-
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult AllActive(int? page)
-        {
-            var activePolicies = this.policyService.GetAllActivePolicies();
-            var model = activePolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
-
-            int nextPage = page ?? 1;
-            this.ViewBag.CurrentPage = nextPage;
-            IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
-            return this.View(pagedViewModels);
-        }
-
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult AllExpired(int? page)
-        {
-            var expiredPolicies = this.policyService.GetAllExpiredPolicies();
-            var model = expiredPolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
 
             int nextPage = page ?? 1;
             this.ViewBag.CurrentPage = nextPage;

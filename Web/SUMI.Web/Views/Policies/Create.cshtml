@@ -84,7 +84,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <div class="row">
                 <div class="col col-md-6 form-group">
                     <label asp-for="InsuranceSum"></label>
-                    <input asp-for="InsuranceSum" class="form-control" type="number" min="0" step="0.1"/>
+                    <input asp-for="InsuranceSum" class="form-control" type="number" min="0" step="0.1" readonly/>
                     <span asp-validation-for="InsuranceSum" class="text-danger"></span>
                 </div>
                 <div class="col col-md-6 form-group">
@@ -108,12 +108,13 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                     <a class="btn btn-danger" href="/">Cancel</a>
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-success">Create</button>
+                    <button id="btnCreate" type="submit" class="btn btn-success" disabled>Create</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
+<button id="btnReset" class="btn btn-secondary" disabled>Reset</button>
 
 @section Scripts{
     <script>
@@ -132,6 +133,9 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
                     $('#OwnerName').val(data.ownerName);
                     $('#VehicleId').val(data.id)
                     $('#ClientId').val(data.ownerId)
+                    $('#VIN').attr('readonly', true);
+                    $('#btnReset').removeAttr('disabled');
+                    $('#InsuranceSum').removeAttr('readonly');
                     })
                     .catch(() => {
                         $('#alert').show();
@@ -139,16 +143,28 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             });
 
             $('#btnCalculate').click(function () {
-                $.ajax({
-                    method: 'GET',
-                    url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,
-                }).then(function (data) {
-                    $('#confirmation').hide();
-                    $('#Premium').val(data.premium);
-                })
-                .catch(() => {
-                    $('#confirmation').show();
-                });
+                if ($('#InsuranceSum').val() != '') {
+                    $.ajax({
+                        method: 'GET',
+                        url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,
+                    }).then(function (data) {
+                        $('#confirmation').hide();
+                        $('#Premium').val(data.premium);
+                        $('#btnCreate').removeAttr('disabled');
+                        $('#InsuranceSum').attr('readonly', true);
+                    })
+                        .catch(() => {
+                            $('#confirmation').show();
+                        });
+                }
+            });
+
+            $('#btnReset').click(function () {
+                $('#VIN').removeAttr('readonly');
+                $('#InsuranceSum').attr('readonly', true);
+                $('#InsuranceSum').val('');
+                $('#btnCreate').attr('disabled', true);
+                $('#btnReset').attr('disabled', true);
             });
         };
     </script>

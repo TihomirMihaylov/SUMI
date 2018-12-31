@@ -32,6 +32,7 @@
         public IActionResult Create() => this.View();
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.ClientRoleName)]
         public async Task<IActionResult> Create(VehicleCreateInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
@@ -137,7 +138,6 @@
             return this.Json(viewModel);
         }
 
-        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public IActionResult GetInsuranceStatus(string vin)
         {
             if (!this.vehiclesService.VihicleExists(vin))

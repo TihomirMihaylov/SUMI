@@ -50,8 +50,8 @@
                         <a asp-controller="Policies" asp-action="MyIssuedPolicies" class="dropdown-item sumiColor">Policies issued in this office</a>
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a asp-controller="Policies" asp-action="AllActive" class="dropdown-item sumiColor">Active Policies</a>
-                            <a asp-controller="Policies" asp-action="AllExpired" class="dropdown-item sumiColor">Expired Policies</a>
+                            <a asp-area="Administrator" asp-controller="Policies" asp-action="AllActive" class="dropdown-item sumiColor">Active Policies</a>
+                            <a asp-area="Administrator" asp-controller="Policies" asp-action="AllExpired" class="dropdown-item sumiColor">Expired Policies</a>
                         }
                     }
                 </div>
