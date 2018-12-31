@@ -25,6 +25,13 @@
             await this.claimRepo.SaveChangesAsync();
         }
 
+        public IList<InsuranceClaim> GetMyClaims(string clientId)
+            => this.claimRepo.All()
+                .Include(c => c.Policy)
+                .Where(c => c.Policy.ClientId == clientId)
+                .OrderByDescending(c => c.CreatedOn)
+                .ToList();
+
         public IList<InsuranceClaim> GetMyOpenClaims(string agentId)
             => this.claimRepo.All()
                 .Where(c => c.AgentId == agentId && c.Status == ClaimStatus.Open)

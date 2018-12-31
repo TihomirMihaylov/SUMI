@@ -16,7 +16,7 @@
     using SUMI.Web.ViewModels.Claims;
     using X.PagedList;
 
-    [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+    [Authorize]
     public class ClaimsController : BaseController
     {
         private readonly IClaimsService claimsService;
@@ -33,6 +33,7 @@
         public IActionResult Create() => this.View();
 
         [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public async Task<IActionResult> Create(ClaimCreateInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
@@ -58,6 +59,22 @@
             // return this.RedirectToAction("Details", new { id });
         }
 
+        public async Task<IActionResult> MyClaims(int? page)
+        {
+            var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+#pragma warning disable SA1305 // Field names should not use Hungarian notation
+            var myClaims = this.claimsService.GetMyClaims(currentUser.ClientId);
+#pragma warning restore SA1305 // Field names should not use Hungarian notation
+            var model = myClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
+
+            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
+            int nextPage = page ?? 1;
+            this.ViewBag.CurrentPage = nextPage;
+            IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
+            return this.View(pagedViewModels);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public async Task<IActionResult> MyOpen(int? page)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
@@ -73,6 +90,7 @@
             return this.View(pagedViewModels);
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public async Task<IActionResult> MyPending(int? page)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
@@ -88,6 +106,7 @@
             return this.View(pagedViewModels);
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public async Task<IActionResult> MyResolved(int? page)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
@@ -103,6 +122,7 @@
             return this.View(pagedViewModels);
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public async Task<IActionResult> Delete(int id)
         {
             await this.claimsService.Delete(id);

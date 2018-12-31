@@ -22,7 +22,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string text, string policyId)
+        public async Task<IActionResult> Create(string text, string policyId, int? claimId)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
             var newPolicy = new Comment()
@@ -31,6 +31,14 @@
                 AuthorId = currentUser.Id,
                 PolicyId = policyId,
             };
+            if (policyId != null)
+            {
+                newPolicy.PolicyId = policyId;
+            }
+            else if (claimId != null)
+            {
+                newPolicy.ClaimId = claimId;
+            }
 
             await this.commentService.Create(newPolicy);
             return this.Ok();

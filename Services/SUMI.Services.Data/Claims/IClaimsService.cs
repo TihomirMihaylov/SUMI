@@ -9,6 +9,8 @@
     {
         Task Create(InsuranceClaim claim);
 
+        IList<InsuranceClaim> GetMyClaims(string clientId);
+
         IList<InsuranceClaim> GetMyOpenClaims(string agentId);
 
         IList<InsuranceClaim> GetMyPendingClaims(string agentId);

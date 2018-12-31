@@ -36,6 +36,7 @@
             {
                 <h3>Comments</h3>
                 <div class="row withMargin">
+                    <input id="claimId" type="hidden" value="@Model.Id" />
                     <partial name="_CommentsSection" />
                 </div>
             }
@@ -59,12 +60,12 @@
         window.onload = function () {
             $('#btnComment').click(function () {
                 let text = $('#textArea').val();
-                let policyId = $('#policyId').val();
+                let claimId = $('#claimId').val();
                 if (text != '') {
                     $.ajax({
                         method: 'POST',
                         url: '/Comments/Create',
-                        data: { text, policyId },
+                        data: { text, claimId },
                     }).then(() => {
                         $('#textArea').val('');
                         $('#commentConfirmation').hide();

@@ -5,34 +5,20 @@
 
     @if (this.User.Identity.IsAuthenticated)
     {
+
+
         <li class="nav-item">
             <div class="dropdown">
                 <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
-                    Vehicles
+                    Claims
                 </button>
                 <div class="dropdown-menu">
                     @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-controller="Vehicles" asp-action="Create" class="dropdown-item sumiColor">Add New Vehicle</a>
-                        <a asp-controller="Vehicles" asp-action="MyVehicles" class="dropdown-item sumiColor">My Vehicles</a>
+                        <a asp-controller="Claims" asp-action="MyClaims" class="dropdown-item sumiColor">My Claims</a>
                     }
                     @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
                     {
-                        <a asp-area="Administrator" asp-controller="Vehicles" asp-action="Create" class="dropdown-item sumiColor">Add New Vehicle</a>
-                        <a asp-controller="Vehicles" asp-action="All" class="dropdown-item sumiColor">All Vehicles</a>
-                    }
-                </div>
-            </div>
-        </li>
-
-        @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
-        {
-            <li class="nav-item">
-                <div class="dropdown">
-                    <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
-                        Claims
-                    </button>
-                    <div class="dropdown-menu">
                         <a asp-controller="Claims" asp-action="Create" class="dropdown-item sumiColor">Create New Claim</a>
                         <a asp-controller="Claims" asp-action="MyOpen" class="dropdown-item sumiColor">My Open Claims</a>
                         <a asp-controller="Claims" asp-action="MyPending" class="dropdown-item sumiColor">My Pending Claims</a>
@@ -43,10 +29,10 @@
                             <a asp-area="Administrator" asp-controller="Claims" asp-action="AllPending" class="dropdown-item sumiColor">All Pending Claims</a>
                             <a asp-area="Administrator" asp-controller="Claims" asp-action="AllResolved" class="dropdown-item sumiColor">All Resolved Claims</a>
                         }
-                    </div>
+                    }
                 </div>
-            </li>
-        }
+            </div>
+        </li>
 
         <li class="nav-item">
             <div class="dropdown">
@@ -86,5 +72,25 @@
                 </div>
             </li>
         }
+
+        <li class="nav-item">
+            <div class="dropdown">
+                <button type="button" class="nav-link btn btn-link dropdown-toggle border-0 font-weight-bold sumiColor" data-toggle="dropdown">
+                    Vehicles
+                </button>
+                <div class="dropdown-menu">
+                    @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
+                    {
+                        <a asp-controller="Vehicles" asp-action="Create" class="dropdown-item sumiColor">Add New Vehicle</a>
+                        <a asp-controller="Vehicles" asp-action="MyVehicles" class="dropdown-item sumiColor">My Vehicles</a>
+                    }
+                    @if (!this.User.IsInRole(GlobalConstants.ClientRoleName))
+                    {
+                        <a asp-area="Administrator" asp-controller="Vehicles" asp-action="Create" class="dropdown-item sumiColor">Add New Vehicle</a>
+                        <a asp-controller="Vehicles" asp-action="All" class="dropdown-item sumiColor">All Vehicles</a>
+                    }
+                </div>
+            </div>
+        </li>
     }
 </ul>
