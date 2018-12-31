@@ -4,12 +4,12 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-<div class="card text-center">
-    <div class="card-body">
+<div class="card">
+    <div class="card-body text-center">
         <h3 class="card-title withMargin">@Model.Make</h3>
         <div class="row justify-content-around">
             <div class="col-md-4"><span class="font-weight-bold mr-2">Model:</span>@Model.Model</div>
-            <div class="col-md-4"><span class="font-weight-bold mr-2">VIN:</span>@Model.VIN</div>
+            <div id="vin" class="col-md-4"><span class="font-weight-bold mr-2">VIN:</span>@Model.VIN</div>
             <div class="col-md-4"><span class="font-weight-bold mr-2">Date of first registration:</span>@Model.FirstRegistration.Substring(0, 12)</div>
         </div>
         <div class="row">
@@ -18,7 +18,7 @@
             <div class="col-md-4"><span class="font-weight-bold mr-2">Owner:</span>@Model.OwnerName</div>
         </div>
     </div>
-    <div class="card-footer text-muted">
+    <div class="card-footer text-muted row justify-content-around">
         @if (this.User.IsInRole(GlobalConstants.ClientRoleName))
         {
             <a asp-controller="Vehicles" asp-action="MyVehicles" class="btn btn-primary">Back</a>
@@ -27,5 +27,33 @@
         {
             <a asp-controller="Vehicles" asp-action="All" class="btn btn-primary">Back</a>
         }
+
+        <button id="btnGetStatus" class="btn btn-secondary">Get Insurance Status</button>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        window.onload = function () {
+            let btnGetStatus = $('#btnGetStatus');
+            btnGetStatus.click(function () {
+                let vin = $('#vin').text().substr(4);
+                $.ajax({
+                    method: 'GET',
+                    url: '/Vehicles/GetInsuranceStatus?vin=' + vin
+                }).done(function (data) {
+                    if (data["policyId"] != undefined) {
+                        btnGetStatus.text('Insured');
+                        btnGetStatus.addClass('btn-success');
+                        btnGetStatus.attr('disabled', true);
+                    }
+                    else {
+                        btnGetStatus.text('Not Insured');
+                        btnGetStatus.addClass('btn-danger');
+                        btnGetStatus.attr('disabled', true);
+                    }
+                })
+            });
+        };
+    </script>
+}
