@@ -5,6 +5,7 @@
 
     using AutoMapper;
     using SUMI.Data.Models;
+    using SUMI.Data.Models.Enums;
     using SUMI.Services.Mapping;
 
     public class PolicyDetailsViewModel : IMapFrom<Policy>, IHaveCustomMappings
@@ -52,7 +53,12 @@
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Policy, PolicyDetailsViewModel>()
-                .ForMember(x => x.TotalSpent, x => x.MapFrom(p => p.Claims.Sum(c => c.TotalCost)));
+                .ForMember(
+                    x => x.TotalSpent,
+                    x => x.MapFrom(
+                        p => p.Claims
+                              .Where(c => c.Status == ClaimStatus.Settled)
+                              .Sum(c => c.TotalCost)));
         }
     }
 }

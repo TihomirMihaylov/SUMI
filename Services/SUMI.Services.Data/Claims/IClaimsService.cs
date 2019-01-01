@@ -24,5 +24,9 @@
         Task Delete(int id);
 
         InsuranceClaim GetById(int id);
+
+        Task ChangeStatusToPending(int id);
+
+        Task ChangeStatusToSettled(int id);
     }
 }

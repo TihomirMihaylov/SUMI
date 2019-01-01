@@ -53,10 +53,8 @@
             newClaim.AgentId = currentUser.Id;
             await this.claimsService.Create(newClaim);
 
-            return this.Redirect("/");
-
-            // int id = newClaim.Id;
-            // return this.RedirectToAction("Details", new { id });
+            int id = newClaim.Id;
+            return this.RedirectToAction("Details", new { id });
         }
 
         public async Task<IActionResult> MyClaims(int? page)
@@ -134,6 +132,13 @@
             var claim = this.claimsService.GetById(id);
             var model = Mapper.Map<ClaimDetailsViewModel>(claim);
             return this.View(model);
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
+        public async Task<IActionResult> Send(int id)
+        {
+            await this.claimsService.ChangeStatusToPending(id);
+            return this.Redirect("/");
         }
     }
 }

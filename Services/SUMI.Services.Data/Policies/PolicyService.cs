@@ -95,7 +95,7 @@
         public Policy GetById(string id)
             => this.policyRepo.All()
                 .Include(p => p.Agent)
-                .Include(p => p.Claims)
+                .Include(p => p.Claims).ThenInclude(c => c.Damages)
                 .Include(p => p.Client)
                 .Include(p => p.Comments).ThenInclude(c => c.Author)
                 .Include(p => p.Vehicle)

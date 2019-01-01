@@ -20,15 +20,20 @@ else
             <thead>
                 <tr>
                     <th scope="col" style="width: 4%">#</th>
-                    <th scope="col" style="width: 56%">Damaged part</th>
-                    <th scope="col" style="width: 16%">Severity</th>
-                    <th scope="col" style="width: 24%">Estimated Cost</th>
+                    <th scope="col" style="width: 30%">Damaged part</th>
+                    <th scope="col" style="width: 10%">Severity</th>
+                    <th scope="col" style="width: 16%">Cost</th>
                     @if (Model.Status == "Open")
                     {
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
                         {
                             <th scope="col" style="width: 10%">Delete</th>
                         }
+                    }
+
+                    @if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <th scope="col" style="width: 22%">Estimate</th>
                     }
                 </tr>
             </thead>
@@ -47,6 +52,22 @@ else
                                 <td><a asp-controller="Damages" asp-action="Delete" asp-route-id="@item.Id">[x]</a></td>
                             }
                         }
+
+                        @if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName) && !item.IsSettled)
+                        {
+                            <td>
+                                <form asp-area="Administrator" asp-controller="Damages" asp-action="Settle" method="post">
+                                    <input type="hidden" name="ClaimId" value="@item.ClaimId" />
+                                    <input type="hidden" name="DamageId" value="@item.Id" />
+                                    <div class="row">
+                                        <div class="col col-md-12 form-group">
+                                            <input class="form-control" name="EstimatedCost" type="number" min="0" step="0.01" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                </form>
+                            </td>
+                        }
                     </tr>
                     count++;
                 }
@@ -61,7 +82,7 @@ else
     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
     {
         <form asp-controller="Damages" asp-action="Add" method="post">
-            <input type="hidden" name="ClaimId" value="@Model.Id"/>
+            <input type="hidden" name="ClaimId" value="@Model.Id" />
             <div class="row border border-dark">
                 <div class="col col-md-6 form-group withMargin">
                     <label for="partName">Part name</label>
@@ -74,5 +95,18 @@ else
                 </div>
             </div>
         </form>
+        @if (Model.Damages.Count > 0)
+        {
+            <div class="withMargin text-center">
+                <a asp-controller="Claims" asp-action="Send" asp-route-id="@Model.Id" class="btn btn-success">Send</a>
+            </div>
+        }
     }
+}
+
+@if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <div class="withMargin text-center">
+        <a asp-area="Administrator" asp-controller="Claims" asp-action="Resolve" asp-route-id="@Model.Id" class="btn btn-success">Settle claim</a>
+    </div>
 }

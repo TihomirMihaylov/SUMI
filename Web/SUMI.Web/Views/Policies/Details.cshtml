@@ -36,7 +36,7 @@
                 <input id="policyId" type="hidden" value="@Model.Id" />
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <h5 class="withMargin">Total amount spend on damages: @Model.TotalSpent EUR</h5>
+                    <h5 class="withMargin">Total amount spent on damages: @Model.TotalSpent EUR</h5>
                     if (Model.IsValid)
                     {
                         <btn type="button" id="btnTerminate" class="btn btn-danger btn-sm">Terminate Policy</btn>

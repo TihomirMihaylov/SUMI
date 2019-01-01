@@ -14,7 +14,7 @@
             this.damageRepo = damageRepo;
         }
 
-        public async Task Add(Damage damage)
+        public async Task AddDamage(Damage damage)
         {
             this.damageRepo.Add(damage);
             await this.damageRepo.SaveChangesAsync();
@@ -31,6 +31,17 @@
             }
 
             return -1;
+        }
+
+        public async Task SettleDamage(int id, decimal estimatedCost)
+        {
+            var damage = await this.damageRepo.GetByIdAsync(id);
+            if (damage != null)
+            {
+                damage.EstimatedCost = estimatedCost;
+                damage.IsSettled = true;
+                await this.damageRepo.SaveChangesAsync();
+            }
         }
     }
 }

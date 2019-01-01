@@ -1,6 +1,7 @@
 ﻿namespace SUMI.Web.Areas.Administrator.Controllers
 {
     using System.Linq;
+    using System.Threading.Tasks;
 
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,12 @@
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
+        }
+
+        public async Task<IActionResult> Resolve(int id)
+        {
+            await this.claimsService.ChangeStatusToSettled(id);
+            return this.RedirectToAction(nameof(this.AllPending));
         }
     }
 }

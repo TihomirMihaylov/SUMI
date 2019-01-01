@@ -74,5 +74,19 @@
                 .Include(c => c.Damages)
                 .Include(c => c.Policy).ThenInclude(p => p.Vehicle)
                 .FirstOrDefault(c => c.Id == id);
+
+        public async Task ChangeStatusToPending(int id)
+        {
+            var claimToModify = await this.claimRepo.GetByIdAsync(id);
+            claimToModify.Status = ClaimStatus.Pending;
+            await this.claimRepo.SaveChangesAsync();
+        }
+
+        public async Task ChangeStatusToSettled(int id)
+        {
+            var claimToModify = await this.claimRepo.GetByIdAsync(id);
+            claimToModify.Status = ClaimStatus.Settled;
+            await this.claimRepo.SaveChangesAsync();
+        }
     }
 }

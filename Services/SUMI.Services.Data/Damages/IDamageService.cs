@@ -6,8 +6,10 @@
 
     public interface IDamageService
     {
-        Task Add(Damage damage);
+        Task AddDamage(Damage damage);
 
         Task<int> RemoveDamage(int id);
+
+        Task SettleDamage(int id, decimal estimatedCost);
     }
 }
