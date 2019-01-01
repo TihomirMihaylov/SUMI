@@ -1,11 +1,9 @@
 ﻿namespace SUMI.Web.ViewModels.Vehicles
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
     using SUMI.Services.Mapping;

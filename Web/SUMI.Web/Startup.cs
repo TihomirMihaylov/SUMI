@@ -24,6 +24,7 @@
     using SUMI.Services.Data.Claims;
     using SUMI.Services.Data.Clients;
     using SUMI.Services.Data.Comments;
+    using SUMI.Services.Data.Damages;
     using SUMI.Services.Data.Policies;
     using SUMI.Services.Data.Users;
     using SUMI.Services.Data.Vehicles;
@@ -109,6 +110,7 @@
             services.AddTransient<IPolicyService, PolicyService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IClaimsService, ClaimsService>();
+            services.AddTransient<IDamageService, DamageService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -24,6 +24,11 @@
         [HttpPost]
         public async Task<IActionResult> Create(string text, string policyId, int? claimId)
         {
+            if (string.IsNullOrWhiteSpace(text) || (string.IsNullOrWhiteSpace(policyId) && claimId == null))
+            {
+                return this.BadRequest();
+            }
+
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
             var newPolicy = new Comment()
             {

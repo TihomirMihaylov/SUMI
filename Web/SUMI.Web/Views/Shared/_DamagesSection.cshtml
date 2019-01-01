@@ -1,5 +1,11 @@
 ﻿@{
     int count = 1;
+    var severityOptions = new List<SelectListItem>
+{
+new SelectListItem { Value = "1", Text = "Low" },
+new SelectListItem { Value = "2", Text = "Medium" },
+new SelectListItem { Value = "3", Text = "High"  },
+};
 }
 
 <h5 class="font-weight-bold">List of damages:</h5>
@@ -9,35 +15,64 @@
 }
 else
 {
-
+    <div id="damagesContainer" class="container withMargin">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 4%">#</th>
+                    <th scope="col" style="width: 56%">Damaged part</th>
+                    <th scope="col" style="width: 16%">Severity</th>
+                    <th scope="col" style="width: 24%">Estimated Cost</th>
+                    @if (Model.Status == "Open")
+                    {
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
+                        {
+                            <th scope="col" style="width: 10%">Delete</th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Damages)
+                {
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@item.PartName</td>
+                        <td>@item.Severity</td>
+                        <td>@item.EstimatedCost EUR</td>
+                        @if (Model.Status == "Open")
+                        {
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
+                            {
+                                <td><a asp-controller="Damages" asp-action="Delete" asp-route-id="@item.Id">[x]</a></td>
+                            }
+                        }
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+        <h5 class="withMargin">Total cost: @Model.TotalCost EUR</h5>
+    </div>
 }
 
-<div id="damagesContainer" class="container withMargin">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th scope="col" style="width: 4%">#</th>
-                <th scope="col" style="width: 56%">Damaged part</th>
-                <th scope="col" style="width: 16%">Severity</th>
-                <th scope="col" style="width: 24%">Estimated Cost</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Damages)
-             {
-                <tr>
-                    <th scope="row">@count</th>
-                    <td>@item.PartName</td>
-                    <td>@item.Severity</td>
-                    <td>@item.EstimatedCost EUR</td>
-                </tr>
-                count++;
-             }
-        </tbody>
-    </table>
-    <h5 class="withMargin">Total cost: EUR</h5>
-</div>
-@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+@if (Model.Status == "Open")
 {
-
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
+    {
+        <form asp-controller="Damages" asp-action="Add" method="post">
+            <input type="hidden" name="ClaimId" value="@Model.Id"/>
+            <div class="row border border-dark">
+                <div class="col col-md-6 form-group withMargin">
+                    <label for="partName">Part name</label>
+                    <input name="partName" placeholder="Part name" class="form-control" />
+                </div>
+                <div class="col col-md-6 form-group withMargin">
+                    <label for="severity">Severity</label>
+                    <select name="severity" asp-items="@severityOptions"></select>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    }
 }
