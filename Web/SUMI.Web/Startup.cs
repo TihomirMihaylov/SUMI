@@ -109,7 +109,7 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPolicyService, PolicyService>();
             services.AddTransient<ICommentService, CommentService>();
-            services.AddTransient<IClaimsService, ClaimsService>();
+            services.AddTransient<IClaimService, ClaimService>();
             services.AddTransient<IDamageService, DamageService>();
         }
 

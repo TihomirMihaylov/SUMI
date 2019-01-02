@@ -53,7 +53,7 @@
             $("#accordion").accordion({
                 heightStyle: "content",
                 collapsible: true
-            });           
+            }); 
         });
 
         window.onload = function () {
@@ -85,6 +85,28 @@
                 }).then(() => {
                     document.location.reload();
                 })
+            });
+
+            let progress = $('#progress').val();
+            if (progress >= 70) {
+                $('#totalLossInfo').show();
+                $('#settleClaimDiv').hide();
+                $('.toBeDisabled').attr('disabled', true);
+            }
+
+            $('#btnTotalLoss').click(function () {
+                let policyId = $('#policyId').val();
+                $.ajax({
+                    method: 'GET',
+                    url: '/Administrator/Policies/TotalLoss',
+                    data: { policyId },
+                }).then(() => {
+                    alert('Policy and all its claims have been terminated successfully.');
+                    document.location.reload();
+                })
+                    .catch(() => {
+                        $('#terminationStatus').text('There was an error with your request.').show();
+                    });
             });
         };
     </script>

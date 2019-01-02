@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using SUMI.Common;
+    using SUMI.Services.Data.Claims;
     using SUMI.Services.Data.Policies;
     using SUMI.Web.Controllers;
     using SUMI.Web.ViewModels.Policies;
@@ -17,10 +18,12 @@
     public class PoliciesController : BaseController
     {
         private readonly IPolicyService policyService;
+        private readonly IClaimService claimService;
 
-        public PoliciesController(IPolicyService policyService)
+        public PoliciesController(IPolicyService policyService, IClaimService claimService)
         {
             this.policyService = policyService;
+            this.claimService = claimService;
         }
 
         public IActionResult AllActive(int? page)
@@ -51,6 +54,23 @@
             if (!result)
             {
                 return this.NotFound();
+            }
+
+            return this.Ok();
+        }
+
+        public async Task<IActionResult> TotalLoss(string policyId)
+        {
+            var result = await this.policyService.TerminatePolicy(policyId);
+            if (!result)
+            {
+                return this.NotFound();
+            }
+
+            var unsettledClaims = this.claimService.GetAllUnsettledByPolicyOd(policyId);
+            foreach (var claim in unsettledClaims)
+            {
+                await this.claimService.ChangeStatusToSettled(claim.Id);
             }
 
             return this.Ok();

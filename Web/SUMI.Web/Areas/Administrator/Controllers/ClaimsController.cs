@@ -16,9 +16,9 @@
     [Area("Administrator")]
     public class ClaimsController : BaseController
     {
-        private readonly IClaimsService claimsService;
+        private readonly IClaimService claimsService;
 
-        public ClaimsController(IClaimsService claimsService)
+        public ClaimsController(IClaimService claimsService)
         {
             this.claimsService = claimsService;
         }

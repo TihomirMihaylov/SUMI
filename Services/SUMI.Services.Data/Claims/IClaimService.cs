@@ -5,7 +5,7 @@
 
     using SUMI.Data.Models;
 
-    public interface IClaimsService
+    public interface IClaimService
     {
         Task Create(InsuranceClaim claim);
 
@@ -28,5 +28,7 @@
         Task ChangeStatusToPending(int id);
 
         Task ChangeStatusToSettled(int id);
+
+        IList<InsuranceClaim> GetAllUnsettledByPolicyOd(string policyId);
     }
 }

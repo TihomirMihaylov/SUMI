@@ -1,11 +1,11 @@
 ﻿@{
     int count = 1;
     var severityOptions = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "1", Text = "Low" },
-        new SelectListItem { Value = "2", Text = "Medium" },
-        new SelectListItem { Value = "3", Text = "High"  },
-    };
+{
+new SelectListItem { Value = "1", Text = "Low" },
+new SelectListItem { Value = "2", Text = "Medium" },
+new SelectListItem { Value = "3", Text = "High"  },
+};
 
     decimal sumOfDamages = Model.TotalSpent;
     decimal progress = (sumOfDamages / Model.PolicyInsuranceSum) * 100;
@@ -28,8 +28,14 @@
 
 @if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <p>Total spent: @sumOfDamages</p>
-    <div class="withMargin" style="width:@progress%; background-color:@color">@progress.ToString("f2")%</div>
+    <input type="hidden" id="progress" value="@progress" />
+    <input type="hidden" id="policyId" value="@Model.PolicyId" />
+    <div class="withMargin" style="width:@progress%; height:40px; background-color:@color">@progress.ToString("f2")%</div>
+    <div id="totalLossInfo" class="text-center withMargin" style="display:none">
+        <h3 class="text-danger">Attention! This vehicle is a total loss!</h3>
+        <button id="btnTotalLoss" class="btn btn-danger">Total Loss</button>
+        <p id="terminationStatus" class="text-danger"></p>
+    </div>
 }
 
 <h5 class="font-weight-bold">List of damages:</h5>
@@ -79,10 +85,10 @@ else
                                     <input type="hidden" name="DamageId" value="@item.Id" />
                                     <div class="row">
                                         <div class="col col-md-12 form-group">
-                                            <input class="form-control" name="EstimatedCost" type="number" min="0" step="0.01" />
+                                            <input class="form-control  toBeDisabled" name="EstimatedCost" type="number" min="0" step="0.01" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                    <button type="submit" class="btn btn-primary btn-sm toBeDisabled">Save</button>
                                 </form>
                             </td>
                         }
@@ -122,7 +128,7 @@ else
 
 @if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <div class="withMargin text-center">
+    <div id="settleClaimDiv" class="withMargin text-center">
         <a asp-area="Administrator" asp-controller="Claims" asp-action="Resolve" asp-route-id="@Model.Id" class="btn btn-success">Settle claim</a>
     </div>
 }

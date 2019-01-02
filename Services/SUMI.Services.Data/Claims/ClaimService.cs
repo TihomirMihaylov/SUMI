@@ -9,11 +9,11 @@
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
 
-    public class ClaimsService : IClaimsService
+    public class ClaimService : IClaimService
     {
         private readonly IDeletableEntityRepository<InsuranceClaim> claimRepo;
 
-        public ClaimsService(IDeletableEntityRepository<InsuranceClaim> claimRepo)
+        public ClaimService(IDeletableEntityRepository<InsuranceClaim> claimRepo)
         {
             this.claimRepo = claimRepo;
         }
@@ -89,5 +89,9 @@
             claimToModify.Status = ClaimStatus.Settled;
             await this.claimRepo.SaveChangesAsync();
         }
+
+        public IList<InsuranceClaim> GetAllUnsettledByPolicyOd(string policyId)
+            => this.claimRepo.All()
+               .Where(c => c.PolicyId == policyId && c.Status != ClaimStatus.Settled).ToList();
     }
 }

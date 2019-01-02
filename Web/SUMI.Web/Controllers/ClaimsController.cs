@@ -20,12 +20,12 @@
     [Authorize]
     public class ClaimsController : BaseController
     {
-        private readonly IClaimsService claimsService;
+        private readonly IClaimService claimsService;
         private readonly IPolicyService policyService;
         private readonly IDamageService damageService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ClaimsController(IClaimsService claimsService, IPolicyService policyService, IDamageService damageService, UserManager<ApplicationUser> userManager)
+        public ClaimsController(IClaimService claimsService, IPolicyService policyService, IDamageService damageService, UserManager<ApplicationUser> userManager)
         {
             this.claimsService = claimsService;
             this.policyService = policyService;

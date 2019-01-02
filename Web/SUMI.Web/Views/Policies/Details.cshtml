@@ -1,4 +1,4 @@
-﻿@model SUMI.Web.ViewModels.Policies.PolicyDetailsViewModel
+﻿    @model SUMI.Web.ViewModels.Policies.PolicyDetailsViewModel
 @{
     ViewData["Title"] = "Policy Details";
     string status = Model.IsValid ? "Valid" : "Invalid";
@@ -36,7 +36,7 @@
                 <input id="policyId" type="hidden" value="@Model.Id" />
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    <h5 class="withMargin">Total amount spent on damages: @Model.TotalSpent EUR</h5>
+                    <h5 class="withMargin">Total amount of damages: @Model.TotalSpent EUR</h5>
                     if (Model.IsValid)
                     {
                         <btn type="button" id="btnTerminate" class="btn btn-danger btn-sm">Terminate Policy</btn>
@@ -103,7 +103,7 @@
                     $('#statusInvalid').show();
                 })
                     .catch(() => {
-                        statusParagraph.text('There was an error with your request.').hide();
+                        statusParagraph.text('There was an error with your request.').show();
                     });
             });
 
