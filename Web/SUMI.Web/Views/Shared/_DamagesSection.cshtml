@@ -1,11 +1,35 @@
 ﻿@{
     int count = 1;
     var severityOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "1", Text = "Low" },
+        new SelectListItem { Value = "2", Text = "Medium" },
+        new SelectListItem { Value = "3", Text = "High"  },
+    };
+
+    decimal sumOfDamages = Model.TotalSpent;
+    decimal progress = (sumOfDamages / Model.PolicyInsuranceSum) * 100;
+    string color = "lightgreen";
+    decimal tarriff = (Model.PolicyPremium / Model.PolicyInsuranceSum) * 100;
+    if (progress > tarriff && progress < 40)
+    {
+        color = "yellow";
+    }
+    else if (progress >= 40 && progress < 70)
+    {
+        color = "orange";
+    }
+    else if (progress >= 70)
+    {
+        color = "red";
+    }
+
+}
+
+@if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-new SelectListItem { Value = "1", Text = "Low" },
-new SelectListItem { Value = "2", Text = "Medium" },
-new SelectListItem { Value = "3", Text = "High"  },
-};
+    <p>Total spent: @sumOfDamages</p>
+    <div class="withMargin" style="width:@progress%; background-color:@color">@progress.ToString("f2")%</div>
 }
 
 <h5 class="font-weight-bold">List of damages:</h5>
@@ -23,12 +47,9 @@ else
                     <th scope="col" style="width: 30%">Damaged part</th>
                     <th scope="col" style="width: 10%">Severity</th>
                     <th scope="col" style="width: 16%">Cost</th>
-                    @if (Model.Status == "Open")
+                    @if (Model.Status == "Open" && (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName)))
                     {
-                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
-                        {
-                            <th scope="col" style="width: 10%">Delete</th>
-                        }
+                        <th scope="col" style="width: 10%">Delete</th>
                     }
 
                     @if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -45,12 +66,9 @@ else
                         <td>@item.PartName</td>
                         <td>@item.Severity</td>
                         <td>@item.EstimatedCost EUR</td>
-                        @if (Model.Status == "Open")
+                        @if (Model.Status == "Open" && (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName)))
                         {
-                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
-                            {
-                                <td><a asp-controller="Damages" asp-action="Delete" asp-route-id="@item.Id">[x]</a></td>
-                            }
+                            <td><a asp-controller="Damages" asp-action="Delete" asp-route-id="@item.Id">[x]</a></td>
                         }
 
                         @if (Model.Status == "Pending" && this.User.IsInRole(GlobalConstants.AdministratorRoleName) && !item.IsSettled)
@@ -77,30 +95,28 @@ else
     </div>
 }
 
-@if (Model.Status == "Open")
+@if (Model.Status == "Open" && (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName)))
 {
-    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.AgentRoleName))
+    <form asp-controller="Damages" asp-action="Add" method="post">
+        <input type="hidden" name="ClaimId" value="@Model.Id" />
+        <input type="hidden" name="PolicyId" value="@Model.PolicyId" />
+        <div class="row border border-dark">
+            <div class="col col-md-6 form-group withMargin">
+                <label for="partName">Part name</label>
+                <input name="partName" placeholder="Part name" class="form-control" />
+            </div>
+            <div class="col col-md-6 form-group withMargin">
+                <label for="severity">Severity</label>
+                <select name="severity" asp-items="@severityOptions"></select>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+    @if (Model.Damages.Count > 0)
     {
-        <form asp-controller="Damages" asp-action="Add" method="post">
-            <input type="hidden" name="ClaimId" value="@Model.Id" />
-            <div class="row border border-dark">
-                <div class="col col-md-6 form-group withMargin">
-                    <label for="partName">Part name</label>
-                    <input name="partName" placeholder="Part name" class="form-control" />
-                </div>
-                <div class="col col-md-6 form-group withMargin">
-                    <label for="severity">Severity</label>
-                    <select name="severity" asp-items="@severityOptions"></select>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </form>
-        @if (Model.Damages.Count > 0)
-        {
-            <div class="withMargin text-center">
-                <a asp-controller="Claims" asp-action="Send" asp-route-id="@Model.Id" class="btn btn-success">Send</a>
-            </div>
-        }
+        <div class="withMargin text-center">
+            <a asp-controller="Claims" asp-action="Send" asp-route-id="@Model.Id" class="btn btn-success">Send</a>
+        </div>
     }
 }
 

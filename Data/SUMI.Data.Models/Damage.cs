@@ -16,5 +16,7 @@
         public int ClaimId { get; set; }
 
         public virtual InsuranceClaim Claim { get; set; }
+
+        public string PolicyId { get; set; }
     }
 }

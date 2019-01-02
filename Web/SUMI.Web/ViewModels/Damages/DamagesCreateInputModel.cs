@@ -21,6 +21,9 @@
         [Required]
         public int ClaimId { get; set; }
 
+        [Required]
+        public string PolicyId { get; set; }
+
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<DamagesCreateInputModel, Damage>()

@@ -1,5 +1,6 @@
 ﻿namespace SUMI.Services.Data.Damages
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using SUMI.Data.Common.Repositories;
@@ -43,5 +44,10 @@
                 await this.damageRepo.SaveChangesAsync();
             }
         }
+
+        public decimal GetTotalAmountSpentForPolicy(string policyId)
+            => this.damageRepo.All()
+                .Where(d => d.PolicyId == policyId)
+                .Sum(d => d.EstimatedCost);
     }
 }

@@ -58,7 +58,7 @@
         public IList<InsuranceClaim> GetAllResolvedClaims()
             => this.claimRepo.All()
                 .Where(c => c.Status == ClaimStatus.Settled)
-                .OrderBy(c => c.CreatedOn)
+                .OrderByDescending(c => c.CreatedOn)
                 .ToList();
 
         public async Task Delete(int id)
@@ -73,6 +73,7 @@
                 .Include(c => c.Comments).ThenInclude(c => c.Author)
                 .Include(c => c.Damages)
                 .Include(c => c.Policy).ThenInclude(p => p.Vehicle)
+                .Include(c => c.Policy).ThenInclude(p => p.Claims)
                 .FirstOrDefault(c => c.Id == id);
 
         public async Task ChangeStatusToPending(int id)

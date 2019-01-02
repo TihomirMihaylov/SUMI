@@ -11,6 +11,7 @@
     using SUMI.Data.Models;
     using SUMI.Data.Models.Enums;
     using SUMI.Services.Data.Claims;
+    using SUMI.Services.Data.Damages;
     using SUMI.Services.Data.Policies;
     using SUMI.Web.ViewModels;
     using SUMI.Web.ViewModels.Claims;
@@ -21,12 +22,14 @@
     {
         private readonly IClaimsService claimsService;
         private readonly IPolicyService policyService;
+        private readonly IDamageService damageService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ClaimsController(IClaimsService claimsService, IPolicyService policyService, UserManager<ApplicationUser> userManager)
+        public ClaimsController(IClaimsService claimsService, IPolicyService policyService, IDamageService damageService, UserManager<ApplicationUser> userManager)
         {
             this.claimsService = claimsService;
             this.policyService = policyService;
+            this.damageService = damageService;
             this.userManager = userManager;
         }
 
@@ -131,6 +134,8 @@
         {
             var claim = this.claimsService.GetById(id);
             var model = Mapper.Map<ClaimDetailsViewModel>(claim);
+            var totalSpentForThisPolicy = this.damageService.GetTotalAmountSpentForPolicy(claim.PolicyId);
+            model.TotalSpent = totalSpentForThisPolicy;
             return this.View(model);
         }
 

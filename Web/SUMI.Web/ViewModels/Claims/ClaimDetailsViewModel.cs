@@ -15,6 +15,8 @@
 
         public string Status { get; set; }
 
+        public string PolicyId { get; set; }
+
         public decimal PolicyPremium { get; set; }
 
         public decimal PolicyInsuranceSum { get; set; }
@@ -38,5 +40,7 @@
         public List<Damage> Damages { get; set; }
 
         public decimal TotalCost { get; set; }
+
+        public decimal TotalSpent { get; set; }
     }
 }

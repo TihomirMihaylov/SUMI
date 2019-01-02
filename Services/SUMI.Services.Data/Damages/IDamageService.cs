@@ -11,5 +11,7 @@
         Task<int> RemoveDamage(int id);
 
         Task SettleDamage(int id, decimal estimatedCost);
+
+        decimal GetTotalAmountSpentForPolicy(string policyId);
     }
 }
