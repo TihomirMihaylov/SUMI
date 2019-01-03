@@ -11,5 +11,7 @@
         Task<string> GetClient(string firstName, string lastName, string universalCitizenNumber, DateTime birthday);
 
         IList<Client> GetAll();
+
+        Task<string> GetNewClientId(Client client);
     }
 }

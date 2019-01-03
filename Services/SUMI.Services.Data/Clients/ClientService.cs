@@ -11,16 +11,16 @@
 
     public class ClientService : IClientService
     {
-        private readonly IDeletableEntityRepository<Client> repository;
+        private readonly IDeletableEntityRepository<Client> clientsRepo;
 
-        public ClientService(IDeletableEntityRepository<Client> repository)
+        public ClientService(IDeletableEntityRepository<Client> clientsRepo)
         {
-            this.repository = repository;
+            this.clientsRepo = clientsRepo;
         }
 
         public async Task<string> GetClient(string firstName, string lastName, string universalCitizenNumber, DateTime birthday)
         {
-            var client = this.repository
+            var client = this.clientsRepo
                 .All()
                 .FirstOrDefault(c => c.FirstName == firstName &&
                                 c.LastName == lastName &&
@@ -29,8 +29,8 @@
             if (client == null)
             {
                 client = new Client(firstName, lastName, universalCitizenNumber, birthday);
-                this.repository.Add(client);
-                await this.repository.SaveChangesAsync();
+                this.clientsRepo.Add(client);
+                await this.clientsRepo.SaveChangesAsync();
             }
 
             return client.Id;
@@ -38,10 +38,26 @@
 
         public IList<Client> GetAll()
         {
-            return this.repository.All()
+            return this.clientsRepo.All()
                 .Include(c => c.Policies)
                 .Include(c => c.Vehicles)
                 .ToList();
+        }
+
+        public async Task<string> GetNewClientId(Client client)
+        {
+            var clientFromDb = this.clientsRepo.All()
+                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
+
+            if (clientFromDb == null)
+            {
+                this.clientsRepo.Add(client);
+                await this.clientsRepo.SaveChangesAsync();
+                clientFromDb = this.clientsRepo.All()
+                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
+            }
+
+            return clientFromDb.Id;
         }
     }
 }

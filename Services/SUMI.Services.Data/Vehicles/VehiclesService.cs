@@ -14,24 +14,22 @@
     public class VehiclesService : IVehiclesService
     {
         private readonly IDeletableEntityRepository<Vehicle> vehiclesRepo;
-        private readonly IDeletableEntityRepository<Client> clientsRepo;
 
-        public VehiclesService(IDeletableEntityRepository<Vehicle> repository, IDeletableEntityRepository<Client> clientsRepo)
+        public VehiclesService(IDeletableEntityRepository<Vehicle> vehiclesRepo)
         {
-            this.vehiclesRepo = repository;
-            this.clientsRepo = clientsRepo;
+            this.vehiclesRepo = vehiclesRepo;
         }
 
         public async Task Create(Vehicle vehicle)
         {
             this.vehiclesRepo.Add(vehicle);
             await this.vehiclesRepo.SaveChangesAsync();
-        }
+        } // Tested
 
         public bool VihicleExists(string vehecleIdentificationNumber)
         {
             return this.vehiclesRepo.All().Any(v => v.VIN == vehecleIdentificationNumber);
-        }
+        } // Tested
 
         public IList<Vehicle> GetMyVehicles(string clientId)
             => this.vehiclesRepo.All()
@@ -39,57 +37,53 @@
                 .OrderBy(v => v.Make)
                 .ThenBy(v => v.Model)
                 .ThenBy(v => v.NumberPlate)
-                .ToList();
+                .ToList(); // Tested
 
         public Vehicle GetById(int id)
             => this.vehiclesRepo.All()
                 .Include(v => v.Owner)
-                .FirstOrDefault(v => v.Id == id);
+                .FirstOrDefault(v => v.Id == id); // Tested
 
         public IList<Vehicle> GetAll()
             => this.vehiclesRepo.All()
                 .OrderBy(v => v.Make)
                 .ThenBy(v => v.Model)
                 .ThenBy(v => v.NumberPlate)
-                .ToList();
+                .ToList(); // Tested
 
         public async Task Edit(VehicleEditViewModel inputModel)
         {
             var vehicleToUpdate = await this.vehiclesRepo.GetByIdAsync(inputModel.Id);
-            vehicleToUpdate.Make = inputModel.Make;
-            vehicleToUpdate.Model = inputModel.Model;
-            vehicleToUpdate.VIN = inputModel.VIN;
-            vehicleToUpdate.NumberPlate = inputModel.NumberPlate;
-            vehicleToUpdate.FirstRegistration = DateTime.Parse(inputModel.FirstRegistration);
-            vehicleToUpdate.Type = (VehicleType)Enum.Parse(typeof(VehicleType), inputModel.Type);
+            if (vehicleToUpdate != null)
+            {
+                vehicleToUpdate.Make = inputModel.Make;
+                vehicleToUpdate.Model = inputModel.Model;
+                vehicleToUpdate.VIN = inputModel.VIN;
+                vehicleToUpdate.NumberPlate = inputModel.NumberPlate;
+                if (!string.IsNullOrEmpty(inputModel.FirstRegistration))
+                {
+                    vehicleToUpdate.FirstRegistration = DateTime.Parse(inputModel.FirstRegistration);
+                }
 
-            this.vehiclesRepo.Update(vehicleToUpdate);
+                if (!string.IsNullOrEmpty(inputModel.Type))
+                {
+                    vehicleToUpdate.Type = (VehicleType)Enum.Parse(typeof(VehicleType), inputModel.Type);
+                }
 
-            await this.vehiclesRepo.SaveChangesAsync();
-        }
+                this.vehiclesRepo.Update(vehicleToUpdate);
+                await this.vehiclesRepo.SaveChangesAsync();
+            }
+        } // Tested
 
         public async Task Delete(int id)
         {
             var vehicleToDelete = await this.vehiclesRepo.GetByIdAsync(id);
-            vehicleToDelete.IsDeleted = true;
-            await this.vehiclesRepo.SaveChangesAsync();
-        }
-
-        public async Task<string> GetNewClientId(Client client)
-        {
-            var clientFromDb = this.clientsRepo.All()
-                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
-
-            if (clientFromDb == null)
+            if (vehicleToDelete != null)
             {
-                this.clientsRepo.Add(client);
-                await this.clientsRepo.SaveChangesAsync();
-                clientFromDb = this.clientsRepo.All()
-                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
+                vehicleToDelete.IsDeleted = true;
+                await this.vehiclesRepo.SaveChangesAsync();
             }
-
-            return clientFromDb.Id;
-        }
+        } // Tested
 
         public Vehicle GetByVin(string vin)
         {
@@ -97,18 +91,13 @@
                 .Include(v => v.Owner)
                 .Include(v => v.Policies)
                 .FirstOrDefault(v => v.VIN == vin);
-        }
+        } // Tested
 
         public string CheckForValidInsurance(Vehicle vehicle)
         {
             return vehicle.Policies
                 .FirstOrDefault(p => p.IsValid)
                 ?.Id;
-        }
-
-        private bool ClientExists(string universalCitizenNumber)
-        {
-            return this.clientsRepo.All().Any(c => c.UniversalCitizenNumber == universalCitizenNumber);
-        }
+        } // Tested
     }
 }

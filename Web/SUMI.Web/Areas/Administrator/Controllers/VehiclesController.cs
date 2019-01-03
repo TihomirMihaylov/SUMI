@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using SUMI.Common;
     using SUMI.Data.Models;
+    using SUMI.Services.Data.Clients;
     using SUMI.Services.Data.Vehicles;
     using SUMI.Web.Areas.Administrator.ViewModels;
     using SUMI.Web.Controllers;
@@ -17,10 +18,12 @@
     public class VehiclesController : BaseController
     {
         private readonly IVehiclesService vehiclesService;
+        private readonly IClientService clientService;
 
-        public VehiclesController(IVehiclesService vehiclesService)
+        public VehiclesController(IVehiclesService vehiclesService, IClientService clientService)
         {
             this.vehiclesService = vehiclesService;
+            this.clientService = clientService;
         }
 
         public IActionResult Create()
@@ -43,13 +46,12 @@
             }
 
             var newClient = Mapper.Map<Client>(inputModel);
-            string newClientId = await this.vehiclesService.GetNewClientId(newClient);
+            string newClientId = await this.clientService.GetNewClientId(newClient);
 
             var newVehicle = Mapper.Map<Vehicle>(inputModel);
             newVehicle.OwnerId = newClientId;
             await this.vehiclesService.Create(newVehicle);
 
-            // await this.vehiclesService.AddVehicleWith(newVehicle);
             return this.Redirect("/");
         }
     }

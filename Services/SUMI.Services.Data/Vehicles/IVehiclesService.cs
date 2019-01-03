@@ -22,8 +22,6 @@
 
         Task Delete(int id);
 
-        Task<string> GetNewClientId(Client client);
-
         Vehicle GetByVin(string vin);
 
         string CheckForValidInsurance(Vehicle vehicle);
