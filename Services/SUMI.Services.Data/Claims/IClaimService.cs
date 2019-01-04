@@ -29,6 +29,6 @@
 
         Task ChangeStatusToSettled(int id);
 
-        IList<InsuranceClaim> GetAllUnsettledByPolicyOd(string policyId);
+        IList<InsuranceClaim> GetAllUnsettledByPolicyId(string policyId);
     }
 }

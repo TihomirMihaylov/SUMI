@@ -67,7 +67,7 @@
                 return this.NotFound();
             }
 
-            var unsettledClaims = this.claimService.GetAllUnsettledByPolicyOd(policyId);
+            var unsettledClaims = this.claimService.GetAllUnsettledByPolicyId(policyId);
             foreach (var claim in unsettledClaims)
             {
                 await this.claimService.ChangeStatusToSettled(claim.Id);

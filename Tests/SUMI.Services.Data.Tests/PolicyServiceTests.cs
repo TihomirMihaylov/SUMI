@@ -329,6 +329,7 @@
             var repository = new EfDeletableEntityRepository<Policy>(dbContext);
             var service = new PolicyService(repository);
             var newPolicy = new Policy();
+            Assert.Equal(0, repository.All().Count());
             await service.Create(newPolicy);
             Assert.Equal(1, repository.All().Count());
         }

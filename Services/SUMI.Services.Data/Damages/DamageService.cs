@@ -19,7 +19,7 @@
         {
             this.damageRepo.Add(damage);
             await this.damageRepo.SaveChangesAsync();
-        }
+        } // Tested
 
         public async Task<int> RemoveDamage(int id)
         {
@@ -32,7 +32,7 @@
             }
 
             return -1;
-        }
+        } // Tested
 
         public async Task SettleDamage(int id, decimal estimatedCost)
         {
@@ -43,11 +43,11 @@
                 damage.IsSettled = true;
                 await this.damageRepo.SaveChangesAsync();
             }
-        }
+        } // Tested
 
         public decimal GetTotalAmountSpentForPolicy(string policyId)
             => this.damageRepo.All()
                 .Where(d => d.PolicyId == policyId)
-                .Sum(d => d.EstimatedCost);
+                .Sum(d => d.EstimatedCost); // Tested
     }
 }

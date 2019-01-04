@@ -18,7 +18,7 @@
         {
             this.commentRepo.Add(comment);
             await this.commentRepo.SaveChangesAsync();
-        }
+        } // Tested
 
         public async Task RemoveComment(int id)
         {
@@ -28,6 +28,6 @@
                 this.commentRepo.Delete(comment);
                 await this.commentRepo.SaveChangesAsync();
             }
-        }
+        } // Tested
     }
 }

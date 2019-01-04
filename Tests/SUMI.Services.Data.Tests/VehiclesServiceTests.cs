@@ -242,6 +242,7 @@
             var repository = new EfDeletableEntityRepository<Vehicle>(dbContext);
             var service = new VehiclesService(repository);
             var newVehicle = new Vehicle();
+            Assert.Equal(0, service.GetAll().Count);
             await service.Create(newVehicle);
             Assert.Equal(1, service.GetAll().Count);
         }
@@ -272,7 +273,8 @@
 
             var repository = new EfDeletableEntityRepository<Vehicle>(dbContext);
             var service = new VehiclesService(repository);
-            await service.Delete(1);
+            int randomId = 1;
+            await service.Delete(randomId);
             Assert.Equal(0, service.GetAll().Count);
         }
 
@@ -288,7 +290,8 @@
 
             var repository = new EfDeletableEntityRepository<Vehicle>(dbContext);
             var service = new VehiclesService(repository);
-            await service.Delete(2);
+            int nonExistingId = 2;
+            await service.Delete(nonExistingId);
             Assert.Equal(1, service.GetAll().Count);
         }
 
@@ -305,7 +308,8 @@
 
             var repository = new EfDeletableEntityRepository<Vehicle>(dbContext);
             var service = new VehiclesService(repository);
-            await service.Delete(2);
+            int existingId = 2;
+            await service.Delete(existingId);
             Assert.Equal(1, service.GetAll().Count);
         }
 
