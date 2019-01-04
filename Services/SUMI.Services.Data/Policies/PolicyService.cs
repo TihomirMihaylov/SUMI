@@ -23,11 +23,25 @@
         public bool IsVehicleInsured(int vehicleId)
         {
             return this.policyRepo.All().Any(p => p.VehicleId == vehicleId && p.IsValid == true);
-        }
+        } // Tested
 
         public decimal GetPremium(decimal insuranceSum, string firstRegistration, string type)
         {
-            DateTime registrationDate = DateTime.Parse(firstRegistration);
+            if (insuranceSum <= 0)
+            {
+                return default;
+            }
+
+            DateTime registrationDate = DateTime.Now;
+            try
+            {
+                registrationDate = DateTime.Parse(firstRegistration);
+            }
+            catch
+            {
+                return 0;
+            }
+
             int days = (DateTime.Today - registrationDate).Days;
             decimal years = days / 365.25m;
             decimal basePremium = 0;
@@ -44,7 +58,16 @@
                     break;
             }
 
-            VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), type);
+            VehicleType vehicleType = 0;
+            try
+            {
+                vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), type);
+            }
+            catch
+            {
+                return 0;
+            }
+
             decimal multiplier = 1;
             if (vehicleType == VehicleType.Truck)
             {
@@ -56,41 +79,41 @@
             }
 
             return insuranceSum * basePremium * multiplier;
-        }
+        } // Tested
 
         public async Task Create(Policy policy)
         {
             this.policyRepo.Add(policy);
             await this.policyRepo.SaveChangesAsync();
-        }
+        } // Tested!
 
         public IList<Policy> GetMyPolicies(string id)
             => this.policyRepo.All()
                 .Where(p => p.ClientId == id)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
-                .ToList();
+                .ToList(); // Tested
 
         public IList<Policy> GetMyPoliciesIssued(string id)
             => this.policyRepo.All()
                 .Where(p => p.AgentId == id)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
-                .ToList();
+                .ToList(); // Tested
 
         public IList<Policy> GetAllActivePolicies()
             => this.policyRepo.All()
                 .Where(p => p.IsValid)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
-                .ToList();
+                .ToList(); // Tested
 
         public IList<Policy> GetAllExpiredPolicies()
             => this.policyRepo.All()
                 .Where(p => !p.IsValid)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
-                .ToList();
+                .ToList(); // Tested
 
         public Policy GetById(string id)
             => this.policyRepo.All()
@@ -99,7 +122,7 @@
                 .Include(p => p.Client)
                 .Include(p => p.Comments).ThenInclude(c => c.Author)
                 .Include(p => p.Vehicle)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefault(p => p.Id == id); // Tested!
 
         public async Task<bool> TerminatePolicy(string id)
         {
@@ -117,6 +140,6 @@
             policy.IsValid = false;
             await this.policyRepo.SaveChangesAsync();
             return true;
-        }
+        } // Tested
     }
 }

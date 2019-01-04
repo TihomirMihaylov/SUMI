@@ -45,8 +45,8 @@
                 return this.View("../Shared/Error", errorModel);
             }
 
-            var newClient = Mapper.Map<Client>(inputModel);
-            string newClientId = await this.clientService.GetNewClientId(newClient);
+            var client = Mapper.Map<Client>(inputModel);
+            string newClientId = await this.clientService.GetClientId(client.FirstName, client.LastName, client.UniversalCitizenNumber, client.Birthday);
 
             var newVehicle = Mapper.Map<Vehicle>(inputModel);
             newVehicle.OwnerId = newClientId;

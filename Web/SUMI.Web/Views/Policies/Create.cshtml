@@ -84,7 +84,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             <div class="row">
                 <div class="col col-md-6 form-group">
                     <label asp-for="InsuranceSum"></label>
-                    <input asp-for="InsuranceSum" class="form-control" type="number" min="0" step="0.1" readonly/>
+                    <input asp-for="InsuranceSum" class="form-control" type="number" min="1000" step="0.1" readonly/>
                     <span asp-validation-for="InsuranceSum" class="text-danger"></span>
                 </div>
                 <div class="col col-md-6 form-group">
@@ -100,7 +100,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
 
             <hr class="thick withMargin" />
             <div id="confirmation" class="bg-warning" style="display:none">
-                Check all data carefully. Click "Create" if you are sure you want to continue. Click "Cancel" to go back!
+                Invalid request. Click "Cancel" to go back or "Reset" to try again!
             </div>
 
             <div class="row justify-content-around withMargin">
@@ -143,7 +143,7 @@ new SelectListItem { Value = "3", Text = "Motorcycle"  },
             });
 
             $('#btnCalculate').click(function () {
-                if ($('#InsuranceSum').val() != '') {
+                if ($('#InsuranceSum').val() != '' && $('#InsuranceSum').val() >= 1000) {
                     $.ajax({
                         method: 'GET',
                         url: `/Policies/Calculate?insuranceSum=${$('#InsuranceSum').val()}&firstRegistration=${$('#FirstRegistration').val()}&type=${$('#Type').val()}`,

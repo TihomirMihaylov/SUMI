@@ -58,6 +58,11 @@
         public IActionResult Calculate(decimal insuranceSum, string firstRegistration, string type)
         {
             decimal premium = this.policyService.GetPremium(insuranceSum, firstRegistration, type);
+            if (premium == 0)
+            {
+                return this.BadRequest();
+            }
+
             return this.Json(new { premium });
         }
 

@@ -74,8 +74,8 @@
                                                             new Vehicle() { Id = 2 },
                                                         }.AsQueryable());
             var service = new VehiclesService(repository.Object);
-            int nonExistentId = 1;
-            Assert.Null(service.GetById(nonExistentId));
+            int nonExistingId = 1;
+            Assert.Null(service.GetById(nonExistingId));
         }
 
         [Fact]

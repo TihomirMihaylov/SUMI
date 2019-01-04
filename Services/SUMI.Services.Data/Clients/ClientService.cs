@@ -18,7 +18,7 @@
             this.clientsRepo = clientsRepo;
         }
 
-        public async Task<string> GetClient(string firstName, string lastName, string universalCitizenNumber, DateTime birthday)
+        public async Task<string> GetClientId(string firstName, string lastName, string universalCitizenNumber, DateTime birthday)
         {
             var client = this.clientsRepo
                 .All()
@@ -31,10 +31,15 @@
                 client = new Client(firstName, lastName, universalCitizenNumber, birthday);
                 this.clientsRepo.Add(client);
                 await this.clientsRepo.SaveChangesAsync();
+                client = this.clientsRepo
+                             .All()
+                             .FirstOrDefault(c => c.FirstName == firstName &&
+                                    c.LastName == lastName &&
+                                    c.UniversalCitizenNumber == universalCitizenNumber);
             }
 
             return client.Id;
-        }
+        } // Tested
 
         public IList<Client> GetAll()
         {
@@ -42,22 +47,6 @@
                 .Include(c => c.Policies)
                 .Include(c => c.Vehicles)
                 .ToList();
-        }
-
-        public async Task<string> GetNewClientId(Client client)
-        {
-            var clientFromDb = this.clientsRepo.All()
-                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
-
-            if (clientFromDb == null)
-            {
-                this.clientsRepo.Add(client);
-                await this.clientsRepo.SaveChangesAsync();
-                clientFromDb = this.clientsRepo.All()
-                .FirstOrDefault(c => c.UniversalCitizenNumber == client.UniversalCitizenNumber);
-            }
-
-            return clientFromDb.Id;
-        }
+        } // Tested
     }
 }

@@ -64,7 +64,7 @@
             }
 
             DateTime birthday = DateTime.Parse(model.Birthday);
-            var clientId = this.clientService.GetClient(model.FirstName, model.LastName, model.UniversalCitizenNumber, birthday).GetAwaiter().GetResult();
+            var clientId = this.clientService.GetClientId(model.FirstName, model.LastName, model.UniversalCitizenNumber, birthday).GetAwaiter().GetResult();
 
             if (!string.IsNullOrWhiteSpace(clientId))
             {
