@@ -113,5 +113,10 @@
             this.signInManager.SignOutAsync();
             return this.Redirect("/");
         }
+
+        public IActionResult ExternalLogin()
+        {
+            return this.LocalRedirect("/Identity/Account/ExternalLogin");
+        }
     }
 }

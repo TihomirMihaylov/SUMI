@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SUMI.Data.Migrations
+﻿namespace SUMI.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class PolicyIdInDamage : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

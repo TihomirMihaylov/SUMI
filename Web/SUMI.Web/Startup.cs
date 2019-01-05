@@ -111,6 +111,13 @@
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IClaimService, ClaimService>();
             services.AddTransient<IDamageService, DamageService>();
+
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = this.configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = this.configuration["Authentication:Facebook:AppSecret"];
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

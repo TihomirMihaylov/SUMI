@@ -33,6 +33,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
         public IActionResult Create() => this.View();
 
         [HttpPost]
