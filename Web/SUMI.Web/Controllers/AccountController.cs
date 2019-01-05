@@ -83,10 +83,8 @@
                 var result = await this.userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await this.signInManager.SignInAsync(user, isPersistent: false);
-
                     // Adding roles to users
-                    bool isFirstUser = this.userManager.Users.FirstOrDefault().UserName == user.UserName;
+                    bool isFirstUser = this.userManager.Users.Count() == 1;
                     if (isFirstUser)
                     {
                         await this.userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
@@ -96,6 +94,7 @@
                         await this.userManager.AddToRoleAsync(user, GlobalConstants.ClientRoleName);
                     }
 
+                    await this.signInManager.SignInAsync(user, isPersistent: false);
                     return this.RedirectToAction("Index", "Home");
                 }
 
