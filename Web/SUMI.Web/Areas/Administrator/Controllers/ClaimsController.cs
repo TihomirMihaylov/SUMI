@@ -23,25 +23,23 @@
             this.claimsService = claimsService;
         }
 
-        public IActionResult AllPending(int? page)
+        public IActionResult AllPending(int? pageNumber)
         {
             var pendingClaims = this.claimsService.GetAllPendingClaims();
             var model = pendingClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
-        public IActionResult AllResolved(int? page)
+        public IActionResult AllResolved(int? pageNumber)
         {
             var resolvedClaims = this.claimsService.GetAllResolvedClaims();
             var model = resolvedClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);

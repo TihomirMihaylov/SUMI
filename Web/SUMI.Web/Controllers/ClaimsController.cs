@@ -60,7 +60,7 @@
             return this.RedirectToAction("Details", new { id });
         }
 
-        public async Task<IActionResult> MyClaims(int? page)
+        public async Task<IActionResult> MyClaims(int? pageNumber)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
@@ -68,15 +68,14 @@
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var model = myClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public async Task<IActionResult> MyOpen(int? page)
+        public async Task<IActionResult> MyOpen(int? pageNumber)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
@@ -84,15 +83,14 @@
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var model = myOpenClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public async Task<IActionResult> MyPending(int? page)
+        public async Task<IActionResult> MyPending(int? pageNumber)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
@@ -100,15 +98,14 @@
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var model = myPendingClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public async Task<IActionResult> MyResolved(int? page)
+        public async Task<IActionResult> MyResolved(int? pageNumber)
         {
             var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
@@ -116,8 +113,7 @@
 #pragma warning restore SA1305 // Field names should not use Hungarian notation
             var model = myResolvedClaims.Select(v => Mapper.Map<ClaimViewModel>(v)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClaimViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);

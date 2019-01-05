@@ -22,15 +22,14 @@
             this.clientService = clientService;
         }
 
-        public IActionResult All(int? page)
+        public IActionResult All(int? pageNumber)
         {
             var model = this.clientService
                 .GetAll()
                 .OrderBy(c => c.FirstName)
                 .Select(c => Mapper.Map<ClientsViewModel>(c)).ToList();
 
-            // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<ClientsViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);

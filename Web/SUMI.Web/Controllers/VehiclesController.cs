@@ -73,13 +73,13 @@
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorOrAgent)]
-        public IActionResult All(int? page)
+        public IActionResult All(int? pageNumber)
         {
             var allVehicles = this.vehiclesService.GetAll();
             var model = allVehicles.Select(v => Mapper.Map<VehicleViewModel>(v)).ToList();
 
             // Pagination doesn't work. The problem might be it doesn't map query parameters e.g. /all?page=2
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<VehicleViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);

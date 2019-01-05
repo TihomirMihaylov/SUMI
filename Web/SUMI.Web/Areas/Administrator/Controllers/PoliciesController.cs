@@ -26,23 +26,23 @@
             this.claimService = claimService;
         }
 
-        public IActionResult AllActive(int? page)
+        public IActionResult AllActive(int? pageNumber)
         {
             var activePolicies = this.policyService.GetAllActivePolicies();
             var model = activePolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
 
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
         }
 
-        public IActionResult AllExpired(int? page)
+        public IActionResult AllExpired(int? pageNumber)
         {
             var expiredPolicies = this.policyService.GetAllExpiredPolicies();
             var model = expiredPolicies.Select(p => Mapper.Map<PolicyViewModel>(p)).ToList();
 
-            int nextPage = page ?? 1;
+            int nextPage = pageNumber ?? 1;
             this.ViewBag.CurrentPage = nextPage;
             IPagedList<PolicyViewModel> pagedViewModels = model.ToPagedList(nextPage, GlobalConstants.EntriesPerPage);
             return this.View(pagedViewModels);
