@@ -82,7 +82,7 @@
         public void GetByIdShouldReturnNotNullOnExistingId()
         {
             var repository = new Mock<IDeletableEntityRepository<Vehicle>>();
-            repository.Setup(r => r.All()).Returns(new List<Vehicle>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Vehicle>
                                                         {
                                                             new Vehicle() { Id = 1 },
                                                         }.AsQueryable());

@@ -40,7 +40,7 @@
                 .ToList(); // Tested
 
         public Vehicle GetById(int id)
-            => this.vehiclesRepo.All()
+            => this.vehiclesRepo.AllWithDeleted()
                 .Include(v => v.Owner)
                 .FirstOrDefault(v => v.Id == id); // Tested
 

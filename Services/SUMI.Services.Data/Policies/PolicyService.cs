@@ -88,35 +88,35 @@
         } // Tested!
 
         public IList<Policy> GetMyPolicies(string id)
-            => this.policyRepo.All()
+            => this.policyRepo.AllWithDeleted()
                 .Where(p => p.ClientId == id)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
                 .ToList(); // Tested
 
         public IList<Policy> GetMyPoliciesIssued(string id)
-            => this.policyRepo.All()
+            => this.policyRepo.AllWithDeleted()
                 .Where(p => p.AgentId == id)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
                 .ToList(); // Tested
 
         public IList<Policy> GetAllActivePolicies()
-            => this.policyRepo.All()
+            => this.policyRepo.AllWithDeleted()
                 .Where(p => p.IsValid)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
                 .ToList(); // Tested
 
         public IList<Policy> GetAllExpiredPolicies()
-            => this.policyRepo.All()
+            => this.policyRepo.AllWithDeleted()
                 .Where(p => !p.IsValid)
                 .Include(p => p.Vehicle)
                 .OrderByDescending(p => p.CreatedOn)
                 .ToList(); // Tested
 
         public Policy GetById(string id)
-            => this.policyRepo.All()
+            => this.policyRepo.AllWithDeleted()
                 .Include(p => p.Agent)
                 .Include(p => p.Claims).ThenInclude(c => c.Damages)
                 .Include(p => p.Client)

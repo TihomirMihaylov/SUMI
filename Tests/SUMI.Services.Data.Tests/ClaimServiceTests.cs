@@ -389,7 +389,7 @@
         public void GetByIdShouldReturnNotNullOnExistingId()
         {
             var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
-            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<InsuranceClaim>
                                                         {
                                                             new InsuranceClaim() { Id = 1 },
                                                         }.AsQueryable());

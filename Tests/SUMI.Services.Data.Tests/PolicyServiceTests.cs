@@ -19,7 +19,7 @@
         public void IsVehicleInsuredShouldReturnFalseOnEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>().AsQueryable());
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>().AsQueryable());
             var service = new PolicyService(repository.Object);
             int nonExistingVehicleId = 1;
             Assert.False(service.IsVehicleInsured(nonExistingVehicleId));
@@ -30,7 +30,7 @@
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
             var vehicle = new Vehicle { Id = 1 };
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { VehicleId = vehicle.Id, IsValid = true },
                                                     }.AsQueryable());
@@ -44,7 +44,7 @@
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
             var vehicle = new Vehicle { Id = 1 };
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { VehicleId = vehicle.Id, IsValid = false },
                                                     }.AsQueryable());
@@ -143,7 +143,7 @@
         public void GetMyPoliciesShouldReturnEmptyListOnEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>().AsQueryable());
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>().AsQueryable());
             var service = new PolicyService(repository.Object);
             string clientId = "test";
             Assert.Equal(0, service.GetMyPolicies(clientId).Count);
@@ -153,7 +153,7 @@
         public void GetMyPoliciesShouldReturnCorrectCountOnNonEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { ClientId = "Pesho" },
                                                         new Policy { ClientId = "test" },
@@ -167,7 +167,7 @@
         public void GetMyPoliciesIssuedShouldReturnEmptyListOnEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>().AsQueryable());
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>().AsQueryable());
             var service = new PolicyService(repository.Object);
             string agentId = "test";
             Assert.Equal(0, service.GetMyPoliciesIssued(agentId).Count);
@@ -177,7 +177,7 @@
         public void GetMyPoliciesIssuedShouldReturnCorrectCountOnNonEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { AgentId = "Pesho" },
                                                         new Policy { AgentId = "test" },
@@ -191,7 +191,7 @@
         public void GetAllActivePoliciesShouldReturnEmptyListOnEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>().AsQueryable());
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>().AsQueryable());
             var service = new PolicyService(repository.Object);
             Assert.Equal(0, service.GetAllActivePolicies().Count);
         }
@@ -200,7 +200,7 @@
         public void GetAllActivePoliciesShouldReturnCorrectCountOnNonEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { IsValid = false },
                                                         new Policy { IsValid = true },
@@ -214,7 +214,7 @@
         public void GetAllExpiredPoliciesShouldReturnEmptyListOnEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>().AsQueryable());
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>().AsQueryable());
             var service = new PolicyService(repository.Object);
             Assert.Equal(0, service.GetAllExpiredPolicies().Count);
         }
@@ -223,7 +223,7 @@
         public void GetAllExpiredPoliciesShouldReturnCorrectCountOnNonEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { IsValid = false },
                                                         new Policy { IsValid = false },
@@ -237,7 +237,7 @@
         public void GetByIdShouldReturnNullOnEmptyRepository()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>().AsQueryable());
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>().AsQueryable());
             var service = new PolicyService(repository.Object);
             string randomId = "rndId";
             Assert.Null(service.GetById(randomId));
@@ -247,7 +247,7 @@
         public void GetByIdShouldReturnNullOnNonExistingId()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { Id = "ABC" },
                                                     }.AsQueryable());
@@ -260,7 +260,7 @@
         public void GetByIdShouldReturnNotNullOnExistingId()
         {
             var repository = new Mock<IDeletableEntityRepository<Policy>>();
-            repository.Setup(r => r.All()).Returns(new List<Policy>
+            repository.Setup(r => r.AllWithDeleted()).Returns(new List<Policy>
                                                     {
                                                         new Policy { Id = "ABC" },
                                                     }.AsQueryable());

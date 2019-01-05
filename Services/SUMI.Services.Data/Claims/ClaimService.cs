@@ -72,7 +72,7 @@
         } // Tested
 
         public InsuranceClaim GetById(int id)
-            => this.claimRepo.All()
+            => this.claimRepo.AllWithDeleted()
                 .Include(c => c.Comments).ThenInclude(c => c.Author)
                 .Include(c => c.Damages)
                 .Include(c => c.Policy).ThenInclude(p => p.Vehicle)
