@@ -470,14 +470,14 @@
         public void CheckCreatorShouldReturnFalseOnIncorrectClaimId()
         {
             var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
-            string randomUserId = "testId";
+            string existinUserId = "testId";
             repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
                                                     {
-                                                        new InsuranceClaim { Id = 1, AgentId = randomUserId },
+                                                        new InsuranceClaim { Id = 1, AgentId = existinUserId },
                                                     }.AsQueryable());
             var service = new ClaimService(repository.Object);
             int nonExistingClaimId = 2;
-            Assert.False(service.CheckCreator(randomUserId, nonExistingClaimId));
+            Assert.False(service.CheckCreator(existinUserId, nonExistingClaimId));
         }
 
         [Fact]
