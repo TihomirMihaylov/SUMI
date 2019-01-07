@@ -444,15 +444,15 @@
         public void CheckOwnershipShoulddReturnTrueOnCorrectInput()
         {
             var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
-            string randomUserId = "testId";
-            var policy = new Policy { ClientId = randomUserId };
+            string existingUserId = "testId";
+            var policy = new Policy { ClientId = existingUserId };
             int existingClaimId = 2;
             repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
                                                     {
                                                         new InsuranceClaim { Id = existingClaimId, Policy = policy },
                                                     }.AsQueryable());
             var service = new ClaimService(repository.Object);
-            Assert.True(service.CheckOwnership(randomUserId, existingClaimId));
+            Assert.True(service.CheckOwnership(existingUserId, existingClaimId));
         }
 
         [Fact]
