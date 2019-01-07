@@ -30,5 +30,9 @@
         Task ChangeStatusToSettled(int id);
 
         IList<InsuranceClaim> GetAllUnsettledByPolicyId(string policyId);
+
+        bool CheckOwnership(string ownerId, int claimId);
+
+        bool CheckCreator(string userId, int claimId);
     }
 }

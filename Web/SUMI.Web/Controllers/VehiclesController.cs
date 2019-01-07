@@ -65,9 +65,25 @@
             return this.View(model);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
+            if (this.User.IsInRole(GlobalConstants.ClientRoleName))
+            {
+                var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+                bool isOwner = this.vehiclesService.CheckOwnership(currentUser.ClientId, id);
+                if (!isOwner)
+                {
+                    return this.LocalRedirect("/Identity/Account/AccessDenied");
+                }
+            }
+
             var vehicle = this.vehiclesService.GetById(id);
+            if (vehicle == null)
+            {
+                var errorModel = new ErrorViewModel() { Message = "Vehicle doesn't exist." };
+                return this.View("../Shared/Error", errorModel);
+            }
+
             var model = Mapper.Map<VehicleDetailsViewModel>(vehicle);
             return this.View(model);
         }

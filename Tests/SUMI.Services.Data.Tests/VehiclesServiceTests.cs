@@ -393,5 +393,44 @@
             Assert.Equal<DateTime>(expectedDate, service.GetById(1).FirstRegistration);
             Assert.Equal<VehicleType>(VehicleType.Car, service.GetById(1).Type);
         }
+
+        [Fact]
+        public void CheckOwnershipShouldReturnFalseOnEmptyRepository()
+        {
+            var repository = new Mock<IDeletableEntityRepository<Vehicle>>();
+            repository.Setup(r => r.All()).Returns(new List<Vehicle>().AsQueryable());
+            var service = new VehiclesService(repository.Object);
+            string randomUserId = "testId";
+            int randomVehicleId = 1;
+            Assert.False(service.CheckOwnership(randomUserId, randomVehicleId));
+        }
+
+        [Fact]
+        public void CheckOwnershipShouldReturnFalseOnIncorrectVehicleId()
+        {
+            var repository = new Mock<IDeletableEntityRepository<Vehicle>>();
+            string randomUserId = "testId";
+            repository.Setup(r => r.All()).Returns(new List<Vehicle>
+                                                    {
+                                                        new Vehicle { Id = 1, OwnerId = randomUserId },
+                                                    }.AsQueryable());
+            var service = new VehiclesService(repository.Object);
+            int nonExistingVehicleId = 2;
+            Assert.False(service.CheckOwnership(randomUserId, nonExistingVehicleId));
+        }
+
+        [Fact]
+        public void CheckOwnershipShouldReturnTrueOnCorrectVehicleId()
+        {
+            var repository = new Mock<IDeletableEntityRepository<Vehicle>>();
+            string randomUserId = "testId";
+            int existingVehicleId = 1;
+            repository.Setup(r => r.All()).Returns(new List<Vehicle>
+                                                    {
+                                                        new Vehicle { Id = existingVehicleId, OwnerId = randomUserId },
+                                                    }.AsQueryable());
+            var service = new VehiclesService(repository.Object);
+            Assert.True(service.CheckOwnership(randomUserId, existingVehicleId));
+        }
     }
 }

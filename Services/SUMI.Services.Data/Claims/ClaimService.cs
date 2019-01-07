@@ -102,5 +102,16 @@
         public IList<InsuranceClaim> GetAllUnsettledByPolicyId(string policyId)
             => this.claimRepo.All()
                .Where(c => c.PolicyId == policyId && c.Status != ClaimStatus.Settled).ToList(); // Tested
+
+        public bool CheckOwnership(string ownerId, int claimId)
+            => this.claimRepo.All()
+                .Include(c => c.Policy)
+                .Any(c => c.Id == claimId
+                    && c.Policy.ClientId == ownerId); // Tested
+
+        public bool CheckCreator(string userId, int claimId)
+            => this.claimRepo.All()
+                .Any(c => c.Id == claimId
+                    && c.AgentId == userId); // Tested
     }
 }

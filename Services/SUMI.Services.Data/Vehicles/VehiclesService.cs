@@ -99,5 +99,10 @@
                 .FirstOrDefault(p => p.IsValid)
                 ?.Id;
         } // Tested
+
+        public bool CheckOwnership(string ownerId, int vehicleId)
+            => this.vehiclesRepo.All()
+                .Any(v => v.Id == vehicleId
+                    && v.OwnerId == ownerId); // Tested
     }
 }

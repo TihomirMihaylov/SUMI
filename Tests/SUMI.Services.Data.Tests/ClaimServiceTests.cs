@@ -397,5 +397,116 @@
             int existingId = 1;
             Assert.NotNull(service.GetById(existingId));
         }
+
+        [Fact]
+        public void CheckOwnershipShouldReturnFalseOnEmptyRepository()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>().AsQueryable());
+            var service = new ClaimService(repository.Object);
+            string randomUserId = "testId";
+            int randomClaimId = 1;
+            Assert.False(service.CheckOwnership(randomUserId, randomClaimId));
+        }
+
+        [Fact]
+        public void CheckOwnershipShouldReturnFalseOnIncorrectClaimId()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            string randomUserId = "testId";
+            var policy = new Policy { ClientId = randomUserId };
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+                                                    {
+                                                        new InsuranceClaim { Id = 1, Policy = policy },
+                                                    }.AsQueryable());
+            var service = new ClaimService(repository.Object);
+            int nonExistingClaimId = 2;
+            Assert.False(service.CheckOwnership(randomUserId, nonExistingClaimId));
+        }
+
+        [Fact]
+        public void CheckOwnershipShouldReturnFalseOnIncorrectOwnerId()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            string existingUserId = "testId";
+            var policy = new Policy { ClientId = existingUserId };
+            int existingClaimId = 1;
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+                                                    {
+                                                        new InsuranceClaim { Id = existingClaimId, Policy = policy },
+                                                    }.AsQueryable());
+            var service = new ClaimService(repository.Object);
+            string nonExistingUserId = "nobody";
+            Assert.False(service.CheckOwnership(nonExistingUserId, existingClaimId));
+        }
+
+        [Fact]
+        public void CheckOwnershipShoulddReturnTrueOnCorrectInput()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            string randomUserId = "testId";
+            var policy = new Policy { ClientId = randomUserId };
+            int existingClaimId = 2;
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+                                                    {
+                                                        new InsuranceClaim { Id = existingClaimId, Policy = policy },
+                                                    }.AsQueryable());
+            var service = new ClaimService(repository.Object);
+            Assert.True(service.CheckOwnership(randomUserId, existingClaimId));
+        }
+
+        [Fact]
+        public void CheckCreatorShouldReturnFalseOnEmptyRepository()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>().AsQueryable());
+            var service = new ClaimService(repository.Object);
+            string randomUserId = "testId";
+            int randomClaimId = 1;
+            Assert.False(service.CheckCreator(randomUserId, randomClaimId));
+        }
+
+        [Fact]
+        public void CheckCreatorShouldReturnFalseOnIncorrectClaimId()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            string randomUserId = "testId";
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+                                                    {
+                                                        new InsuranceClaim { Id = 1, AgentId = randomUserId },
+                                                    }.AsQueryable());
+            var service = new ClaimService(repository.Object);
+            int nonExistingClaimId = 2;
+            Assert.False(service.CheckCreator(randomUserId, nonExistingClaimId));
+        }
+
+        [Fact]
+        public void CheckCreatorShouldReturnFalseOnIncorrectAgentId()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            string existingAgentId = "testId";
+            int existingClaimId = 1;
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+                                                    {
+                                                        new InsuranceClaim { Id = existingClaimId, AgentId = existingAgentId },
+                                                    }.AsQueryable());
+            var service = new ClaimService(repository.Object);
+            string nonExistingAgentId = "nobody";
+            Assert.False(service.CheckCreator(nonExistingAgentId, existingClaimId));
+        }
+
+        [Fact]
+        public void CheckCreatorShoulddReturnTrueOnCorrectInput()
+        {
+            var repository = new Mock<IDeletableEntityRepository<InsuranceClaim>>();
+            string existingAgentId = "testId";
+            int existingClaimId = 1;
+            repository.Setup(r => r.All()).Returns(new List<InsuranceClaim>
+                                                    {
+                                                        new InsuranceClaim { Id = existingClaimId, AgentId = existingAgentId },
+                                                    }.AsQueryable());
+            var service = new ClaimService(repository.Object);
+            Assert.True(service.CheckCreator(existingAgentId, existingClaimId));
+        }
     }
 }

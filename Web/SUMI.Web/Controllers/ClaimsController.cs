@@ -127,9 +127,35 @@
             return this.RedirectToAction(nameof(this.MyOpen));
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
+            if (this.User.IsInRole(GlobalConstants.ClientRoleName))
+            {
+                var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+                bool isPolicyHolder = this.claimsService.CheckOwnership(currentUser.ClientId, id);
+                if (!isPolicyHolder)
+                {
+                    return this.LocalRedirect("/Identity/Account/AccessDenied");
+                }
+            }
+
+            if (this.User.IsInRole(GlobalConstants.AgentRoleName))
+            {
+                var currentUser = await this.userManager.GetUserAsync(this.HttpContext.User);
+                bool isClaimCreator = this.claimsService.CheckCreator(currentUser.Id, id);
+                if (!isClaimCreator)
+                {
+                    return this.LocalRedirect("/Identity/Account/AccessDenied");
+                }
+            }
+
             var claim = this.claimsService.GetById(id);
+            if (claim == null)
+            {
+                var errorModel = new ErrorViewModel() { Message = "Claim doesn't exist." };
+                return this.View("../Shared/Error", errorModel);
+            }
+
             var model = Mapper.Map<ClaimDetailsViewModel>(claim);
             var totalSpentForThisPolicy = this.damageService.GetTotalAmountSpentForPolicy(claim.PolicyId);
             model.TotalSpent = totalSpentForThisPolicy;

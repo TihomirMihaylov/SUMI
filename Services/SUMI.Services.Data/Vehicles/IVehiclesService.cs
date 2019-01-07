@@ -25,5 +25,7 @@
         Vehicle GetByVin(string vin);
 
         string CheckForValidInsurance(Vehicle vehicle);
+
+        bool CheckOwnership(string ownerId, int vehicleId);
     }
 }
