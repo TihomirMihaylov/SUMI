@@ -1,13 +1,16 @@
 ﻿<div id="commentContainer" class="container withMargin">
     @foreach (var item in Model.Comments)
     {
-        <p id="comments">
-            @item.Text (@item.Author.FirstName @item.Author.LastName) --- @item.CreatedOn
-            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                <a href="#" comment-id="@item.Id">[x]</a>
-            }
-        </p>
+        if (!item.IsDeleted)
+        {
+            <p id="comments">
+                @item.Text (@item.Author.FirstName @item.Author.LastName) --- @item.CreatedOn
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a href="#" comment-id="@item.Id">[x]</a>
+                }
+            </p>
+        }
     }
 
     <textarea class="form-control withMargin" id="textArea" name="text" placeholder="Enter your comment here:"></textarea>

@@ -7,7 +7,7 @@
     using SUMI.Data.Models;
     using SUMI.Services.Mapping;
 
-    public class ClaimDetailsViewModel : IMapFrom<InsuranceClaim>
+    public class ClaimDetailsViewModel : IMapFrom<InsuranceClaim>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -42,5 +42,14 @@
         public decimal TotalCost { get; set; }
 
         public decimal TotalSpent { get; set; }
+
+        public void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+            configuration.CreateMap<InsuranceClaim, ClaimDetailsViewModel>()
+                .ForMember(x => x.Damages, x => x.MapFrom(c => c.Damages.Where(d => !d.IsDeleted)));
+
+            // configuration.CreateMap<InsuranceClaim, ClaimDetailsViewModel>()
+            //    .ForMember(x => x.Comments, x => x.MapFrom(c => c.Comments.Where(com => !com.IsDeleted)));
+        }
     }
 }
