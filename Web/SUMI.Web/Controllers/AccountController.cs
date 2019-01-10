@@ -27,6 +27,11 @@
 
         public IActionResult Login()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/");
+            }
+
             return this.View();
         }
 
@@ -52,6 +57,11 @@
 
         public IActionResult Register()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/");
+            }
+
             return this.View();
         }
 
